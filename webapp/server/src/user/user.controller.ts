@@ -1,11 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
+import { UserDto } from './dto/user.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('/api/user')
 export class UserController {
 
   constructor(private readonly userService: UserService) { }
+
+  @Post()
+  createUser(): Promise<UserDto> {
+    console.log("Hit login endpoint");
+    return;
+  }
 
   /*
   @Get('active')
