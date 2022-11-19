@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  currentView: string = 'subscriptions';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  changeView(view: string) {
+    this.currentView = view;
   }
 
 }

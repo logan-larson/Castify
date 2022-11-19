@@ -1,1 +1,9 @@
-<p>home works!</p>
+<h1>Castify</h1>
+<div id="navbar">
+  <button (click)="changeView('subscriptions')">Subscriptions</button>
+  <button (click)="changeView('social')">Social</button>
+  <button (click)="changeView('search')">Search</button>
+</div>
+<app-subscriptions *ngIf="currentView == 'subscriptions'"></app-subscriptions>
+<app-social *ngIf="currentView == 'social'"></app-social>
+<app-search *ngIf="currentView == 'search'"></app-search>

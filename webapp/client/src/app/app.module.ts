@@ -9,7 +9,9 @@ import { AuthComponent } from './components/auth/auth.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-import { NavbarComponent } from './components/home/navbar/navbar.component';
+import { SubscriptionsComponent } from './components/home/subscriptions/subscriptions.component';
+import { SocialComponent } from './components/home/social/social.component';
+import { SearchComponent } from './components/home/search/search.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { NavbarComponent } from './components/home/navbar/navbar.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    NavbarComponent
+    SubscriptionsComponent,
+    SocialComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
