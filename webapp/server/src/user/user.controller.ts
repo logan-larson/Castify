@@ -10,24 +10,27 @@ export class UserController {
   constructor(private readonly userService: UserService) { }
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    console.log("Hit login endpoint");
-    return;
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
+    let user: User = await this.userService.create(createUserDto);
+    
+    if (user == null)
+      throw new HttpException('Username taken', HttpStatus.FORBIDDEN);
+
+    return user;
   }
 
   @Post('/user')
-  authenticateUser(@Body() userDto: CreateUserDto): UserDto {
-    console.log(JSON.stringify(userDto));
-    if (userDto.username != 'logan' || userDto.password != 'larson')
+  async authenticateUser(@Body() userDto: CreateUserDto): Promise<UserDto> {
+      
+    let user: User = await this.userService.findOneByUsername(userDto.username);
+
+    if (user == null)
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 
-    let u: UserDto = new UserDto();
-    u.id = 1;
-    u.username = 'logan';
-    u.password = 'larson';
-    u.isActive = true;
+    if (userDto.password != user.password || !user.isActive)
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 
-    return u;
+    return user;
   }
 
   /*
@@ -50,7 +53,7 @@ export class UserController {
 
   @Get(':id')
   getUserId(@Param() params) {
-    return this.userService.findOne(params.id);
+    return this.userService.findOneById(params.id);
   }
 
 }

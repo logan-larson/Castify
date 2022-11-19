@@ -9,10 +9,29 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): any {
-    this.http.post<User>(`/api/users/user`, { username: username, password: password })
-      .toPromise()
-      .then(data => { console.log(data); return true })
-      .catch(err => { console.log(err); return false });
+  async login(username: string, password: string): Promise<boolean> {
+
+    try {
+      let data: User = await this.http.post<User>(`/api/users/user`, { username: username, password: password }).toPromise();
+
+      console.log(data);
+
+      return data != null;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async register(username: string, password: string): Promise<boolean> {
+
+    try {
+      let data: User = await this.http.post<User>(`/api/users`, { username: username, password: password }).toPromise();
+
+      console.log(data);
+
+      return data != null;
+    } catch (e) {
+      return false;
+    }
   }
 }
