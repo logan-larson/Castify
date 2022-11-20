@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
+  searchType: string = '';
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  search() {
+    if (this.searchType == 'user') {
+
+    }
+    console.log(this.searchType);
   }
 
 }

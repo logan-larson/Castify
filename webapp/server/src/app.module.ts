@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModule } from './user/user.module';
 import { User } from './user/user.model';
+import { ShowModule } from './show/show.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { User } from './user/user.model';
       database: 'castify',
       models: [User]
     }),
-    UserModule
+    UserModule,
+    ShowModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,1 +1,10 @@
-<p>search works!</p>
+<div id="searchBar">
+  <input type="text" />
+  <button (click)="search()">Search</button>
+  <input type="radio" id="show" name="searchType" value="show" [(ngModel)]="searchType" />
+  <label for="show">Show</label>
+  <input type="radio" id="episode" name="searchType" value="episode" [(ngModel)]="searchType" />
+  <label for="episode">Episode</label>
+  <input type="radio" id="user" name="searchType" value="user" [(ngModel)]="searchType" />
+  <label for="user">User</label>
+</div>
