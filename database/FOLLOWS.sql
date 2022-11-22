@@ -1,0 +1,66 @@
+create table FOLLOWS (
+	followerId VARCHAR(50),
+	followeeId VARCHAR(50),
+	followDate DATE,
+	unfollowDate DATE
+);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('3', '14', '2022-02-03', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('16', '11', '2022-01-26', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('4', '19', '2021-11-26', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('10', '20', '2022-09-12', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('12', '12', '2022-07-19', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('2', '13', '2022-04-11', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('17', '8', '2021-12-07', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('20', '16', '2022-10-18', '2023-04-04');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('7', '4', '2022-08-27', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('9', '18', '2022-03-27', '2023-03-26');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('8', '15', '2022-02-03', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('6', '6', '2022-07-09', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('1', '1', '2022-03-24', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('14', '3', '2022-06-25', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('5', '7', '2022-03-20', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('19', '2', '2022-09-07', '2022-11-22');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('15', '5', '2022-04-18', '2022-12-22');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('13', '10', '2022-08-26', '2022-11-30');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('18', '17', '2022-05-27', '2022-09-09');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('11', '9', '2022-04-23', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('1', '6', '2021-11-23', '2022-10-15');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('18', '4', '2021-12-27', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('14', '2', '2022-11-17', '2023-05-05');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('15', '19', '2022-04-06', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('20', '8', '2022-10-16', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('3', '18', '2022-03-01', '2022-06-26');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('9', '20', '2022-02-15', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('7', '14', '2022-05-06', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('17', '15', '2022-06-03', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('4', '3', '2022-08-02', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('10', '5', '2022-06-03', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('13', '1', '2022-06-23', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('19', '12', '2021-12-07', '2022-10-12');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('16', '16', '2022-04-02', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('6', '9', '2022-06-07', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('2', '10', '2021-11-28', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('5', '17', '2021-12-05', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('12', '7', '2022-04-08', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('11', '11', '2022-06-26', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('8', '13', '2022-06-10', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('2', '5', '2022-08-10', '2022-11-12');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('19', '1', '2022-06-16', '2023-06-05');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('18', '20', '2022-09-21', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('7', '4', '2022-04-03', '2022-12-04');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('3', '11', '2022-06-09', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('10', '19', '2022-11-17', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('12', '15', '2022-02-27', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('5', '7', '2022-03-09', '2022-07-07');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('15', '14', '2022-04-29', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('8', '16', '2022-02-14', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('17', '17', '2022-11-19', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('1', '13', '2022-04-06', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('16', '9', '2022-04-28', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('4', '18', '2022-01-09', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('14', '10', '2022-04-21', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('20', '6', '2022-01-09', '2022-07-29');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('11', '3', '2022-02-02', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('13', '2', '2022-08-15', '2023-05-19');
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('6', '8', '2022-10-13', null);
+insert into FOLLOWS (followerId, followeeId, followDate, unfollowDate) values ('9', '12', '2022-02-27', null);
