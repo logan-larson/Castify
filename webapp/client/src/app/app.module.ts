@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SubscriptionsComponent } from './components/home/subscriptions/subscriptions.component';
 import { SocialComponent } from './components/home/social/social.component';
 import { SearchComponent } from './components/home/search/search.component';
+import { PodcastCardComponent } from './components/universal/podcast-card/podcast-card.component';
 
 @NgModule({
   declarations: [
@@ -22,15 +23,11 @@ import { SearchComponent } from './components/home/search/search.component';
     HomeComponent,
     SubscriptionsComponent,
     SocialComponent,
-    SearchComponent
+    SearchComponent,
+    PodcastCardComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

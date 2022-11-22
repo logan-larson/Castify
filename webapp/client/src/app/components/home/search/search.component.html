@@ -1,10 +1,53 @@
+<!-- Search bar -->
 <div id="searchBar">
-  <input type="text" />
+  <input type="text" [(ngModel)]="queryStr" />
   <button (click)="search()">Search</button>
-  <input type="radio" id="show" name="searchType" value="show" [(ngModel)]="searchType" />
-  <label for="show">Show</label>
-  <input type="radio" id="episode" name="searchType" value="episode" [(ngModel)]="searchType" />
+  <input
+    type="radio"
+    id="podcast"
+    name="searchType"
+    value="podcast"
+    [(ngModel)]="searchType"
+  />
+  <label for="podcast">Podcast</label>
+  <input
+    type="radio"
+    id="episode"
+    name="searchType"
+    value="episode"
+    [(ngModel)]="searchType"
+  />
   <label for="episode">Episode</label>
-  <input type="radio" id="user" name="searchType" value="user" [(ngModel)]="searchType" />
+  <input
+    type="radio"
+    id="user"
+    name="searchType"
+    value="user"
+    [(ngModel)]="searchType"
+  />
   <label for="user">User</label>
+</div>
+
+<!-- Results -->
+<div id="podcastResults" *ngIf="resultsType == 'podcast'">
+  <div *ngIf="podcastResults.length == 0">No results found</div>
+  <table>
+    <tr>
+      <th>Thumbnail</th>
+      <th>Name</th>
+      <th>RSS</th>
+    </tr>
+    <tr *ngFor="let p of podcastResults">
+      <td><img [src]="p.thumbnail" width="100" height="100" /></td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.rssFeed.substring(0, 50) }}...</td>
+      <!--<app-podcast-card [podcast]="p"></app-podcast-card>-->
+    </tr>
+  </table>
+</div>
+<div id="episodeResults" *ngIf="resultsType == 'episode'">
+  <div>Episode results</div>
+</div>
+<div id="userResults" *ngIf="resultsType == 'user'">
+  <div>User results</div>
 </div>

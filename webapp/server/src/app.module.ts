@@ -6,6 +6,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModule } from './user/user.module';
 import { User } from './user/user.model';
 import { PodcastModule } from './podcast/podcast.module';
+import { Podcast } from './podcast/podcast.model';
 
 @Module({
   imports: [
@@ -16,10 +17,10 @@ import { PodcastModule } from './podcast/podcast.module';
       username: 'root',
       password: 'Polevault567*', // Change this and get from env
       database: 'castify',
-      models: [User]
+      models: [User, Podcast],
     }),
     UserModule,
-    PodcastModule
+    PodcastModule,
   ],
   controllers: [AppController],
   providers: [AppService],
