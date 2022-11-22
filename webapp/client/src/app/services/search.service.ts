@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Show } from 'src/app/models/show';
+import { Podcast } from 'src/app/models/podcast';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class SearchService {
   ) { }
 
   searchShow() {
-    this.http.get<Show[]>(`/api/`)
+    this.http.get<Podcast[]>(`/api/podcasts`)
   }
 
   searchEpisode() {

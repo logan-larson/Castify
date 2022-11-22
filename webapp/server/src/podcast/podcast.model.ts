@@ -1,10 +1,10 @@
 import { Column, Table, Model } from 'sequelize-typescript';
 
 @Table
-export class Show extends Model {
+export class Podcast extends Model {
 
   @Column({primaryKey: true})
-  showId: number;
+  podcastId: number;
 
   @Column
   name: string
