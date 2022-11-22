@@ -83,8 +83,8 @@ export class UserService {
         return null;
 
       await this.sequelize
-        .query('INSERT INTO User (id, username, password, isActive) VALUES (:id, :username, :password, true)', {
-          replacements: { id: null, username: userDto.username, password: userDto.password }
+        .query('INSERT INTO User (username, password, isActive) VALUES (:username, :password, true)', {
+          replacements: { username: userDto.username, password: userDto.password }
         });
 
       let newUser: User = await this.findOneByUsername(userDto.username);

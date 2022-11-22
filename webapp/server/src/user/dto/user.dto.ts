@@ -1,6 +1,6 @@
 
 export class UserDto {
-  id: number;
+  userId: number;
   username: string;
   password: string;
   isActive: boolean;
