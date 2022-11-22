@@ -1,12 +1,11 @@
-import { Column, Table, Model } from "sequelize-typescript";
+import { Column, Table, Model } from 'sequelize-typescript';
 
 @Table
 export class User extends Model {
-
   @Column({
     primaryKey: true,
     autoIncrement: true,
-    defaultValue: 1
+    defaultValue: 1,
   })
   userId: number;
 
@@ -23,5 +22,5 @@ export class User extends Model {
   joinDate: Date;
 
   @Column({ defaultValue: true })
-  isActive: boolean;
+  isActive: number;
 }
