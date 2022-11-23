@@ -7,8 +7,8 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { UserDto } from './dto/user.dto';
-import { CreateUserDto } from './dto/createUser.dto';
+import { UserDto } from './dtos/user.dto';
+import { CreateUserDto } from './dtos/createUser.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
 

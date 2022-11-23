@@ -4,4 +4,5 @@ export class Podcast {
   name: string = '';
   thumbnail: string = '';
   rssFeed: string = '';
+  numEpisodes?: number;
 }

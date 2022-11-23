@@ -12,6 +12,8 @@ export class SearchComponent implements OnInit {
   queryStr: string = '';
   resultsType: string = '';
 
+  numEpisodes: number = 0;
+
   podcastResults: Podcast[] = [];
 
   constructor(private searchService: SearchService) {}
@@ -25,7 +27,7 @@ export class SearchComponent implements OnInit {
     if (this.searchType == 'user') {
       console.log('TODO: search users');
     } else if (this.searchType == 'podcast') {
-      let podcasts = await this.searchService.searchPodcast(this.queryStr);
+      let podcasts = await this.searchService.searchPodcast(this.queryStr, this.numEpisodes);
       if (podcasts != null) {
         this.podcastResults = podcasts;
         this.resultsType = 'podcast';

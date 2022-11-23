@@ -10,10 +10,10 @@ export class SearchService {
 
   constructor(private http: HttpClient) {}
 
-  async searchPodcast(name: string): Promise<Podcast[] | null> {
+  async searchPodcast(name: string, numEpisodes: number): Promise<Podcast[] | null> {
     try {
       let data = await this.http
-        .get<Podcast[]>(`/api/podcasts?name=${name}`)
+        .get<Podcast[]>(`/api/podcasts/count?name=${name}&count=${numEpisodes}`)
         .toPromise();
 
       console.log(data);

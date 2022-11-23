@@ -3,9 +3,9 @@ import { Column, Table, Model } from 'sequelize-typescript';
 @Table
 export class User extends Model {
   @Column({
-    primaryKey: true,
+    allowNull: false,
     autoIncrement: true,
-    defaultValue: 1,
+    primaryKey: true,
   })
   userId: number;
 
