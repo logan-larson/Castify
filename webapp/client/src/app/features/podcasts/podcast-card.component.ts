@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Podcast } from 'src/app/models/podcast';
+import { Podcast } from 'src/app/features/podcasts/podcast';
 
 @Component({
   selector: 'app-podcast-card',

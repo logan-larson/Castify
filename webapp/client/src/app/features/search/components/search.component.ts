@@ -1,7 +1,6 @@
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
-import { Podcast } from 'src/app/models/podcast';
-import { SearchService } from 'src/app/services/search.service';
+import { Podcast } from 'src/app/features/podcasts/podcast';
+import { SearchService } from '@core/services/search.service';
 
 @Component({
   selector: 'app-search',

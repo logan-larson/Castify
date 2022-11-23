@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Podcast } from 'src/app/models/podcast';
+import { Podcast } from 'src/app/features/podcasts/podcast';
 
 @Injectable({
   providedIn: 'root',

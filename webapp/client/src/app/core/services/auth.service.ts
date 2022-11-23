@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from 'src/app/models/user';
+import { User } from 'src/app/features/users/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   async login(username: string, password: string): Promise<boolean> {
-
     try {
-      let data: User = await this.http.post<User>(`/api/users/user`, { username: username, password: password }).toPromise();
+      let data: User = await this.http
+        .post<User>(`/api/users/user`, {
+          username: username,
+          password: password,
+        })
+        .toPromise();
 
       console.log(data);
 
@@ -23,9 +26,10 @@ export class AuthService {
   }
 
   async register(username: string, password: string): Promise<boolean> {
-
     try {
-      let data: User = await this.http.post<User>(`/api/users`, { username: username, password: password }).toPromise();
+      let data: User = await this.http
+        .post<User>(`/api/users`, { username: username, password: password })
+        .toPromise();
 
       console.log(data);
 
