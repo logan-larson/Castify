@@ -1,0 +1,30 @@
+{
+  "restoreTerminals.artificialDelayMilliseconds": 700,
+  "restoreTerminals.keepExistingTerminalsOpen": false,
+  "restoreTerminals.runOnStartup": true,
+  "restoreTerminals.terminals": [
+    {
+      "splitTerminals": [
+        {
+          "name": "client",
+          "commands": ["cd webapp/client", "ng serve"]
+        },
+        {
+          "name": "server",
+          "commands": ["cd webapp/server", "npm run start:dev"]
+        }
+      ]
+    },
+    {
+      "splitTerminals": [
+        {
+          "name": "clientActions",
+          "commands": ["cd webapp/client"]
+        },
+        {
+          "name": "gitActions"
+        }
+      ]
+    }
+  ]
+}
