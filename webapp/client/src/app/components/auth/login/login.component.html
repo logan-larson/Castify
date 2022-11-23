@@ -1,5 +1,39 @@
+<div id="loginContainer">
+  <div id="headerContainer">
+    <img id="logo" src="assets/castifyLogo.svg" />
+    <h2 id="title" class="header">Login to Castify</h2>
+  </div>
+  <div id="mainContentContainer">
+    <div id="alignment">
+      <button id="googleButton" class="mainContent">
+        <div id="googleText">
+          <img id="googleLogo" src="assets/googleLogo.png" />
+          Sign in with Google
+        </div>
+      </button>
+      <button id="discordButton" class="mainContent">
+        <img id="discordLogo" src="assets/discordLogo.png" />
+        Sign in with Discord
+      </button>
+      <span class="mainContent">or</span>
+      <label for="emailUsernameInput" class="mainContent"
+        >Email or Username</label
+      >
+      <input id="emailUsernameInput" type="text" [(ngModel)]="username" />
+      <label for="passwordInput" class="mainContent">Password</label>
+      <input id="passwordInput" type="password" [(ngModel)]="password" />
+      <button id="loginButton" class="mainContent" (click)="login()">
+        Login
+      </button>
+      <span id="forgotPasswordLink" class="mainContent">Forgot password?</span>
+      <span id="signUpLink" class="mainContent" (click)="gotoRegister()"
+        >Need an account? Sign up</span
+      >
+    </div>
+  </div>
+</div>
+<!--
 <div>
-  <h2>Login</h2>
   <label>Username: </label>
   <input type="text" [(ngModel)]="username" />
   <label>Password: </label>
@@ -7,3 +41,4 @@
   <button (click)="login()">Login</button>
   <h5 (click)="gotoRegister()">Need a new account?</h5>
 </div>
+-->

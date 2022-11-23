@@ -1,0 +1,125 @@
+.header {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 56px;
+  text-align: center;
+}
+
+.mainContent {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+}
+
+#loginContainer {
+  position: relative;
+  width: 600px;
+  height: 605px;
+
+  background: #002657;
+  border-radius: 22px;
+}
+
+#headerContainer {
+  position: absolute;
+  width: 600px;
+  height: 150px;
+  left: 0px;
+  top: 0px;
+
+  background: #002657;
+}
+
+#title {
+  position: absolute;
+  width: 365px;
+  height: 59px;
+  left: 118px;
+  top: 55px;
+
+  color: #ffffff;
+}
+
+#logo {
+  position: absolute;
+  width: 589px;
+  height: 543px;
+  left: -1px;
+  top: -202px;
+}
+
+#mainContentContainer {
+  position: absolute;
+  width: 600px;
+  height: 455px;
+  left: 0px;
+  top: 150px;
+
+  background: linear-gradient(
+    211.17deg,
+    #265f99 4.95%,
+    rgba(38, 95, 153, 0) 81.15%
+  );
+  border-radius: 22px;
+}
+
+#alignment {
+  position: absolute;
+  width: 373px;
+  height: 450px;
+  left: 113px;
+  top: 30px;
+}
+
+#google {
+  width: 373px;
+  height: 35px;
+  left: 0px;
+  top: 0px;
+}
+
+#googleButton {
+  position: absolute;
+  width: 237px;
+  height: 28px;
+  left: 68px;
+  top: 3px;
+}
+
+#googleText {
+}
+
+#googleLogo {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+#discord {
+  position: absolute;
+  width: 373px;
+  height: 35px;
+  left: 0px;
+  top: 50px;
+}
+
+#discordButton {
+  position: absolute;
+  width: 242px;
+  height: 28px;
+  left: 66px;
+  top: 53px;
+}
+
+#discordLogo {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  left: 66px;
+  top: 54px;
+}
