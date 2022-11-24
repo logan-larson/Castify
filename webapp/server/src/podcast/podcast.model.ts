@@ -7,11 +7,11 @@ export class Podcast extends Model {
   podcastId: number;
 
   @Column
-  name: string
+  name: string;
 
   @Column
-  thumbnail: string
+  thumbnail: string;
 
   @Column
-  rssFeed: string
+  rssFeed: string;
 }

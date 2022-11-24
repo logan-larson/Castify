@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Podcast } from 'src/app/features/podcasts/podcast';
+import { Podcast } from './podcast';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class SearchService {
+export class PodcastsService {
+
   currentPodcastResults: Podcast[] = [];
 
   constructor(private http: HttpClient) {}
@@ -27,8 +28,4 @@ export class SearchService {
       return null;
     }
   }
-
-  searchEpisode() {}
-
-  searchUser() {}
 }

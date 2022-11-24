@@ -55,7 +55,7 @@ export class PodcastService {
       let podcasts = await this.sequelize.query<SearchPodcastDto>(
         `select podcast.podcastId, podcast.name, podcast.thumbnail, podcast.rssFeed, epcount.numEpisodes from 
           podcast join (select podcastId, count(*) as numEpisodes from episode group by podcastId having count(*) >= ${queryNum})
-          as epcount on podcast.podcastId = epcount.podcastId`,
+          as epcount on podcast.podcastId = epcount.podcastId where lower(podcast.name) like '%${lowerQueryStr.toString()}%'`,
 
         /*`SELECT * FROM Podcast WHERE lower(Podcast.name) LIKE '%${lowerQueryStr.toString()}%'`,*/
         {

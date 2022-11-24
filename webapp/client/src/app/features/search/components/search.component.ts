@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Podcast } from 'src/app/features/podcasts/podcast';
-import { SearchService } from '@core/services/search.service';
+import { Podcast } from '@features/podcasts/podcast';
+import { Episode } from '@features/episodes/episode';
+import { PodcastsService } from '@features/podcasts/podcasts.service';
+import { EpisodesService } from '@features/episodes/episodes.service';
+
 
 @Component({
   selector: 'app-search',
@@ -13,13 +16,19 @@ export class SearchComponent implements OnInit {
   resultsType: string = '';
 
   numEpisodes: number = 0;
+  sortingParam: string = '';
 
   podcastResults: Podcast[] = [];
+  episodesResult: Episode[] = [];
 
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private podcastsService: PodcastsService,
+    private episodesService: EpisodesService
+  ) {}
 
   ngOnInit(): void {
     this.searchType = 'podcast';
+    this.sortingParam = 'title';
   }
 
   async search() {
@@ -27,7 +36,7 @@ export class SearchComponent implements OnInit {
     if (this.searchType == 'user') {
       console.log('TODO: search users');
     } else if (this.searchType == 'podcast') {
-      let podcasts = await this.searchService.searchPodcast(this.queryStr, this.numEpisodes);
+      let podcasts = await this.podcastsService.searchPodcast(this.queryStr, this.numEpisodes);
       if (podcasts != null) {
         this.podcastResults = podcasts;
         this.resultsType = 'podcast';
@@ -36,7 +45,14 @@ export class SearchComponent implements OnInit {
         this.resultsType = '';
       }
     } else if (this.searchType == 'episode') {
-      console.log('TODO: search episodes');
+      let episodes = await this.episodesService.searchEpisodes(this.queryStr, this.sortingParam);
+      if (episodes != null) {
+        this.episodesResult = episodes;
+        this.resultsType = 'episode';
+      } else {
+        this.episodesResult = [];
+        this.resultsType = '';
+      }
     }
   }
 }

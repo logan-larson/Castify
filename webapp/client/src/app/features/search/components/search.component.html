@@ -33,6 +33,33 @@
   <input type="number" [(ngModel)]="numEpisodes" />
   <label>episodes</label>
 </div>
+<div id="episodeSortingContainer" *ngIf="searchType == 'episode'">
+  <span>Sort by:</span>
+  <input
+    type="radio"
+    id="title"
+    name="sortingParam"
+    value="title"
+    [(ngModel)]="sortingParam"
+  />
+  <label for="title">Title</label>
+  <input
+    type="radio"
+    id="duration"
+    name="sortingParam"
+    value="duration"
+    [(ngModel)]="sortingParam"
+  />
+  <label for="duration">Duration</label>
+  <input
+    type="radio"
+    id="releaseDate"
+    name="sortingParam"
+    value="releaseDate"
+    [(ngModel)]="sortingParam"
+  />
+  <label for="releaseDate">Release date</label>
+</div>
 
 <!-- Results -->
 <div id="podcastResults" *ngIf="resultsType == 'podcast'">
@@ -54,7 +81,23 @@
   </table>
 </div>
 <div id="episodeResults" *ngIf="resultsType == 'episode'">
-  <div>Episode results</div>
+  <div *ngIf="episodesResult.length == 0">No results found</div>
+  <table>
+    <tr>
+      <th>Podcast</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Length(seconds)</th>
+      <th>Release date</th>
+    </tr>
+    <tr *ngFor="let e of episodesResult">
+      <td><img [src]="e.thumbnail" width="100" height="100" /></td>
+      <td>{{ e.title }}</td>
+      <td>{{ e.description.substring(0, 50) }}...</td>
+      <td>{{ e.duration }}</td>
+      <td>{{ e.releaseDate }}</td>
+    </tr>
+  </table>
 </div>
 <div id="userResults" *ngIf="resultsType == 'user'">
   <div>User results</div>
