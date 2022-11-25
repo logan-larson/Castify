@@ -1,7 +1,11 @@
 
-export class User {
-  id: number = -1;
-  username: string = '';
-  password: string = '';
-  isActive: boolean = false;
+export interface User {
+
+  userId: number,
+  username: string,
+  password: string,
+  avatar: string,
+  joinDate: Date,
+  isActive: boolean
+
 }

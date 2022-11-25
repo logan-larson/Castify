@@ -6,11 +6,13 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Query
 } from '@nestjs/common';
 import { UserDto } from './dtos/user.dto';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
+import { UserSearchDto } from './dtos/user-search.dto';
 
 @Controller('/api/users')
 export class UserController {
@@ -59,6 +61,24 @@ export class UserController {
     str = JSON.stringify(users);
 
     return str;
+  }
+
+  @Get(':id')
+  async getUsersWithUsername(@Query() queryParams): Promise<UserSearchDto[]> {
+    try {
+      return await this.userService.findWithUsername(queryParams.username);
+    } catch (err) {
+      throw new HttpException('Error in finding users', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get(':id/friends')
+  async getFriendsWithUsername(@Param() params, @Query() query): Promise<UserSearchDto[]> {
+    try {
+      return await this.userService.findFriends(params.id, query.username);
+    } catch (err) {
+      throw new HttpException('Error in finding friends', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get(':id')

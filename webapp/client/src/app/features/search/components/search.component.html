@@ -28,6 +28,7 @@
   <label for="user">User</label>
 </div>
 
+<!-- Filters/Sorting -->
 <div id="podcastFiltersContainer" *ngIf="searchType == 'podcast'">
   <label>At least</label>
   <input type="number" [(ngModel)]="numEpisodes" />
@@ -59,6 +60,10 @@
     [(ngModel)]="sortingParam"
   />
   <label for="releaseDate">Release date</label>
+</div>
+<div id="userFiltersContainer" *ngIf="searchType == 'user'">
+  <label id="friendsOnlyCheckbox">Friends only</label>
+  <input id="friendsOnlyCheckbox" type="checkbox" [(ngModel)]="friendsOnly" />
 </div>
 
 <!-- Results -->
@@ -100,5 +105,15 @@
   </table>
 </div>
 <div id="userResults" *ngIf="resultsType == 'user'">
-  <div>User results</div>
+  <div *ngIf="usersResult.length == 0">No results found</div>
+  <table>
+    <tr>
+      <th>Avatar</th>
+      <th>Username</th>
+    </tr>
+    <tr *ngFor="let u of usersResult">
+      <td><img [src]="u.avatar" width="100" height="100" /></td>
+      <td>{{ u.username }}</td>
+    </tr>
+  </table>
 </div>

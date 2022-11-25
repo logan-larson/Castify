@@ -8,7 +8,7 @@ import { AuthService } from './services/auth.service';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
-  providers: [AuthService],
+  providers: [],
   exports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
 })
 export class CoreModule {}

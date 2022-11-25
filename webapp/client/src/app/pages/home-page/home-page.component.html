@@ -3,6 +3,7 @@
   <button (click)="changeView('subscriptions')">Subscriptions</button>
   <button (click)="changeView('social')">Social</button>
   <button (click)="changeView('search')">Search</button>
+  <button (click)="logout()">Logout</button>
 </div>
 <app-subscriptions *ngIf="currentView == 'subscriptions'"></app-subscriptions>
 <app-social *ngIf="currentView == 'social'"></app-social>

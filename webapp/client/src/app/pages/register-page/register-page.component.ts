@@ -17,9 +17,12 @@ export class RegisterPageComponent implements OnInit {
 
   async register() {
     console.log('Registering...');
-    let result = await this.authService.register(this.username, this.password);
+    let userId = await this.authService.register(this.username, this.password);
 
-    if (result) this.router.navigateByUrl('home');
+    if (userId != -1) {
+      this.router.navigateByUrl('home');
+      localStorage.setItem('userId', userId.toString());
+    }
     else alert('Username already taken');
   }
 

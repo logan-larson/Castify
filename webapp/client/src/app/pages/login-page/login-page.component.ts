@@ -17,8 +17,11 @@ export class LoginPageComponent implements OnInit {
 
   async login(): Promise<void> {
     console.log('Logging in...');
-    let result = await this.authService.login(this.username, this.password);
-    if (result) this.router.navigateByUrl('home');
+    let userId = await this.authService.login(this.username, this.password);
+    if (userId != -1) {
+      this.router.navigateByUrl('home');
+      localStorage.setItem('userId', userId.toString());
+    }
     else alert('Invalid username or password');
   }
 

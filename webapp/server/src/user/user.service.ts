@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { QueryTypes } from 'sequelize';
+import { UserDto } from './dtos/user.dto';
+import { UserSearchDto } from './dtos/user-search.dto';
 //import { QueryTypes } from 'sequelize/types';
 import { User } from './user.model';
 
@@ -94,6 +97,34 @@ export class UserService {
       console.log(err);
       return;
     }
+  }
+
+  async findWithUsername(username: string): Promise<UserSearchDto[]> {
+    return await this.sequelize
+      .query<UserSearchDto>(`
+        SELECT userId, username, avatar FROM user
+        WHERE username LIKE '%${username}%'
+      `, { type: QueryTypes.SELECT });
+  }
+
+  async findFriends(userId: number, username: string): Promise<UserSearchDto[]> {
+    let lowerUsername = username.toString().toLowerCase();
+    return await this.sequelize
+      .query<UserSearchDto>(`
+      SELECT Q1.userId, Q1.username, Q1.avatar FROM
+        (SELECT followee.userId, followee.username, followee.avatar
+        FROM user AS follower JOIN follows JOIN user AS followee
+        ON follower.userId = follows.followerId AND follows.followeeId = followee.userId
+        WHERE follower.userId = ${userId}) AS Q1
+      JOIN
+        (SELECT follower.userId
+        FROM user AS follower JOIN follows JOIN user AS followee
+        ON follower.userId = follows.followerId AND follows.followeeId = followee.userId
+        WHERE followee.userId = ${userId}) AS Q2
+      WHERE Q1.userId = Q2.userId AND Q1.username LIKE '%${lowerUsername}%';
+      `, {
+        type: QueryTypes.SELECT
+      });
   }
 
 }
