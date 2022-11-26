@@ -13,10 +13,16 @@ import { CreateUserDto } from './dtos/createUser.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
 import { UserSearchDto } from './dtos/user-search.dto';
+import { SearchPodcastDto } from 'src/podcast/dtos/searchPodcast.dto';
+import { PodcastService } from 'src/podcast/podcast.service';
 
 @Controller('/api/users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  
+  constructor(
+    private userService: UserService,
+    private podcastService: PodcastService
+  ) {}
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
@@ -84,5 +90,18 @@ export class UserController {
   @Get(':id')
   getUserId(@Param() params) {
     return this.userService.findOneById(params.id);
+  }
+
+
+  @Get(':userId/subscriptions')
+  async getSubscriptions(@Param() params): Promise<SearchPodcastDto[]> {
+    try {
+      let podcasts = await this.podcastService.findAllByNameWithEpCount('', 0, params.userId);
+      console.log(podcasts);
+      return podcasts.filter(p => p.subscriptionStatus == 'subscribed');
+    } catch (error) {
+      console.log(error);
+      throw new HttpException('Error in getting subscriptions', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

@@ -8,6 +8,7 @@ import { SubscriptionModule } from '../subscription/subscription.module';
 @Module({
   imports: [SequelizeModule.forFeature([Podcast]), SubscriptionModule],
   providers: [PodcastService],
-  controllers: [PodcastController]
+  controllers: [PodcastController],
+  exports: [PodcastService]
 })
 export class PodcastModule {}

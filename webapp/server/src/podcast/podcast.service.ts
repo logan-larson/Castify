@@ -67,7 +67,7 @@ export class PodcastService {
 
       podcasts.forEach(p => {
         subscribedPodcastIds.forEach(s => {
-          if (p.podcastId == s.podcastId) {
+          if (p.podcastId ==  s.podcastId) {
             p.subscriptionStatus = 'subscribed';
           }
         })

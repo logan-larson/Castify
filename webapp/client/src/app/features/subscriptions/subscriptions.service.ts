@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Subscription } from '@features/subscriptions/subscription';
+import { Podcast } from '@features/podcasts/podcast';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,15 @@ export class SubscriptionsService {
     } catch (err) {
       console.log(err);
       return false;
+    }
+  }
+
+  async getPodcastSubscriptions(userId: number): Promise<Podcast[]> {
+    try {
+      return await this.http.get<Podcast[]>(`/api/users/${userId}/subscriptions`).toPromise();
+    } catch (error) {
+      console.log(error);
+      return [];
     }
   }
 

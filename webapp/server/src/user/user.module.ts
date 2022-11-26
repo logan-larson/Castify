@@ -4,8 +4,11 @@ import { UserController } from './user.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './user.model';
 
+import { SubscriptionModule } from '../subscription/subscription.module';
+import { PodcastModule } from '../podcast/podcast.module';
+
 @Module({
-  imports: [SequelizeModule.forFeature([User])],
+  imports: [SequelizeModule.forFeature([User]), SubscriptionModule, PodcastModule],
   providers: [UserService],
   controllers: [UserController]
 })

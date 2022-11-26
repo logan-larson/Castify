@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Podcast } from '@features/podcasts/podcast';
+import { SubscriptionsService } from '../subscriptions.service';
 
 @Component({
   selector: 'app-subscriptions',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubscriptionsComponent implements OnInit {
 
-  constructor() { }
+  subscriptions: Podcast[] = [];
+
+  constructor(
+    private subscriptionsService: SubscriptionsService
+  ) { }
 
   ngOnInit(): void {
+    this.getSubscriptions();
+  }
+
+  async getSubscriptions() {
+    let userId: number = Number(localStorage.getItem('userId'));
+    this.subscriptions = await this.subscriptionsService.getPodcastSubscriptions(userId);
   }
 
 }

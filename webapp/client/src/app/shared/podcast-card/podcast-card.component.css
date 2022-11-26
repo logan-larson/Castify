@@ -1,0 +1,6 @@
+
+#podcastContainer {
+  display: grid;
+  grid-template-columns: 10% 25% 35% 15% 15%;
+  margin: 5px 0px;
+}

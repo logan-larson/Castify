@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { QueryTypes } from 'sequelize';
 import { Sequelize } from 'sequelize-typescript';
+import { SearchPodcastDto } from 'src/podcast/dtos/searchPodcast.dto';
 import { SubscriptionDto } from './dtos/subscription.dto';
 import { UpdateSubscriptionDto } from './dtos/update-subscription.dto';
 import { Subscription } from './subscription.model';
@@ -24,7 +25,7 @@ export class SubscriptionService {
   }
 
   async getUsersSubscriptions(userId: number): Promise<{ podcastId: number }[]> {
-    return await this.sequelize.query<{ podcastId: number }>(`SELECT subscribes_to.podcastId FROM subscribes_to WHERE subscribes_to.userId = ${userId}`, { type: QueryTypes.SELECT });
+    return await this.sequelize.query<{ podcastId: number }>(`SELECT podcastId FROM subscribes_to WHERE subscribes_to.userId = ${userId}`, { type: QueryTypes.SELECT });
   }
 
   async update(updateSubDto: UpdateSubscriptionDto): Promise<boolean> {

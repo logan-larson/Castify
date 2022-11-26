@@ -1,0 +1,7 @@
+<div id="podcastContainer" *ngIf="podcast">
+  <img [src]="podcast.thumbnail" width="100" height="100" />
+  <p>{{ podcast.name }}</p>
+  <p>{{ podcast.rssFeed.substring(0, 50) }}...</p>
+  <p>{{ podcast.numEpisodes }}</p>
+  <button (click)="changeSubscription()">{{ subscriptionButtonStr }}</button>
+</div>
