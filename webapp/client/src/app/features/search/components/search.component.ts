@@ -25,8 +25,8 @@ export class SearchComponent implements OnInit {
   friendsOnly: boolean = false;
 
   podcastResults: Podcast[] = [];
-  episodesResult: Episode[] = [];
-  usersResult: User[] = [];
+  episodeResults: Episode[] = [];
+  userResults: User[] = [];
 
   constructor(
     private podcastsService: PodcastsService,
@@ -47,7 +47,7 @@ export class SearchComponent implements OnInit {
     if (this.searchType == 'user') {
       let users = await this.usersService.searchUsers(this.currentUserId, this.queryStr, this.friendsOnly);
       if (users != null) {
-        this.usersResult = users;
+        this.userResults = users;
         this.resultsType = 'user';
       } else {
         this.podcastResults = [];
@@ -65,10 +65,10 @@ export class SearchComponent implements OnInit {
     } else if (this.searchType == 'episode') {
       let episodes = await this.episodesService.searchEpisodes(this.queryStr, this.sortingParam);
       if (episodes != null) {
-        this.episodesResult = episodes;
+        this.episodeResults = episodes;
         this.resultsType = 'episode';
       } else {
-        this.episodesResult = [];
+        this.episodeResults = [];
         this.resultsType = '';
       }
     }
