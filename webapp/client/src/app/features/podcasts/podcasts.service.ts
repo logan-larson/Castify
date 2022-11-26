@@ -13,8 +13,9 @@ export class PodcastsService {
 
   async searchPodcast(name: string, numEpisodes: number): Promise<Podcast[] | null> {
     try {
+      let userId: number = Number(localStorage.getItem('userId'));
       let data = await this.http
-        .get<Podcast[]>(`/api/podcasts/count?name=${name}&count=${numEpisodes}`)
+        .get<Podcast[]>(`/api/podcasts/count?name=${name}&count=${numEpisodes}&userId=${userId}`)
         .toPromise();
 
       console.log(data);

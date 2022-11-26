@@ -5,5 +5,6 @@ export interface SearchPodcastDto  {
   thumbnail: string,
   rssFeed: string,
   numEpisodes: number,
+  subscriptionStatus?: string
 
 }

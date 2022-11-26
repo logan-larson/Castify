@@ -4,13 +4,16 @@ import { Sequelize } from 'sequelize-typescript';
 import { Podcast } from './podcast.model';
 import { SearchPodcastDto } from './dtos/searchPodcast.dto';
 import { QueryTypes } from 'sequelize';
+import { SubscriptionService } from '../subscription/subscription.service';
 
 @Injectable()
 export class PodcastService {
+
   constructor(
     @InjectModel(Podcast)
     private podcastModel: typeof Podcast,
     private sequelize: Sequelize,
+    private subscriptionService: SubscriptionService
   ) {}
 
   async getAll(): Promise<SearchPodcastDto[]> {
@@ -49,7 +52,7 @@ export class PodcastService {
     }
   }
 
-  async findAllByNameWithEpCount(queryStr: string, queryNum: number): Promise<SearchPodcastDto[]> {
+  async findAllByNameWithEpCount(queryStr: string, queryNum: number, queryUid: number): Promise<SearchPodcastDto[]> {
     try {
       let lowerQueryStr = queryStr.toString().toLowerCase();
       let podcasts = await this.sequelize.query<SearchPodcastDto>(
@@ -63,6 +66,18 @@ export class PodcastService {
           replacements: {  }
         },
       );
+
+      let subscribedPodcastIds = await this.subscriptionService.getUsersSubscriptions(queryUid);
+
+      console.log(subscribedPodcastIds);
+
+      podcasts.forEach(p => {
+        subscribedPodcastIds.forEach(s => {
+          if (p.podcastId == s.podcastId) {
+            p.subscriptionStatus = 'subscribed';
+          }
+        })
+      })
 
       return podcasts;
     } catch (error) {

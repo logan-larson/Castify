@@ -9,6 +9,8 @@ import { PodcastModule } from './podcast/podcast.module';
 import { Podcast } from './podcast/podcast.model';
 import { EpisodeModule } from './episode/episode.module';
 import { Episode } from './episode/episode.model';
+import { SubscriptionModule } from './subscription/subscription.module';
+import { Subscription } from './subscription/subscription.model';
 
 @Module({
   imports: [
@@ -19,11 +21,12 @@ import { Episode } from './episode/episode.model';
       username: 'root',
       password: 'Polevault567*', // Change this and get from env
       database: 'castify',
-      models: [User, Podcast, Episode],
+      models: [User, Podcast, Episode, Subscription],
     }),
     UserModule,
     PodcastModule,
-    EpisodeModule
+    EpisodeModule,
+    SubscriptionModule
   ],
   controllers: [AppController],
   providers: [AppService],

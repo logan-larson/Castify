@@ -69,21 +69,14 @@
 <!-- Results -->
 <div id="podcastResults" *ngIf="resultsType == 'podcast'">
   <div *ngIf="podcastResults.length == 0">No results found</div>
-  <table>
-    <tr>
-      <th>Thumbnail</th>
-      <th>Name</th>
-      <th>RSS</th>
-      <th>Number of episodes</th>
-    </tr>
-    <tr *ngFor="let p of podcastResults">
-      <td><img [src]="p.thumbnail" width="100" height="100" /></td>
-      <td>{{ p.name }}</td>
-      <td>{{ p.rssFeed.substring(0, 50) }}...</td>
-      <td>{{ p.numEpisodes }}</td>
-      <!--<app-podcast-card [podcast]="p"></app-podcast-card>-->
-    </tr>
-  </table>
+  <div id="podcastResultsHeader">
+    <h2>Thumbnail</h2>
+    <h2>Name</h2>
+    <h2>RSS</h2>
+    <h2>Number of episodes</h2>
+    <h2>Subscription</h2>
+  </div>
+    <app-podcast-card *ngFor="let p of podcastResults" [podcast]="p"></app-podcast-card>
 </div>
 <div id="episodeResults" *ngIf="resultsType == 'episode'">
   <div *ngIf="episodesResult.length == 0">No results found</div>

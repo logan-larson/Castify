@@ -23,7 +23,7 @@ export class PodcastController {
   async getAllPodcastsWithEpCount(@Query() queryParams): Promise<SearchPodcastDto[]> {
     try {
       //let podcasts = await this.podcastService.getAll();
-      let podcasts = await this.podcastService.findAllByNameWithEpCount(queryParams.name, queryParams.count);
+      let podcasts = await this.podcastService.findAllByNameWithEpCount(queryParams.name, queryParams.count, queryParams.userId);
 
       return podcasts;
     } catch (err) {

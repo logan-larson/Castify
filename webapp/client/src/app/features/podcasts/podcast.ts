@@ -6,5 +6,6 @@ export interface Podcast {
   thumbnail: string,
   rssFeed: string,
   numEpisodes?: number;
+  subscriptionStatus?: string;
 
 }
