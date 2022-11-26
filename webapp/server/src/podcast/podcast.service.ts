@@ -24,7 +24,6 @@ export class PodcastService {
 
       return podcasts;
     } catch (err) {
-      console.log('Error in getAll podcasts');
       console.log(err);
       return [];
     }
@@ -42,11 +41,8 @@ export class PodcastService {
           }
       );
 
-      console.log(podcasts);
-
       return podcasts;
     } catch (error) {
-      console.log('Error in findAllByName');
       console.log(error);
       return [];
     }
@@ -69,8 +65,6 @@ export class PodcastService {
 
       let subscribedPodcastIds = await this.subscriptionService.getUsersSubscriptions(queryUid);
 
-      console.log(subscribedPodcastIds);
-
       podcasts.forEach(p => {
         subscribedPodcastIds.forEach(s => {
           if (p.podcastId == s.podcastId) {
@@ -81,7 +75,6 @@ export class PodcastService {
 
       return podcasts;
     } catch (error) {
-      console.log('Error in findAllByName');
       console.log(error);
       return [];
     }

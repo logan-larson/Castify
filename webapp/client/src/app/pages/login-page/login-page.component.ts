@@ -16,7 +16,6 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {}
 
   async login(): Promise<void> {
-    console.log('Logging in...');
     let userId = await this.authService.login(this.username, this.password);
     if (userId != -1) {
       this.router.navigateByUrl('home');

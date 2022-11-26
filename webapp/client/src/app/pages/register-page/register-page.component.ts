@@ -16,7 +16,6 @@ export class RegisterPageComponent implements OnInit {
   ngOnInit(): void {}
 
   async register() {
-    console.log('Registering...');
     let userId = await this.authService.register(this.username, this.password);
 
     if (userId != -1) {

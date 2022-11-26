@@ -11,7 +11,6 @@ export class SubscriptionController {
   @Post()
   async createSubscription(@Body() subscriptionDto: SubscriptionDto): Promise<SubscriptionDto> {
     try {
-      console.log('hit create endpoint');
       return await this.subscriptionService.create(subscriptionDto);
     } catch (err) {
         throw new HttpException('Error in creating subscription', HttpStatus.INTERNAL_SERVER_ERROR);
@@ -21,7 +20,6 @@ export class SubscriptionController {
   @Patch()
   async updateSubscription(@Body() subscriptionDto: SubscriptionDto): Promise<boolean> {
     try {
-      console.log('hit update endpoint');
       return await this.subscriptionService.update(subscriptionDto);
     } catch (err) {
         throw new HttpException('Error in updating subscription', HttpStatus.INTERNAL_SERVER_ERROR);

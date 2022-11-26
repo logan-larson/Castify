@@ -17,8 +17,6 @@ export class EpisodesService {
         .get<Episode[]>(`/api/episodes/sort?title=${title}&sort=${sortParam}`)
         .toPromise();
 
-      console.log(data);
-
       this.currentEpisodeSearchResults = data;
 
       return this.currentEpisodeSearchResults;

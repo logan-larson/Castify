@@ -24,11 +24,9 @@ export class SubscriptionsService {
         subscriptionDto
       ).toPromise();
 
-      console.log(`valid: ${subscription}`);
 
       return true;
     } catch (err) {
-      console.log(`invalid: ${err}`);
       return false;
     }
   }
@@ -57,8 +55,6 @@ export class SubscriptionsService {
         `/api/subscriptions`,
         subscriptionDto
       ).toPromise();
-
-      console.log(`isUpdated: ${isUpdated}`);
 
       return true;
     } catch (err) {

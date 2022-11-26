@@ -21,7 +21,6 @@ export class EpisodeService {
 
       return episodes;
     } catch (err) {
-      console.log('Error in getAll episodes');
       console.log(err);
       return [];
     }
@@ -40,11 +39,8 @@ export class EpisodeService {
           }
       );
 
-      console.log(podcasts);
-
       return podcasts;
     } catch (error) {
-      console.log('Error in findAllByName');
       console.log(error);
       return [];
     }
@@ -75,7 +71,6 @@ export class EpisodeService {
 
       return episodes;
     } catch (error) {
-      console.log('Error in findAllByName episodes');
       console.log(error);
       return [];
     }

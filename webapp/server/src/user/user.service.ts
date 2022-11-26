@@ -45,8 +45,6 @@ export class UserService {
           replacements: { username: username },
         });
 
-        console.log(data);
-
         return data;
     } catch (err) {
       console.log(err);

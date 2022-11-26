@@ -18,8 +18,6 @@ export class PodcastsService {
         .get<Podcast[]>(`/api/podcasts/count?name=${name}&count=${numEpisodes}&userId=${userId}`)
         .toPromise();
 
-      console.log(data);
-
       this.currentPodcastResults = data;
 
       return this.currentPodcastResults;

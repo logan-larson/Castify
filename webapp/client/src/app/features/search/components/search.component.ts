@@ -40,7 +40,6 @@ export class SearchComponent implements OnInit {
     this.sortingParam = 'title';
 
     this.currentUserId = Number(localStorage.getItem('userId'));
-    console.log(this.currentUserId);
   }
 
   async search() {
