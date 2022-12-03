@@ -30,6 +30,12 @@ export class SocialComponent implements OnInit {
   ngOnInit(): void {
     let userId: number = Number(localStorage.getItem('userId'));
     this.getComments(userId);
+
+    this.socialService.getUpdatedCommentsForUserId.subscribe(uid => {
+      if (userId == uid) {
+        this.getComments(uid);
+      }
+    });
   }
 
   async submitComment() {

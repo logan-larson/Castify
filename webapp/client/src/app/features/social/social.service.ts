@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Comment } from './comment';
@@ -7,6 +7,8 @@ import { Comment } from './comment';
   providedIn: 'root'
 })
 export class SocialService {
+
+  @Output() getUpdatedCommentsForUserId: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private http: HttpClient) {}
 
@@ -24,39 +26,18 @@ export class SocialService {
     }
   }
 
-  /*
-  async deleteComment(userId: number, podcastId: number, status: string): Promise<boolean> {
+  async deleteComment(userId: number, episodeId: number): Promise<boolean> {
     try {
-      let subscriptionDto: Subscription;
-      let isUpdated: boolean;
-
-      if (status == 'unsubscribed') {
-        subscriptionDto = {
-          userId: userId,
-          podcastId: podcastId,
-          unsubscribeDate: new Date()
-        }
-      } else {
-        subscriptionDto = {
-          userId: userId,
-          podcastId: podcastId,
-          subscribeDate: new Date(),
-          unsubscribeDate: null
-        }
-
-      }
-      isUpdated = await this.http.patch<boolean>(
-        `/api/subscriptions`,
-        subscriptionDto
+      let isDeleted = await this.http.delete<boolean>(
+        `/api/comments?userId=${userId}&episodeId=${episodeId}`
       ).toPromise();
 
-      return true;
+      return isDeleted;
     } catch (err) {
       console.log(err);
       return false;
     }
   }
-  */
 
   async getCommentsByUserId(userId: number): Promise<Comment[]> {
     try {

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpException, HttpStatus, Patch } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, Patch, Query, Delete } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CommentDto } from './dtos/comment.dto';
 
@@ -20,16 +20,14 @@ export class CommentController {
     }
   }
 
-  /*
   // -- Delete comment --
   @Delete()
-  async updateSubscription(@Body() subscriptionDto: SubscriptionDto): Promise<boolean> {
+  async deleteComment(@Query() queryParams): Promise<boolean> {
     try {
-      return await this.subscriptionService.update(subscriptionDto);
+      return await this.commentService.delete(queryParams.userId, queryParams.episodeId);
     } catch (err) {
-        throw new HttpException('Error in updating subscription', HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new HttpException('Error in deleting comment', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  */
 
 }

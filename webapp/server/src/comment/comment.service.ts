@@ -41,19 +41,14 @@ export class CommentService {
     return await this.sequelize.query<CommentDto>(`SELECT * FROM comments_on WHERE comments_on.userId IN ${idList}`, { type: QueryTypes.SELECT });
   }
 
-  /*
-  async update(updateSubDto: UpdateSubscriptionDto): Promise<boolean> {
+  async delete(userId: number, episodeId: number): Promise<boolean> {
     try {
-      if (updateSubDto.subscribeDate) {
-        await this.sequelize.query(`UPDATE subscribes_to SET subscribeDate = '${updateSubDto.subscribeDate.toString().substring(0, 10)}', unsubscribeDate = '${updateSubDto.unsubscribeDate.toString().substring(0, 10)}' WHERE userId = ${updateSubDto.userId} AND podcastId = ${updateSubDto.podcastId}`, { type: QueryTypes.UPDATE });
-      } else {
-        await this.sequelize.query(`UPDATE subscribes_to SET unsubscribeDate = '${updateSubDto.unsubscribeDate.toString().substring(0, 10)}' WHERE userId = ${updateSubDto.userId} AND podcastId = ${updateSubDto.podcastId}`, { type: QueryTypes.UPDATE });
-      }
+      await this.sequelize.query(`DELETE FROM comments_on WHERE userId = ${userId} AND episodeId = ${episodeId}`, { type: QueryTypes.DELETE });
+
       return true;
     } catch (err) {
       return false;
     }
   }
-  */
 
 }
