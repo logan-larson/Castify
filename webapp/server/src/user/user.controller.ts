@@ -15,13 +15,16 @@ import { UserService } from './user.service';
 import { UserSearchDto } from './dtos/user-search.dto';
 import { SearchPodcastDto } from 'src/podcast/dtos/searchPodcast.dto';
 import { PodcastService } from 'src/podcast/podcast.service';
+import { CommentDto } from 'src/comment/dtos/comment.dto';
+import { CommentService } from 'src/comment/comment.service';
 
 @Controller('/api/users')
 export class UserController {
   
   constructor(
     private userService: UserService,
-    private podcastService: PodcastService
+    private podcastService: PodcastService,
+    private commentService: CommentService
   ) {}
 
   @Post()
@@ -56,7 +59,6 @@ export class UserController {
   async getActiveUsers(): Promise<User[]> {
     return await this.userService.getAllActive();
   }
-  */
 
   @Get('active')
   async getActiveUsers(): Promise<string> {
@@ -68,6 +70,7 @@ export class UserController {
 
     return str;
   }
+  */
 
   @Get(':id')
   async getUsersWithUsername(@Query() queryParams): Promise<UserSearchDto[]> {
@@ -102,6 +105,20 @@ export class UserController {
     } catch (error) {
       console.log(error);
       throw new HttpException('Error in getting subscriptions', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Get(':userId/comments')
+  async getCommentsByUser(@Param() params): Promise<CommentDto[]> {
+    try {
+      let comments: CommentDto[] = await this.commentService.getUsersComments(params.userId);
+
+      console.log(comments);
+
+      return comments;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException('Error in getting users comments', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }

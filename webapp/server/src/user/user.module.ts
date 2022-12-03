@@ -6,9 +6,10 @@ import { User } from './user.model';
 
 import { SubscriptionModule } from '../subscription/subscription.module';
 import { PodcastModule } from '../podcast/podcast.module';
+import { CommentModule } from '../comment/comment.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User]), SubscriptionModule, PodcastModule],
+  imports: [SequelizeModule.forFeature([User]), SubscriptionModule, PodcastModule, CommentModule],
   providers: [UserService],
   controllers: [UserController]
 })

@@ -1,0 +1,10 @@
+#currentUsersCommentsHeader {
+  display: grid;
+  grid-template-columns: 10% 10% 35% 15% 15% 15%;
+  margin: 5px 0px;
+}
+
+#currentUsersCommentsHeader h2 {
+  margin: 0;
+  text-align: center;
+}

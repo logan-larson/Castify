@@ -1,0 +1,10 @@
+<div id="commentContainer" *ngIf="comment">
+  <p>{{ comment.episodeId }}</p>
+  <p>{{ comment.userId }}</p>
+  <p>{{ comment.commentDesc }}</p>
+  <p>{{ comment.commentDate }}</p>
+  <p>{{ comment.timestampStart }} to {{ comment.timestampEnd }}</p>
+  <div>
+    <button (click)="delete()">Delete</button>
+  </div>
+</div>

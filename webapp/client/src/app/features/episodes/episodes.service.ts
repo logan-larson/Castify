@@ -11,6 +11,7 @@ export class EpisodesService {
 
   constructor(private http: HttpClient) {}
 
+  /* Search episodes based on title and a sorting parameter */
   async searchEpisodes(title: string, sortParam: string): Promise<Episode[] | null> {
     try {
       let data = await this.http

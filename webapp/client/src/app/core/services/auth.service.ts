@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   async login(username: string, password: string): Promise<number> {
+    // TODO Better user authentication and error checking in future
     try {
       let user: User = await this.http
         .post<User>(`/api/users/user`, {
@@ -31,6 +32,7 @@ export class AuthService {
   }
 
   async register(username: string, password: string): Promise<number> {
+    // TODO expand register to encompass SSO and better error checking
     try {
       let user: User = await this.http
         .post<User>(`/api/users`, { username: username, password: password })
