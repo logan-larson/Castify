@@ -16,14 +16,12 @@ export class CommentService {
     private sequelize: Sequelize
   ) { }
 
-  /*
-  async create(subDto: SubscriptionDto): Promise<SubscriptionDto> {
+  async create(comDto: CommentDto): Promise<CommentDto> {
 
-    await this.sequelize.query(`INSERT INTO subscribes_to (userId, podcastId, subscribeDate, unsubscribeDate) VALUES (${subDto.userId}, ${subDto.podcastId}, '${subDto.subscribeDate.toString().substring(0, 10)}', ${subDto.unsubscribeDate})`, { type: QueryTypes.INSERT });
+    await this.sequelize.query(`INSERT INTO comments_on (episodeId, userId, commentDesc, commentDate, timestampStart, timestampEnd) VALUES (${comDto.episodeId}, ${comDto.userId}, '${comDto.commentDesc}', '${comDto.commentDate.toString().substring(0, 10)}', ${comDto.timestampStart}, ${comDto.timestampEnd})`, { type: QueryTypes.INSERT });
 
-    return subDto;
+    return comDto;
   }
-  */
 
   /* Get comments by a specific user */
   async getUsersComments(userId: number): Promise<CommentDto[]> {

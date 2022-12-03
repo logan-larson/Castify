@@ -10,19 +10,11 @@ export class SocialService {
 
   constructor(private http: HttpClient) {}
 
-  /*
-  async createComment(userId: number, podcastId: number): Promise<boolean> {
+  async createComment(commentDto: Comment): Promise<boolean> {
     try {
-      let subscriptionDto: Subscription = {
-        userId: userId,
-        podcastId: podcastId,
-        subscribeDate: new Date(),
-        unsubscribeDate: null
-      }
-
-      let subscription = await this.http.post<Subscription>(
-        `/api/subscriptions`,
-        subscriptionDto
+      let comment = await this.http.post<Comment>(
+        `/api/comments`,
+        commentDto
       ).toPromise();
 
 
@@ -32,6 +24,7 @@ export class SocialService {
     }
   }
 
+  /*
   async deleteComment(userId: number, podcastId: number, status: string): Promise<boolean> {
     try {
       let subscriptionDto: Subscription;

@@ -1,22 +1,26 @@
 import { Controller, Post, Body, HttpException, HttpStatus, Patch } from '@nestjs/common';
+import { CommentService } from './comment.service';
+import { CommentDto } from './dtos/comment.dto';
 
 
 @Controller('/api/comments')
 export class CommentController {
 
-  constructor() {}
+  constructor(private commentService: CommentService) {}
 
-  /*
   // -- Create comment --
   @Post()
-  async createSubscription(@Body() subscriptionDto: SubscriptionDto): Promise<SubscriptionDto> {
+  async createComment(@Body() commentDto: CommentDto): Promise<CommentDto> {
     try {
-      return await this.subscriptionService.create(subscriptionDto);
-    } catch (err) {
-        throw new HttpException('Error in creating subscription', HttpStatus.INTERNAL_SERVER_ERROR);
+      console.log(commentDto);
+      return await this.commentService.create(commentDto);
+    } catch (error) {
+        console.log(error);
+        throw new HttpException('Error in creating comment', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
+  /*
   // -- Delete comment --
   @Delete()
   async updateSubscription(@Body() subscriptionDto: SubscriptionDto): Promise<boolean> {

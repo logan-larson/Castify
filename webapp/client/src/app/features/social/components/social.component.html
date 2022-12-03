@@ -2,17 +2,17 @@
   <h1>Write a comment</h1>
   <div style="display: flex; flex-flow: column; width: 300px;">
     <label for="episodeId">Episode ID:</label>
-    <input id="episodeId" name="episodeId" type="number" [(ngModel)]="episodeId" />
+    <input id="episodeId" name="episodeId" type="number" [(ngModel)]="createComment.episodeId" />
     <label for="commentDesc">Comment:</label>
     <textarea id="commentDesc" rows="4" cols="50"
-      placeholder="What's on your mind..." [(ngModel)]="commentDesc"
+      placeholder="What's on your mind..." [(ngModel)]="createComment.commentDesc"
     >
     </textarea>
     <h4>Episode timestamp (seconds):</h4>
     <label for="timestampStart">From:</label>
-    <input id="timestampStart" name="timestampStart" type="number" />
+    <input id="timestampStart" name="timestampStart" type="number" [(ngModel)]="createComment.timestampStart" />
     <label for="timestampEnd">To:</label>
-    <input id="timestampEnd" name="timestampEnd" type="number" />
+    <input id="timestampEnd" name="timestampEnd" type="number" [(ngModel)]="createComment.timestampEnd" />
     <button (click)="submitComment()">Comment</button>
   </div>
 </div>

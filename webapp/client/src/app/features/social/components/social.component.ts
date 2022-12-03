@@ -10,15 +10,22 @@ import { Comment } from '../comment';
 })
 export class SocialComponent implements OnInit {
 
-  
-  episodeId: number = 0;
-  commentDesc: string = '';
+  createComment: Comment;
 
   currentUsersComments: Comment[] = [];
 
   constructor(
     private socialService: SocialService
-  ) { }
+  ) {
+    this.createComment = {
+      userId: 0,
+      episodeId: 0,
+      commentDesc: '',
+      commentDate: new Date(),
+      timestampStart: 0,
+      timestampEnd: 0
+    };
+  }
 
   ngOnInit(): void {
     let userId: number = Number(localStorage.getItem('userId'));
@@ -26,7 +33,13 @@ export class SocialComponent implements OnInit {
   }
 
   async submitComment() {
-    console.log(`Episode: ${this.episodeId}\nComment: ${this.commentDesc}`);
+    let userId: number = Number(localStorage.getItem('userId'));
+
+    this.createComment.commentDate = new Date();
+    this.createComment.userId = userId;
+    await this.socialService.createComment(this.createComment);
+
+    this.getComments(userId);
   }
 
   async getComments(userId: number) {
