@@ -29,7 +29,7 @@ export class FollowService {
 
   async getUsersFollowees(userId: number): Promise<FollowDto[]> {
     return await this.sequelize.query<FollowDto>(
-      `SELECT * FROM follows WHERE follows.followerId = ${userId}`,
+      `SELECT * FROM follows WHERE follows.followerId = ${userId} AND follows.unfollowDate IS NULL`,
       { type: QueryTypes.SELECT },
     );
   }

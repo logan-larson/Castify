@@ -150,16 +150,16 @@ export class UserController {
   }
 
   @Get(':userId/follows/comments')
-  async getCommentsFromFollowees(
+  async getCommentsFromFollowing(
     @Param('userId') userId: number,
   ): Promise<CommentDto[]> {
     try {
-      let followIds: number[] = await (
+      let followeeIds: number[] = await (
         await this.followService.getUsersFollowees(userId)
       ).map((f) => f.followeeId);
 
       let comments: CommentDto[] = await this.commentService.getCommentsByUsers(
-        followIds,
+        followeeIds,
       );
 
       return comments;
