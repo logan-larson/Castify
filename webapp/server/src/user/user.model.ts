@@ -1,6 +1,6 @@
 import { Column, Table, Model } from 'sequelize-typescript';
 
-@Table
+@Table({ timestamps: false })
 export class User extends Model {
   @Column({
     allowNull: false,

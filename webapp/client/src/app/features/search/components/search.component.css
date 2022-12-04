@@ -1,4 +1,3 @@
-
 #podcastResultsHeader {
   display: grid;
   grid-template-columns: 10% 25% 35% 15% 15%;
@@ -6,6 +5,18 @@
 }
 
 #podcastResultsHeader h2 {
+  margin: 0;
+  text-align: center;
+}
+
+#userResultsHeader {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  margin: 5px 0px;
+  width: 500px;
+}
+
+#userResultsHeader h2 {
   margin: 0;
   text-align: center;
 }
