@@ -5,6 +5,6 @@
   <p>{{ comment.commentDate }}</p>
   <p>{{ comment.timestampStart }} to {{ comment.timestampEnd }}</p>
   <div>
-    <button (click)="delete()">Delete</button>
+    <button *ngIf="canDelete" (click)="delete()">Delete</button>
   </div>
 </div>

@@ -120,7 +120,7 @@ export class UserService {
     let users: UserSearchDto[] = await this.sequelize.query<UserSearchDto>(
       `
         SELECT userId, username, avatar FROM user
-        WHERE username LIKE '%${username}%'
+        WHERE username LIKE '%${username}%' AND isActive = true AND userId != ${userId}
       `,
       { type: QueryTypes.SELECT },
     );
@@ -151,7 +151,7 @@ export class UserService {
     username: string,
   ): Promise<UserSearchDto[]> {
     let lowerUsername = username.toString().toLowerCase();
-    return await this.sequelize.query<UserSearchDto>(
+    let friends: UserSearchDto[] = await this.sequelize.query<UserSearchDto>(
       `
       SELECT Q1.userId, Q1.username, Q1.avatar FROM
         (SELECT followee.userId, followee.username, followee.avatar
@@ -169,5 +169,9 @@ export class UserService {
         type: QueryTypes.SELECT,
       },
     );
+
+    friends.forEach((f) => (f.followingStatus = 'following'));
+
+    return friends;
   }
 }

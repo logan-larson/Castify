@@ -9,20 +9,21 @@ import { SocialService } from '@features/social/social.service';
   styleUrls: ['./comment-card.component.css'],
 })
 export class CommentCardComponent implements OnInit {
-
   @Input() comment!: Comment;
+  @Input() canDelete!: boolean;
 
   constructor(private socialService: SocialService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async delete() {
-    let isDeleted: boolean = await this.socialService.deleteComment(this.comment.userId, this.comment.episodeId);
+    let isDeleted: boolean = await this.socialService.deleteComment(
+      this.comment.userId,
+      this.comment.episodeId
+    );
 
     console.log(`Deleted: ${isDeleted}`);
 
     this.socialService.getUpdatedCommentsForUserId.emit(this.comment.userId);
   }
-
 }

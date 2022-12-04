@@ -6,32 +6,31 @@ import { Comment } from '../comment';
 @Component({
   selector: 'app-social',
   templateUrl: './social.component.html',
-  styleUrls: ['./social.component.css']
+  styleUrls: ['./social.component.css'],
 })
 export class SocialComponent implements OnInit {
-
   createComment: Comment;
 
   currentUsersComments: Comment[] = [];
+  currentUsersFollowersComments: Comment[] = [];
 
-  constructor(
-    private socialService: SocialService
-  ) {
+  constructor(private socialService: SocialService) {
     this.createComment = {
       userId: 0,
       episodeId: 0,
       commentDesc: '',
       commentDate: new Date(),
       timestampStart: 0,
-      timestampEnd: 0
+      timestampEnd: 0,
     };
   }
 
   ngOnInit(): void {
     let userId: number = Number(localStorage.getItem('userId'));
     this.getComments(userId);
+    this.getFollowersComments(userId);
 
-    this.socialService.getUpdatedCommentsForUserId.subscribe(uid => {
+    this.socialService.getUpdatedCommentsForUserId.subscribe((uid) => {
       if (userId == uid) {
         this.getComments(uid);
       }
@@ -49,7 +48,13 @@ export class SocialComponent implements OnInit {
   }
 
   async getComments(userId: number) {
-    this.currentUsersComments = await this.socialService.getCommentsByUserId(userId);
+    this.currentUsersComments = await this.socialService.getCommentsByUserId(
+      userId
+    );
   }
 
+  async getFollowersComments(userId: number) {
+    this.currentUsersFollowersComments =
+      await this.socialService.getCommentsFromFollowing(userId);
+  }
 }

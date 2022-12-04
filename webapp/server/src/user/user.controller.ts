@@ -149,6 +149,28 @@ export class UserController {
     }
   }
 
+  @Get(':userId/follows/comments')
+  async getCommentsFromFollowees(
+    @Param('userId') userId: number,
+  ): Promise<CommentDto[]> {
+    try {
+      let followIds: number[] = await (
+        await this.followService.getUsersFollowees(userId)
+      ).map((f) => f.followeeId);
+
+      let comments: CommentDto[] = await this.commentService.getCommentsByUsers(
+        followIds,
+      );
+
+      return comments;
+    } catch (error) {
+      throw new HttpException(
+        'Error in getting users followees comments',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Post(':followerId/follows/:followeeId')
   async createFollow(@Param() params): Promise<FollowDto> {
     let followDto: FollowDto = await this.followService.create(
