@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobileapp/screens/queue.dart';
+import 'package:mobileapp/screens/discover.dart';
 
 void main() {
   runApp(CastifyApp());
@@ -34,7 +35,7 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Index 0: Discover'),
+    DiscoverScreen(),
     QueueScreen(),
     Text('Index 2: Library'),
   ];
