@@ -1,0 +1,84 @@
+# schema.graphql
+
+// ------------------------------------------------------------
+// --------------------- Scalar Types -------------------------
+// ------------------------------------------------------------
+
+scalar Date
+
+// ------------------------------------------------------------
+// --------------------- Object Types -------------------------
+// ------------------------------------------------------------
+
+type User {
+    id: ID!
+    username: String!
+    email: String!
+    password: String!
+
+    firstName: String
+    lastName: String
+    joinDate: Date
+    lastLoginDate: Date
+    profileImage: String
+    bio: String
+
+    token: String
+}
+
+type FollowerRelation {
+    follower: User!
+    followed: User!
+    since: Date!
+}
+
+type UserShowRelation {
+    user: User!
+    show: PodcastShow!
+    followedSince: Date!
+}
+
+type UserPlaylistRelation {
+    user: User!
+    playlist: Playlist!
+    createdOn: Date!
+}
+
+type PodcastShow {
+    id: ID!
+    title: String!
+    episodes: [Episode]
+    followers: [UserShowRelation]
+    # ... other fields ...
+}
+
+type Playlist {
+    id: ID!
+    title: String!
+    episodes: [Episode]
+    creator: UserPlaylistRelation
+    # ... other fields ...
+}
+
+type Episode {
+    id: ID!
+    title: String!
+    # ... other fields ...
+}
+
+// ------------------------------------------------------------
+// -------------------- Mutation Types ------------------------
+// ------------------------------------------------------------
+
+type Mutation {
+    register(username: String!, email: String!, password: String!): User!
+    login(email: String!, password: String!): User!
+}
+
+// ------------------------------------------------------------
+// ---------------------- Query Types -------------------------
+// ------------------------------------------------------------
+
+type Query {
+    currentUser: User
+}
