@@ -5,6 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const customScalar = require('./customScalar');
 
+require('dotenv').config();
+
 const JWT_SECRET = 'MY_SECRET_KEY'; // TODO move to environment variable
 
 // ------------------------------------------------------------
