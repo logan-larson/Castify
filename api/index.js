@@ -1,11 +1,12 @@
-const express = require('express');
-const { ApolloServer, gql } = require('apollo-server-express');
-const neo4j = require('neo4j-driver');
-const fs = require('fs');
-const path = require('path');
-const customScalar = require('./customScalar');
+import express from 'express';
+import { ApolloServer, gql } from 'apollo-server-express';
+import neo4j from 'neo4j-driver';
+import fs from 'fs';
+import path from 'path';
+import { dateScalar } from './customScalar.js';
 
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const JWT_SECRET = 'MY_SECRET_KEY'; // TODO move to environment variable
 
@@ -39,8 +40,8 @@ const checkAuth = (context) => {
 
 // TODO: Move these strings to the dotenv eventually
 const driver = neo4j.driver(
-    'neo4j+s://dfd491da.databases.neo4j.io',
-    neo4j.auth.basic('neo4j', '50UlO0OckDcxTiAjvRhwAAXDTorkKmq3a7bHbFotQQ4')
+    process.env.NEO4J_URL,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
 );
 
 // ------------------------------------------------------------
@@ -57,15 +58,20 @@ const resolvers = {
             const hashedPassword = await bcrypt.hash(password, 12);
 
             // 2. Save the user to the DB
-            // TODO: this is a dummy response for now
-            const user = {
-                id: '123',
-                email: 'loganlarson@castify.com',
-                username: 'logan-larson',
-                password: 'Admin123',
-                firstName: 'Logan',
-                lastName: 'Larson'
-            };
+            const session = driver.session();
+
+            let user;
+
+            try {
+                const result = await session.run(
+                    'CREATE (u:User { username: $username, email: $email, password: $hashedPassword }) RETURN u',
+                    { username, email, hashedPassword }
+                );
+
+                user = result.records[0].get('u').properties;
+            } finally {
+                session.close();
+            }
 
             // 3. Create a JWT token
             const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
@@ -125,9 +131,20 @@ const resolvers = {
             }
         },
     },
-    Date: customScalar.Date,
+    Date: dateScalar,
     Query: {
         hello: () => 'Hello, world!',
+        user: async (_, args, context) => {
+            const userId = context.userId;
+
+            const session = driver.session();
+
+            try {
+                const result = await session.run();
+            } finally {
+                session.close();
+            }
+        },
     },
 };
 

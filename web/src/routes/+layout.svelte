@@ -1,13 +1,20 @@
 <script>
 	import {goto} from "$app/navigation";
 	import {onMount} from "svelte";
+    import { client } from "$lib/utils/apollo-client";
+    import { GetUser } from "$lib/queries/userQueries";
 
-    let isAuthenticated = false;
+
+    let user;
 
     let drawerOpen = true;
 
-    onMount(() => {
-        // Make API call to 
+    onMount(async () => {
+        try {
+            const { data } = await client.query({ query: GetUser });
+        } catch (error) {
+
+        }
     });
 
     function toggleDrawer() {
@@ -17,7 +24,7 @@
 
 <div class="header">
   <button on:click={toggleDrawer}>Toggle Drawer</button>
-  <h1>My SvelteKit App</h1> 
+  <h1>Castify</h1> 
 </div>
 
 <div class="drawer" class:open={drawerOpen}>
