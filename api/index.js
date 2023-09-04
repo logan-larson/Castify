@@ -3,12 +3,20 @@ import { ApolloServer, gql } from 'apollo-server-express';
 import neo4j from 'neo4j-driver';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { dateScalar } from './customScalar.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+// ------------------------------------------------------------
+// ---------------------- Configuration -----------------------
+// ------------------------------------------------------------
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import dotenv from 'dotenv';
 dotenv.config();
-
-const JWT_SECRET = 'MY_SECRET_KEY'; // TODO move to environment variable
 
 // ------------------------------------------------------------
 // --------------------- Auth Middleware ----------------------
@@ -22,7 +30,7 @@ const checkAuth = (context) => {
 
     let decodedToken;
     try {
-        decodedToken = jwt.verify(token, JWT_SECRET);
+        decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
         throw new Error('Authentication failed!');
     }
@@ -38,9 +46,11 @@ const checkAuth = (context) => {
 // ------------------------- Neo4j ----------------------------
 // ------------------------------------------------------------
 
-// TODO: Move these strings to the dotenv eventually
+// TODO: Perform null checks on them
 const driver = neo4j.driver(
+    // @ts-ignore
     process.env.NEO4J_URL,
+    // @ts-ignore
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
 );
 
@@ -74,46 +84,50 @@ const resolvers = {
             }
 
             // 3. Create a JWT token
-            const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
             return {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                token: token
+                token,
+                user
             };
         },
-        async login(_, { email, password }, context) {
+        async login(_, { username, password }, context) {
             // 1. Check if the user exists in the DB
-            // TODO: this is a dummy response for now
-            const user = {
-                id: '123',
-                email: 'loganlarson@castify.com',
-                username: 'logan-larson',
-                password: 'Admin123',
-                firstName: 'Logan',
-                lastName: 'Larson'
-            };
+            const session = driver.session();
 
-            // 2. Check if password is correct
-            const match = await bcrypt.compare(password, user.password);
-            if (!match) {
-                throw new Error('Wrong credentials!');
+            try {
+                const result = await session.run(
+                    'MATCH (u: User { username: $username }) RETURN u',
+                    { username }
+                )
+
+                const userRecord = result.records[0];
+
+                if (!userRecord) {
+                    throw new Error("Username not found");
+                }
+
+                const user = userRecord.get('user').properties;
+
+                // 2. Check if password is correct
+                const match = await bcrypt.compare(password, user.password);
+                if (!match) {
+                    throw new Error('Incorrect password');
+                }
+
+                // 3. Create a JWT token
+                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+                return {
+                    token,
+                    user
+                };
+            } catch (error) {
+                throw error;
+            } finally {
+                session.close();
             }
 
-            // 3. Create a JWT token
-            const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
-
-            return {
-                id: user.id,
-                email: user.email,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                token: token
-            };
         },
         changeUsername: async (_, args, context) => {
             const userData = checkAuth(context);
@@ -140,7 +154,7 @@ const resolvers = {
             const session = driver.session();
 
             try {
-                const result = await session.run();
+                //const result = await session.run();
             } finally {
                 session.close();
             }
@@ -174,9 +188,8 @@ const startServer = async () => {
     server.applyMiddleware({ app });
 
     // Start the server
-    const PORT = 4000;
-    app.listen({ port: PORT }, () => {
-        console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+    app.listen({ port: process.env.PORT }, () => {
+        console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
     });
 
 }

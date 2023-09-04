@@ -1,12 +1,14 @@
 import jwt from 'jsonwebtoken';
 //import { JWT_SECRET } from './config';
-import { GetUser } from "$lib/queries/userQueries";
+import { GET_USER } from "$lib/queries/userQueries";
 
 const JWT_SECRET = 'MY_JWT_SECRET_FOR_NOW';
 
 
 export async function load({ request }) {
-    const { yourCookieName } = request.headers.cookie;
+    //const { yourCookieName } = request.headers.;
+    const yourCookieName = "cookie";
+    
     let userId;
 
     // Decode the JWT to get the user ID
@@ -26,6 +28,9 @@ export async function load({ request }) {
     }
 }
 
+/**
+ * @param {any} userId
+ */
 async function fetchUserDataWithUserId(userId) {
     const response = await fetch('/your-graphql-endpoint', {
         method: 'POST',
@@ -33,7 +38,7 @@ async function fetchUserDataWithUserId(userId) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            query: GetUser,
+            query: GET_USER,
             variables: { id: userId }
         })
     });

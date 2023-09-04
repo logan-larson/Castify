@@ -1,40 +1,72 @@
 <script>
-	import {goto} from "$app/navigation";
-	import {onMount} from "svelte";
-    import { client } from "$lib/utils/apollo-client";
-    import { GetUser } from "$lib/queries/userQueries";
+  // @ts-nocheck
+	import { goto } from "$app/navigation";
+	import { onMount } from "svelte";
+  import { query } from "$lib/utils/graphql-client";
+  import { GET_USER } from "$lib/queries/userQueries";
+  import AuthModal from "./AuthModal.svelte";
+	import Modal from "$lib/components/Modal.svelte";
+  import { authTitle } from './auth';
+  import { user } from '$lib/stores/user';
 
+  let drawerOpen = true;
+  let showAuthModal = false;
 
-    let user;
+  onMount(async () => {
+      const userId = localStorage.getItem("userId");
 
-    let drawerOpen = true;
+      if (userId === null) {
+        user.login(null);
+        return;
+      }
 
-    onMount(async () => {
-        try {
-            const { data } = await client.query({ query: GetUser });
-        } catch (error) {
+      try {
+          const { data } = await query({
+            query: GET_USER,
+            variables: { id: userId },
+          });
 
-        }
-    });
+          user.login(data.user);
+      } catch (error) {
+        console.error('Error: fetching user data', error);
+      }
+  });
 
-    function toggleDrawer() {
-        drawerOpen = !drawerOpen;
-    }
+  function toggleDrawer() {
+      drawerOpen = !drawerOpen;
+  }
+
+  function openAuthModal() {
+    showAuthModal = true;
+  }
+
+  function closeAuthModal() {
+    showAuthModal = false;
+  }
 </script>
 
 <div class="header">
   <button on:click={toggleDrawer}>Toggle Drawer</button>
+  <button on:click={openAuthModal}>Login</button>
   <h1>Castify</h1> 
 </div>
 
 <div class="drawer" class:open={drawerOpen}>
-  <!-- Add drawer content here -->
-  <p>Drawer Content</p>
+  {#if $user}
+    <p>Hello, {$user.username}!</p>
+  {:else}
+    <p>Not logged in</p>
+  {/if}
 </div>
 
 <div class="content" class:shifted={!drawerOpen}>
     <slot></slot>
 </div>
+
+  
+<Modal show={showAuthModal} title={$authTitle} on:close={closeAuthModal}>
+  <AuthModal />
+</Modal>
 
 <style>
   .header {
