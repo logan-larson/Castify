@@ -1,7 +1,7 @@
 <script>
   import { authTitle } from './auth';
   import { onMount } from 'svelte';
-  import { query } from "$lib/utils/graphql-client";
+  import { query, registerQuery } from "$lib/utils/graphql-client";
   import { LOGIN_USER, REGISTER_USER } from "$lib/queries/userQueries";
   import { user } from '$lib/stores/user';
   import { createEventDispatcher } from 'svelte';
@@ -53,16 +53,23 @@
   async function register() {
     // handle register
     try {
-      const { data } = await query({
-        query: REGISTER_USER,
+      const response = await registerQuery();
+
+      /*
+      const response = await query(
+        REGISTER_USER,
+        {
         variables: { 
           username: username,
           email: email,
           password: password
         },
       });
+      */
 
-      user.login(data.user);
+      const { register } = response;
+
+      user.login(register);
       dispatch('close');
     } catch (error) {
       console.error('Error: fetching user data', error);

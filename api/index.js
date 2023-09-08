@@ -74,22 +74,24 @@ const resolvers = {
 
             try {
                 const result = await session.run(
-                    'CREATE (u:User { username: $username, email: $email, password: $hashedPassword }) RETURN u',
+                    'CREATE (u:User { id: randomUUID(), username: $username, email: $email, password: $hashedPassword })  RETURN u',
                     { username, email, hashedPassword }
                 );
 
                 user = result.records[0].get('u').properties;
+
+                // 3. Create a JWT token
+                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+                session.close();
+
+                return {
+                    token,
+                    user
+                };
             } finally {
                 session.close();
             }
-
-            // 3. Create a JWT token
-            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-            return {
-                token,
-                user
-            };
         },
         async login(_, { username, password }, context) {
             // 1. Check if the user exists in the DB

@@ -22,7 +22,7 @@ export const LOGIN_USER = `
 
 export const REGISTER_USER = `
   mutation RegisterUser($username: String!, $email: String!, $password: String!) {
-    registerUser(username: $username, email: $email, password: $password) {
+    register(username: $username, email: $email, password: $password) {
       id
       username
       email
