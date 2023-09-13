@@ -11,10 +11,10 @@ export function registerQuery() {
       query: `
         mutation RegisterUser($username: String!, $email: String!, $password: String!) {
           register(username: $username, email: $email, password: $password) {
-            id
-            username
-            email
             token
+            user {
+              username
+            }
           }
         }
       `,

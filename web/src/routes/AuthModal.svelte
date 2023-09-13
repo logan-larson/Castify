@@ -53,23 +53,19 @@
   async function register() {
     // handle register
     try {
-      const response = await registerQuery();
 
-      /*
       const response = await query(
         REGISTER_USER,
         {
-        variables: { 
           username: username,
           email: email,
           password: password
-        },
-      });
-      */
+        }
+      );
 
       const { register } = response;
 
-      user.login(register);
+      user.login(register.user);
       dispatch('close');
     } catch (error) {
       console.error('Error: fetching user data', error);
