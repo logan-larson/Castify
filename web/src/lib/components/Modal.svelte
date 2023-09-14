@@ -5,6 +5,11 @@
 
   export let show = false;
   export let title = '';
+
+  function close() {
+    console.log('closing from modal');
+    dispatch("close");
+  }
 </script>
 
 {#if show}
@@ -12,7 +17,7 @@
     <div class="modal">
       <h2>{title}</h2>
       <button class="close" on:click={() => { dispatch("close") }}>x</button>
-      <slot></slot> <!-- This is where the content will be injected -->
+      <slot {close}></slot> <!-- This is where the content will be injected -->
     </div>
   </div>
 {/if}

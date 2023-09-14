@@ -6,7 +6,10 @@
   import { user } from '$lib/stores/user';
   import { createEventDispatcher } from 'svelte';
 
-  const dispatch = createEventDispatcher();
+  /**
+	 * @type {() => void}
+	 */
+  export let close;
 
   let isLogin = true;
   let email = '';
@@ -44,7 +47,6 @@
       });
 
       user.login(data.user);
-      dispatch('close');
     } catch (error) {
       console.error('Error: fetching user data', error);
     }
@@ -66,7 +68,7 @@
       const { register } = response;
 
       user.login(register.user);
-      dispatch('close');
+      close();
     } catch (error) {
       console.error('Error: fetching user data', error);
     }

@@ -65,7 +65,7 @@
 </div>
 
 <Modal show={showAuthModal} title={$authTitle} on:close={closeAuthModal}>
-	<AuthModal />
+	<AuthModal close={ () => showAuthModal = false } />
 </Modal>
 
 <style>
