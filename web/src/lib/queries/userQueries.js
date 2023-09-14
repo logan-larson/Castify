@@ -11,11 +11,13 @@ export const GET_USER = `
 
 export const LOGIN_USER = `
   mutation LoginUser($username: String!, $password: String!) {
-    loginUser(username: $username, password: $password) {
-      id
-      username
-      email
+    login(username: $username, password: $password) {
       token
+      user {
+        id
+        username
+        email
+      }
     }
   }
 `;

@@ -38,15 +38,20 @@
   async function login() {
     // handle login
     try {
-      const { data } = await query({
-        query: LOGIN_USER,
-        variables: { 
-          email: email,
+      const response = await query(
+        LOGIN_USER,
+        { 
+          username: username,
           password: password
         },
-      });
+      );
+      console.log(response);
 
-      user.login(data.user);
+      const { login } = response;
+
+      console.log(login);
+      user.login(login.user);
+      close();
     } catch (error) {
       console.error('Error: fetching user data', error);
     }
@@ -76,7 +81,7 @@
 </script>
 
 {#if isLogin}
-  <input type="email" bind:value={email} placeholder="Email" />
+  <input type="text" bind:value={username} placeholder="Username" />
   <input type="password" bind:value={password} placeholder="Password" />
   <button on:click={login}>Login</button>
   <p>Don't have an account? <a href="#top" on:click={toggleForm}>Register</a></p>

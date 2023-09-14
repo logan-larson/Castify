@@ -109,7 +109,7 @@ const resolvers = {
                     throw new Error("Username not found");
                 }
 
-                const user = userRecord.get('user').properties;
+                const user = userRecord.get('u').properties;
 
                 // 2. Check if password is correct
                 const match = await bcrypt.compare(password, user.password);
