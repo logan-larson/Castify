@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 import { dateScalar } from './customScalar.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 // ------------------------------------------------------------
 // ---------------------- Configuration -----------------------
@@ -16,6 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 import dotenv from 'dotenv';
+import { verify } from 'crypto';
 dotenv.config();
 
 // ------------------------------------------------------------
@@ -83,6 +86,12 @@ const resolvers = {
                 // 3. Create a JWT token
                 const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+                context.res.cookie('jwt', token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'Strict',
+                });
+
                 session.close();
 
                 return {
@@ -120,6 +129,12 @@ const resolvers = {
                 // 3. Create a JWT token
                 const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+                context.res.cookie('jwt', token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'Strict',
+                });
+
                 return {
                     token,
                     user
@@ -150,10 +165,17 @@ const resolvers = {
     Date: dateScalar,
     Query: {
         hello: () => 'Hello, world!',
-        user: async (_, args, context) => {
-            const userId = context.userId;
+        user: async (_, { id }, context) => {
+            // Authenticate the route??
+            /*
+            if (!context.req.user) {
+                throw new Error('Authentication required');
+            }
+            */
 
             const session = driver.session();
+
+            // Get the user from the database by ID
 
             try {
                 //const result = await session.run();
@@ -175,8 +197,8 @@ const startServer = async () => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: ({ req }) => {
-            return { req };
+        context: ({ req, res }) => {
+            return { req, res };
         }
     });
 
@@ -185,6 +207,31 @@ const startServer = async () => {
 
     // Initialize Express
     const app = express();
+
+    app.use(cors({
+        origin: 'http://localhost:5173',
+        credentials: true
+    }));
+
+    app.use(cookieParser());
+
+    /*
+    app.use((req, res, next) => {
+        const token = req.cookies['jwt'];
+        if (token) {
+            try {
+                const user = verify(token, process.env.JWT_SECRET);
+                req.user = user;
+            } catch (e) {
+                console.error('Token verification failed', e);
+                res.clearCookie('jwt');
+                req.user = null;
+                // Token verification failed
+            }
+        }
+        next();
+    });
+    */
 
     // Apply Apollo middleware to Express
     server.applyMiddleware({ app });

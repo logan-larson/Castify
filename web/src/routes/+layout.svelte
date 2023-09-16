@@ -14,6 +14,14 @@
 	let showAuthModal = false;
 
 	onMount(async () => {
+		/*
+		load().then(({ props }) => {
+			user.login(props.user);
+		})catch(error => {
+			console.error('Error loading user data', error);
+		});
+		*/
+
 		const userId = localStorage.getItem('userId');
 
 		if (userId === null) {

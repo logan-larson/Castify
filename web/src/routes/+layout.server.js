@@ -1,22 +1,31 @@
 import jwt from 'jsonwebtoken';
-//import { JWT_SECRET } from './config';
 import { GET_USER } from "$lib/queries/userQueries";
+import { query } from "$lib/utils/graphql-client";
 
-const JWT_SECRET = 'MY_JWT_SECRET_FOR_NOW';
-
+const JWT_SECRET = import.meta.env.JWT_SECRET;
 
 export async function load({ request }) {
-    //const { yourCookieName } = request.headers.;
-    const yourCookieName = "cookie";
+    const cookies = request.headers.cookie;
+    let token;
+
+    if (cookies) {
+        const cookieArray = cookies.split(';');
+        cookieArray.forEach((cookie) => {
+            const [key, value] = cookie.split('=');
+            if (key.trim() === 'jwt') {
+                token = value;
+            }
+        });
+    }
     
     let userId;
 
-    // Decode the JWT to get the user ID
     try {
-        const decodedToken = jwt.verify(yourCookieName, JWT_SECRET);
+        const decodedToken = jwt.verify(token, JWT_SECRET);
         userId = decodedToken.userId;
     } catch (error) {
-        return null;
+        console.error('JWT verification failed', error);
+        return { props: { user: null } };
     }
 
     const user = await fetchUserDataWithUserId(userId);
@@ -32,17 +41,14 @@ export async function load({ request }) {
  * @param {any} userId
  */
 async function fetchUserDataWithUserId(userId) {
-    const response = await fetch('/your-graphql-endpoint', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            query: GET_USER,
-            variables: { id: userId }
-        })
-    });
+    const response = await query(
+        GET_USER,
+        {
+            id: userId,
+        }
+    );
 
-    const data = await response.json();
-    return data.data.user;
+    const { user } = response;
+
+    return user;
 }

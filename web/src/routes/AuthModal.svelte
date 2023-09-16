@@ -1,7 +1,7 @@
 <script>
   import { authTitle } from './auth';
   import { onMount } from 'svelte';
-  import { query, registerQuery } from "$lib/utils/graphql-client";
+  import { query } from "$lib/utils/graphql-client";
   import { LOGIN_USER, REGISTER_USER } from "$lib/queries/userQueries";
   import { user } from '$lib/stores/user';
   import { createEventDispatcher } from 'svelte';
