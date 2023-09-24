@@ -1,7 +1,9 @@
+import { localStorageStore } from '@skeletonlabs/skeleton';
+
 import { writable, get } from 'svelte/store'
 
 export const audioPlayer = writable();
-export const currentEpisode = writable({ file: '' });
+export const currentEpisode = localStorageStore('currentEpisode', { url: '' });
 
 export const status = writable('default');
 
@@ -17,21 +19,3 @@ const createIsPlaying = () => {
 };
 
 export const isPlaying = createIsPlaying();
-
-export const episodeList = writable([
-	{
-		title: 'Requiem in D minor, K. 626',
-		description: 'Wolfgang Amadeus Mozart',
-		url: 'https://sveltejs.github.io/assets/music/mozart.mp3',
-	},
-	{
-		title: 'Symphony no. 5 in Cm, Op. 67',
-		description: 'Ludwig van Beethoven',
-		url: 'https://sveltejs.github.io/assets/music/beethoven.mp3',
-	},
-	{
-		title: 'Mars, the Bringer of War',
-		description: 'Gustav Holst',
-		url: 'https://sveltejs.github.io/assets/music/holst.mp3',
-	}
-]);
