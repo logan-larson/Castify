@@ -8,7 +8,7 @@
 	import AuthModal from './AuthModal.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { authTitle } from './auth';
-	import { user } from '$lib/stores/user';
+	import { currentUser } from '$lib/stores/user';
 
 	let drawerOpen = true;
 	let showAuthModal = false;
@@ -25,7 +25,7 @@
 		const userId = localStorage.getItem('userId');
 
 		if (userId === null) {
-			user.login(null);
+			currentUser.login(null);
 			return;
 		}
 
@@ -35,7 +35,7 @@
 				variables: { id: userId }
 			});
 
-			user.login(data.user);
+			currentUser.login(data.user);
 		} catch (error) {
 			console.error('Error: fetching user data', error);
 		}
@@ -61,8 +61,8 @@
 </div>
 
 <div class="drawer" class:open={drawerOpen}>
-	{#if $user}
-		<p>Hello, {$user.username}!</p>
+	{#if $currentUser}
+		<p>Hello, {$currentUser.username}!</p>
 	{:else}
 		<p>Not logged in</p>
 	{/if}

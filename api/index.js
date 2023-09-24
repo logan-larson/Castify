@@ -1,6 +1,6 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
-import neo4j from 'neo4j-driver';
+import neo4j, { session } from 'neo4j-driver';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,6 +9,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import morgan from 'morgan';
 
 // ------------------------------------------------------------
 // ---------------------- Configuration -----------------------
@@ -26,23 +27,21 @@ dotenv.config();
 // ------------------------------------------------------------
 
 const checkAuth = (context) => {
-    const token = context.req.headers.authorization;
+    //const token = context.req.headers.authorization;
+    //console.log(context.req);
+    const token = context.req.cookies['jwt'];
     if (!token) {
+        console.log("Auth failed, no jwt");
         throw new Error('Authentication failed!');
     }
 
-    let decodedToken;
     try {
-        decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const user = jwt.verify(token, process.env.JWT_SECRET);
+        return user.jwt;
     } catch (error) {
+        console.log("Auth failed, invalid jwt");
         throw new Error('Authentication failed!');
     }
-
-    if (!decodedToken) {
-        throw new Error('Authentication failed!');
-    }
-
-    return decodedToken;
 };
 
 // ------------------------------------------------------------
@@ -62,8 +61,11 @@ const driver = neo4j.driver(
 // ------------------------------------------------------------
 
 // GraphQL type definitions
-const typeDefs = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8');
+const typeDefs = fs.readFileSync(path.join(__dirname, 'graphql', 'typeDefs.gql'), 'utf8');
 
+const resolvers = {};
+
+/*
 const resolvers = {
     Mutation: {
         async register(_, { username, email, password }, context) {
@@ -89,7 +91,7 @@ const resolvers = {
                 context.res.cookie('jwt', token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'Strict',
+                    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
                 });
 
                 session.close();
@@ -132,7 +134,7 @@ const resolvers = {
                 context.res.cookie('jwt', token, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'Strict',
+                    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
                 });
 
                 return {
@@ -165,26 +167,47 @@ const resolvers = {
     Date: dateScalar,
     Query: {
         hello: () => 'Hello, world!',
-        user: async (_, { id }, context) => {
-            // Authenticate the route??
-            /*
-            if (!context.req.user) {
-                throw new Error('Authentication required');
-            }
-            */
+        getCurrentUser: async (_, __, context) => {
+            // 1. Check if user is authenticated
+            const authUser = checkAuth(context);
+
+            const authUserId = authUser.id;
+
+            //console.log(authUserId);
 
             const session = driver.session();
 
-            // Get the user from the database by ID
-
             try {
-                //const result = await session.run();
+                // 2. Get the user from the database by ID
+                const result = await session.run(
+                    'MATCH (u:User {id: $id}) RETURN u',
+                    { 
+                        authUserId
+                    }
+                );
+
+                const user = result.records[0].get('u').properties;
+
+                // 3. Refresh the JWT token
+                const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+                context.res.cookie('jwt', token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: process.env.NODE_ENV === 'production' ? 'Strict' : 'Lax',
+                });
+
+                return {
+                    token,
+                    user
+                };
             } finally {
                 session.close();
             }
         },
     },
 };
+*/
 
 
 // ------------------------------------------------------------
@@ -197,44 +220,43 @@ const startServer = async () => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: ({ req, res }) => {
-            return { req, res };
-        }
+        context: ({ req, res }) => ({ req, res })
     });
 
     // Start Apollo Server
     await server.start();
 
+    // Connect to Neo4j??
+
+
     // Initialize Express
     const app = express();
 
-    app.use(cors({
-        origin: 'http://localhost:5173',
-        credentials: true
-    }));
 
-    app.use(cookieParser());
+    // Middleware
+
+    //app.use(cookieParser());
 
     /*
     app.use((req, res, next) => {
-        const token = req.cookies['jwt'];
-        if (token) {
-            try {
-                const user = verify(token, process.env.JWT_SECRET);
-                req.user = user;
-            } catch (e) {
-                console.error('Token verification failed', e);
-                res.clearCookie('jwt');
-                req.user = null;
-                // Token verification failed
-            }
-        }
+        console.log("Cookies: ", req.cookies);
         next();
-    });
+    })
     */
 
+    //app.use(morgan('dev'));
+
     // Apply Apollo middleware to Express
-    server.applyMiddleware({ app });
+    server.applyMiddleware({
+        app,
+        /*
+        cors: {
+            origin: ['http://localhost:5173', 'https://studio.apollographql.com'],
+            credentials: true,
+            allowedHeaders: ['Content-Type', 'Authorization']
+        }
+        */
+    });
 
     // Start the server
     app.listen({ port: process.env.PORT }, () => {

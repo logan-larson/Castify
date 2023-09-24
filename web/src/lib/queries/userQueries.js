@@ -1,4 +1,15 @@
 
+export const GET_CURRENT_USER = `
+  query GetCurrentUser {
+      getCurrentUser {
+        token
+        id
+        username
+        email
+      }
+  }
+`;
+
 export const GET_USER = `
     query GetUser($id: ID!) {
         user(id: $id) {
@@ -10,27 +21,23 @@ export const GET_USER = `
 `;
 
 export const LOGIN_USER = `
-  mutation LoginUser($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+  mutation LoginUser($loginInput: LoginInput!) {
+    loginUser(loginInput: $loginInput) {
+      id
+      username
+      email
       token
-      user {
-        id
-        username
-        email
-      }
     }
   }
 `;
 
 export const REGISTER_USER = `
-  mutation RegisterUser($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password) {
+  mutation RegisterUser($registerInput: RegisterInput!) {
+    registerUser(registerInput: $registerInput) {
+      id
+      username
+      email
       token
-      user {
-        id
-        username
-        email
-      }
     }
   }
 `;

@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import { query } from "$lib/utils/graphql-client";
   import { LOGIN_USER, REGISTER_USER } from "$lib/queries/userQueries";
-  import { user } from '$lib/stores/user';
+  import { currentUser } from '$lib/stores/user';
   import { createEventDispatcher } from 'svelte';
 
   /**
@@ -41,16 +41,19 @@
       const response = await query(
         LOGIN_USER,
         { 
-          username: username,
-          password: password
+          loginInput: {
+            email: email,
+            password: password
+          }
         },
       );
-      console.log(response);
 
-      const { login } = response;
+      const { loginUser } = response;
 
-      console.log(login);
-      user.login(login.user);
+      currentUser.login(loginUser); // set user in store
+
+      //localStorage.setItem('userId', loginUser.id); // set user id in local storage
+
       close();
     } catch (error) {
       console.error('Error: fetching user data', error);
@@ -64,15 +67,18 @@
       const response = await query(
         REGISTER_USER,
         {
-          username: username,
-          email: email,
-          password: password
+          registerInput: {
+            username: username,
+            email: email,
+            password: password
+          }
         }
       );
 
       const { register } = response;
 
-      user.login(register.user);
+      currentUser.login(register.user);
+
       close();
     } catch (error) {
       console.error('Error: fetching user data', error);
@@ -81,7 +87,7 @@
 </script>
 
 {#if isLogin}
-  <input type="text" bind:value={username} placeholder="Username" />
+  <input type="text" bind:value={email} placeholder="Email" />
   <input type="password" bind:value={password} placeholder="Password" />
   <button on:click={login}>Login</button>
   <p>Don't have an account? <a href="#top" on:click={toggleForm}>Register</a></p>

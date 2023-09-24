@@ -13,4 +13,4 @@ const createUserStore = () => {
   };
 }
 
-export const user = createUserStore();
+export const currentUser = createUserStore();

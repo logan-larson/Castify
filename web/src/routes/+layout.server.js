@@ -1,34 +1,30 @@
 import jwt from 'jsonwebtoken';
-import { GET_USER } from "$lib/queries/userQueries";
+import { GET_CURRENT_USER } from "$lib/queries/userQueries";
 import { query } from "$lib/utils/graphql-client";
+import { currentUser } from '$lib/stores/user.js';
 
-const JWT_SECRET = import.meta.env.JWT_SECRET;
+//const JWT_SECRET = import.meta.env.JWT_SECRET;
+const JWT_SECRET = "MY_SUPER_SECRET_KEY";
 
-export async function load({ request }) {
-    const cookies = request.headers.cookie;
-    let token;
+export async function load({ cookies }) {
+    let token = cookies.get('jwt');
 
-    if (cookies) {
-        const cookieArray = cookies.split(';');
-        cookieArray.forEach((cookie) => {
-            const [key, value] = cookie.split('=');
-            if (key.trim() === 'jwt') {
-                token = value;
-            }
-        });
+    if (!token) {
+        return null;
     }
-    
+
     let userId;
 
     try {
         const decodedToken = jwt.verify(token, JWT_SECRET);
-        userId = decodedToken.userId;
+        console.log("Decoded token", decodedToken);
+        userId = decodedToken.user_id;
     } catch (error) {
         console.error('JWT verification failed', error);
         return { props: { user: null } };
     }
 
-    const user = await fetchUserDataWithUserId(userId);
+    const user = await fetchUserDataWithUserId();
 
     return {
         props: {
@@ -37,18 +33,23 @@ export async function load({ request }) {
     }
 }
 
-/**
- * @param {any} userId
- */
-async function fetchUserDataWithUserId(userId) {
-    const response = await query(
-        GET_USER,
-        {
-            id: userId,
-        }
-    );
+async function fetchUserDataWithUserId() {
+    console.log("Fetching user data with user id");
 
-    const { user } = response;
+    try {
+        const response = await query(
+            GET_CURRENT_USER,
+        );
 
-    return user;
+        console.log(response);
+
+        const { user } = response;
+
+        console.log(user);
+
+        return user;
+    } catch (error) {
+        //console.error(error);
+        return null;
+    }
 }
