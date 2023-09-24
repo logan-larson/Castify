@@ -1,28 +1,81 @@
-<script lang="ts">
+<script>
+	import { query } from '$lib/utils/graphql-client';
+	import { LOGIN_USER, REGISTER_USER } from '$lib/queries/userQueries';
+	import { currentUser } from '$lib/stores/user';
+
 	// Props
 	/** Exposes parent props to this component. */
-	export let parent: any;
+	export let parent;
 
 	// Stores
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	const modalStore = getModalStore();
 
+	// State
+	let isLogin = true;
+
 	// Form Data
 	const formData = {
-		name: 'Jane Doe',
-		tel: '214-555-1234',
-		email: 'jdoe@email.com'
+		email: '',
+		username: '',
+		password: '',
 	};
 
-	// We've created a custom submit function to pass the response and close the modal.
-	function onFormSubmit(): void {
-		if ($modalStore[0].response) $modalStore[0].response(formData);
-		modalStore.close();
+	function onFormSubmit() {
+		if (isLogin) {
+			login();
+		} else {
+			register();
+		}
+	}
+
+	async function login() {
+		try {
+			const response = await query(
+				LOGIN_USER,
+				{ 
+					loginInput: {
+						email: formData.email,
+						password: formData.password
+					}
+				},
+			);
+
+			const { loginUser } = response;
+
+			currentUser.login(loginUser); // set user in store
+
+			modalStore.close();
+		} catch (error) {
+			console.error('Error: fetching user data', error);
+		}
+	}
+
+	async function register() {
+		try {
+			const response = await query(
+				REGISTER_USER,
+				{
+					registerInput: {
+						username: formData.username,
+						email: formData.email,
+						password: formData.password
+					}
+				}
+			);
+
+			const { register } = response;
+
+			currentUser.login(register.user);
+
+			modalStore.close();
+		} catch (error) {
+			console.error('Error: fetching user data', error);
+		}
 	}
 
 	// Base Classes
 	const cBase = 'card p-4 w-modal shadow-xl space-y-4';
-	const cHeader = 'text-2xl font-bold';
 	const cForm = 'border border-surface-500 p-4 space-y-4 rounded-container-token';
 </script>
 
@@ -30,27 +83,42 @@
 
 {#if $modalStore[0]}
 	<div class="modal-example-form {cBase}">
-		<header class={cHeader}>{$modalStore[0].title ?? '(title missing)'}</header>
-		<article>{$modalStore[0].body ?? '(body missing)'}</article>
+		<div class="flex justify-center">
+			<button
+				class:underline={isLogin}
+				class="btn btn-primary text-2xl font-bold"
+				style="text-underline-position: under"
+				on:click={() => { isLogin = true; }}
+				>Login</button>
+			<button
+				class:underline={!isLogin}
+				class="btn btn-primary text-2xl font-bold"
+				style="text-underline-position: under"
+				on:click={() => { isLogin = false; }}
+				>Register</button>
+		</div>
+
 		<!-- Enable for debugging: -->
 		<form class="modal-form {cForm}">
 			<label class="label">
-				<span>Name</span>
-				<input class="input" type="text" bind:value={formData.name} placeholder="Enter name..." />
-			</label>
-			<label class="label">
-				<span>Phone Number</span>
-				<input class="input" type="tel" bind:value={formData.tel} placeholder="Enter phone..." />
-			</label>
-			<label class="label">
 				<span>Email</span>
-				<input class="input" type="email" bind:value={formData.email} placeholder="Enter email address..." />
+				<input class="input" type="email" bind:value={formData.email} placeholder="Enter email..." />
+			</label>
+			{#if !isLogin}
+				<label class="label">
+					<span>Username</span>
+					<input class="input" type="text" bind:value={formData.username} placeholder="Enter username..." />
+				</label>
+			{/if}
+			<label class="label">
+				<span>Password</span>
+				<input class="input" type="password" bind:value={formData.password} placeholder="Enter password..." />
 			</label>
 		</form>
 		<!-- prettier-ignore -->
 		<footer class="modal-footer {parent.regionFooter}">
         <button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
-        <button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>Submit Form</button>
+        <button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>{isLogin ? "Login" : "Register"}</button>
     </footer>
 	</div>
 {/if}

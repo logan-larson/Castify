@@ -3,6 +3,8 @@
 	// Components
 	import { AppShell, AppBar, Avatar, Modal } from '@skeletonlabs/skeleton';
 	import AuthModal from '$lib/components/AuthModal.svelte';
+	import { query } from '$lib/utils/graphql-client';
+	import { LOGOUT_USER } from '$lib/queries/userQueries';
 	
 	// Lifecycle
 	import { onMount } from 'svelte';
@@ -22,15 +24,6 @@
 	const modalComponentRegistry = {
 		authModal: {
 			ref: AuthModal,
-			props: {
-				title: 'Login',
-				body: 'This is the body of the modal',
-				regionFooter: 'flex justify-end',
-				buttonTextCancel: 'Cancel',
-				buttonTextPositive: 'Submit',
-				buttonNeutral: 'btn-neutral',
-				buttonPositive: 'btn-positive'
-			},
 			slot: '<p>Slot content</p>'
 		}
 	};
@@ -45,11 +38,10 @@
 		const authModal = {
 			type: 'component',
 			component: 'authModal',
-		}
+			title: 'Login',
+		};
 
 		modalStore.trigger(authModal);
-
-		console.log('modalStore', modalStore);
 	}
 
 	function logout() {
@@ -70,22 +62,28 @@
 		<!-- App Bar -->
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
+				<strong class="text-xl uppercase">Castify</strong>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<!-- Profile or Login -->
 				{#if $currentUser}
 					<Avatar
+						width="w-10"
 						rounded="rounded-full"
 						cursor="cursor-pointer"
-						initials="$currentUser.username.substring(0, 1).toUppercase()"
+						initials="{$currentUser.username.substring(0, 1)}"
+						on:click={logout}
 					/>
 				{:else}
-					<button class="text-sm" on:click={openAuthModal}>Login</button>
+					<button class="btn variant-ghost-surface" on:click={openAuthModal}>Login</button>
 				{/if}
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<!-- Page Route Content -->
 	<slot />
+
+	<svelte:fragment slot="footer">
+		<p class="text-center mb-4">Media Player...</p>
+	</svelte:fragment>
 </AppShell>
