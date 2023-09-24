@@ -6,7 +6,7 @@
 	function play() {
 		isPlaying.play();
 		currentEpisode.set(episode);
-		$audioPlayer.src = episode.file;
+		$audioPlayer.src = episode.url;
 		$audioPlayer.play();
 	}
 	
@@ -16,9 +16,9 @@
 	}
 </script>
 
-<div class="bg-primary-500 shadow overflow-hidden sm:rounded-lg flex justify-between px-4">
+<div class="w-3/4 bg-primary-500 shadow overflow-hidden sm:rounded-lg flex justify-between px-4">
 	<div class="flex">
-		<img class="w-20 h-20 my-auto mx-3 rounded-full" src="{episode.image}" alt="Episode cover art" />
+		<img class="w-16 h-16 my-3 rounded-full" src="{episode.image}" alt="Episode cover art" />
 		<div class="px-1 py-5">
 			<h3 class="text-lg leading-6 font-medium text-gray-900 text-start">
 				{episode.title}

@@ -9,17 +9,17 @@
 	let paused = true;
 	let volume = 0.5;
 
-	let src = $currentEpisode.file;
+	let src = $currentEpisode.url;
 
 	onMount(() => {
-		//$audioPlayer.load();
+		$audioPlayer.load();
 	});
 
 	function play() {
 		if ($audioPlayer.src.length === 0) return;
 
-		if ($audioPlayer.src !== $currentEpisode.file) {
-			$audioPlayer.src = $currentEpisode.file;
+		if ($audioPlayer.src !== $currentEpisode.url) {
+			$audioPlayer.src = $currentEpisode.url;
 			$audioPlayer.load();
 		}
 
@@ -53,7 +53,7 @@
 	<!-- Currently playing episode details -->
 	<div class="flex">
 		<div class="flex gap-2 items-start">
-			{#if $currentEpisode.file.length > 0}
+			{#if $currentEpisode.url && $currentEpisode.url.length > 0}
 				<img class="w-20 h-20 rounded-full" src="{$currentEpisode.image}" alt="Episode cover art" />
 				<div class="px-1 py-5">
 					<h3 class="text-lg leading-6 font-medium text-gray-900 text-start">

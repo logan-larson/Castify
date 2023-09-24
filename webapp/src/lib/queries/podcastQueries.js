@@ -22,6 +22,7 @@ export const GET_PODCAST = `
 				id
 				title
 				description
+				image
 				url
 			}
         }

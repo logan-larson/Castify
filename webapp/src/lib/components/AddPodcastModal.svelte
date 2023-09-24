@@ -30,11 +30,7 @@
 				},
 			);
 
-			console.log('response', response);
-
 			const { addPodcast } = response;
-
-			console.log('podcast', addPodcast);
 
 			if (!addPodcast) {
 				toastStore.trigger({

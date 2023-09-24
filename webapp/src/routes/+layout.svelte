@@ -1,7 +1,7 @@
 <script>
 	import '../app.postcss';
 	// Components
-	import { AppShell, AppBar, Avatar, Modal, Toast } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Avatar, Modal, Toast, getToastStore } from '@skeletonlabs/skeleton';
 	import AuthModal from '$lib/components/AuthModal.svelte';
 	import AddPodcastModal from '$lib/components/AddPodcastModal.svelte';
 	import { query } from '$lib/utils/graphql-client';
@@ -92,7 +92,7 @@
 		<!-- App Bar -->
 		<AppBar background="bg-secondary-500">
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Castify</strong>
+				<a href="/" class="text-xl uppercase"><strong>Castify</strong></a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<!-- Profile or Login -->

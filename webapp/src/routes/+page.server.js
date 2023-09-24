@@ -5,11 +5,12 @@ import { serverSideQuery } from "$lib/utils/graphql-client";
 
 export async function load() {
 	try {
-		const response = await serverSideQuery(GET_PODCASTS, {});
-		const { getPodcasts } = response;
+		const response = await serverSideQuery(GET_PODCASTS);
+
+		const { podcasts } = response;
 
 		return {
-			podcasts: getPodcasts
+			podcasts
 		};
 	} catch (error) {
 		console.error(error);

@@ -46,9 +46,35 @@ export const PodcastMutations = {
 				}
 			);
 
-			const newPodcast = createResult.records[0].get('p').properties;
+			const podcast = createResult.records[0].get('p').properties;
 
-			return newPodcast;
+			// Create a separate thread and save each episode
+			const episodes = podcastFeed.items;
+
+			for (let i = 0; i < episodes.length; i++) {
+				const episode = episodes[i];
+
+				await session.run(
+					'CREATE (e:Episode { id: randomUUID(), title: $title, description: $description, url: $url, image: $image })  RETURN e',
+					{
+						title: episode.title,
+						description: '',
+						image: episode.itunes.image || podcast.image,
+						url: episode.enclosure.url
+					}
+				);
+			}
+
+			// Create a relationship between the podcast and the episodes
+			await session.run(
+				'MATCH (p:Podcast {id: $podcastId}), (e:Episode) WHERE e.url IN $episodeUrls CREATE (p)-[r:HAS_EPISODE]->(e) RETURN p',
+				{
+					podcastId: podcast.id,
+					episodeUrls: episodes.map(episode => episode.enclosure.url)
+				}
+			);
+
+			return podcast;
 		} catch (error) {
 			throw new GraphQLError(
 				'An error occurred while adding the podcast: ' + error.message,
@@ -87,12 +113,15 @@ export const PodcastQueries = {
 		const session = driver.session();
 
 		try {
+			// Get the podcast and all of its episodes
 			const result = await session.run(
-				'MATCH (p:Podcast {id: $id}) RETURN p',
+				'MATCH (p:Podcast {id: $id})-[r:HAS_EPISODE]->(e:Episode) RETURN p, collect(e) as episodes',
 				{ id }
 			);
 
 			const podcast = result.records[0].get('p').properties;
+
+			podcast.episodes = result.records[0].get('episodes').map(record => record.properties);
 
 			return podcast;
 		} catch (error) {

@@ -78,8 +78,11 @@ type Playlist {
 }
 
 type Episode {
-    id: ID!
-    title: String!
+    id: ID
+    title: String
+    description: String
+    image: String
+    url: String
     # ... other fields ...
 }
 
