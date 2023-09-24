@@ -36,9 +36,8 @@ input LoginInput {
 	password: String
 }
 
-type AuthPayload {
-    token: String!
-    user: User!
+input AddPodcastInput {
+    rssUrl: String
 }
 
 type FollowerRelation {
@@ -49,7 +48,7 @@ type FollowerRelation {
 
 type UserShowRelation {
     user: User!
-    show: PodcastShow!
+    show: Podcast!
     followedSince: Date!
 }
 
@@ -59,9 +58,12 @@ type UserPlaylistRelation {
     createdOn: Date!
 }
 
-type PodcastShow {
-    id: ID!
-    title: String!
+type Podcast {
+    id: ID
+    title: String
+    description: String
+    url: String
+    image: String
     episodes: [Episode]
     followers: [UserShowRelation]
     # ... other fields ...
@@ -86,9 +88,14 @@ type Episode {
 # ------------------------------------------------------------
 
 type Mutation {
+    
+    # Users
     registerUser(registerInput: RegisterInput): User
 	loginUser(loginInput: LoginInput): User
     logoutUser: Boolean!
+
+    # Podcasts
+    addPodcast(addPodcastInput: AddPodcastInput): Podcast
 }
 
 # ------------------------------------------------------------
@@ -96,7 +103,12 @@ type Mutation {
 # ------------------------------------------------------------
 
 type Query {
+    
+    # Users
 	user(id: ID!): User
     getCurrentUser: User
-    hello: String
+
+    # Podcasts
+    podcasts: [Podcast]
+    podcast(id: ID!): Podcast
 }

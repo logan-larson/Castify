@@ -1,10 +1,13 @@
 import { UserMutations, UserQueries} from "./users.js"
+import { PodcastMutations, PodcastQueries} from "./podcasts.js"
 
 export const resolvers = {
 	Query: {
-		...UserQueries
+		...UserQueries,
+		...PodcastQueries
 	},
 	Mutation: {
-		...UserMutations
+		...UserMutations,
+		...PodcastMutations
 	}
 }

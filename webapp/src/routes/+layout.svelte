@@ -1,10 +1,12 @@
 <script>
 	import '../app.postcss';
 	// Components
-	import { AppShell, AppBar, Avatar, Modal } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Avatar, Modal, Toast } from '@skeletonlabs/skeleton';
 	import AuthModal from '$lib/components/AuthModal.svelte';
+	import AddPodcastModal from '$lib/components/AddPodcastModal.svelte';
 	import { query } from '$lib/utils/graphql-client';
 	import { LOGOUT_USER } from '$lib/queries/userQueries';
+	import Player from '$lib/components/Player.svelte';
 	
 	// Lifecycle
 	import { onMount } from 'svelte';
@@ -24,6 +26,10 @@
 	const modalComponentRegistry = {
 		authModal: {
 			ref: AuthModal,
+			slot: '<p>Slot content</p>'
+		},
+		addPodcastModal: {
+			ref: AddPodcastModal,
 			slot: '<p>Slot content</p>'
 		}
 	};
@@ -62,6 +68,8 @@
 
 <Modal components={modalComponentRegistry} />
 
+<Toast />
+
 {#if $currentUser}
 <div class="card p-4 w-72 shadow-xl" data-popup="profileOptions">
 	<div class="flex flex-col items-center">
@@ -82,7 +90,7 @@
 <AppShell>
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
-		<AppBar>
+		<AppBar background="bg-secondary-500">
 			<svelte:fragment slot="lead">
 				<strong class="text-xl uppercase">Castify</strong>
 			</svelte:fragment>
@@ -109,6 +117,6 @@
 	<slot />
 
 	<svelte:fragment slot="footer">
-		<p class="text-center mb-4">Media Player...</p>
+		<Player />
 	</svelte:fragment>
 </AppShell>

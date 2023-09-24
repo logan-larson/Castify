@@ -236,6 +236,7 @@ export const UserQueries = {
 
 		try {
 			const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
 			const userId = decoded.user_id;
 
 			const result = await session.run(
@@ -252,7 +253,6 @@ export const UserQueries = {
 			return user;
 
 		} catch (error) {
-			console.error(error);
 			return null;
 		} finally {
 			session.close();
