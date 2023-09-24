@@ -14,7 +14,7 @@
 
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { storePopup, initializeStores, getModalStore } from '@skeletonlabs/skeleton';
+	import { storePopup, initializeStores, getModalStore, popup } from '@skeletonlabs/skeleton';
 
 	initializeStores();
 
@@ -44,6 +44,12 @@
 		modalStore.trigger(authModal);
 	}
 
+	const profileOptions = {
+		event: 'click',
+		target: 'profileOptions',
+		placement: 'bottom',
+	};
+
 	function logout() {
 		try {
 			query(LOGOUT_USER);
@@ -56,6 +62,22 @@
 
 <Modal components={modalComponentRegistry} />
 
+{#if $currentUser}
+<div class="card p-4 w-72 shadow-xl" data-popup="profileOptions">
+	<div class="flex flex-col items-center">
+		<Avatar
+			width="w-20"
+			rounded="rounded-full"
+			initials="{$currentUser.username.substring(0, 1)}"
+		/>
+		<p class="text-center mt-2">{$currentUser.username}</p>
+	</div>
+	<div class="flex flex-col mt-4">
+		<button class="btn variant-ghost-surface" on:click={logout}>Logout</button>
+	</div>
+</div>
+{/if}
+
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
@@ -67,13 +89,16 @@
 			<svelte:fragment slot="trail">
 				<!-- Profile or Login -->
 				{#if $currentUser}
-					<Avatar
-						width="w-10"
-						rounded="rounded-full"
-						cursor="cursor-pointer"
-						initials="{$currentUser.username.substring(0, 1)}"
-						on:click={logout}
-					/>
+					<button
+						use:popup={profileOptions}
+					>
+						<Avatar
+							width="w-10"
+							rounded="rounded-full"
+							cursor="cursor-pointer"
+							initials="{$currentUser.username.substring(0, 1)}"
+						/>
+					</button>
 				{:else}
 					<button class="btn variant-ghost-surface" on:click={openAuthModal}>Login</button>
 				{/if}
