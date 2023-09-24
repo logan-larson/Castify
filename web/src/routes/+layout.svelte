@@ -8,6 +8,7 @@
 	import { currentUser } from '$lib/stores/user';
 	import { LOGOUT_USER } from '$lib/queries/userQueries';
 	import { query } from '$lib/utils/graphql-client';
+	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 
 	export let data;
 
@@ -40,60 +41,39 @@
 	}
 </script>
 
-<div class="header">
-	<button on:click={toggleDrawer}>Toggle Drawer</button>
-	{#if $currentUser}
-		<button on:click={logout}>Logout</button>
-	{:else}
-		<button on:click={openAuthModal}>Login</button>
-	{/if}
-	<h1>Castify</h1>
-</div>
+<AppShell>
+	<svelte:fragment slot="header">
+		<AppBar gridColumns="grid-cols-3" slotLead="flex justify-start" slotTrail="place-content-end">
+			<svelte:fragment slot="lead">
+				<button on:click={toggleDrawer}>Toggle Drawer</button>
+				<h3>Castify</h3>
+			</svelte:fragment>
 
-<div class="drawer" class:open={drawerOpen}>
-	{#if $currentUser}
-		<p>Hello, {$currentUser.username}!</p>
-	{:else}
-		<p>Not logged in</p>
-	{/if}
-</div>
+			<svelte:fragment slot="trail">
+				{#if $currentUser}
+					<button on:click={logout}>Logout</button>
+				{:else}
+					<button on:click={openAuthModal}>Login</button>
+				{/if}
+			</svelte:fragment>
+		</AppBar>
+	</svelte:fragment>
+	<svelte:fragment slot="sidebarLeft">
+		{#if $currentUser}
+			<p>Hello, {$currentUser.username}!</p>
+		{:else}
+			<p>Not logged in</p>
+		{/if}
+	</svelte:fragment>
 
-<div class="content" class:shifted={!drawerOpen}>
 	<slot />
-</div>
+
+	<svelte:fragment slot="footer">
+		<p>Media Player</p>
+	</svelte:fragment>
+</AppShell>
 
 <Modal show={showAuthModal} title={$authTitle} on:close={closeAuthModal}>
 	<AuthModal close={ () => showAuthModal = false } />
 </Modal>
 
-<style>
-	.header {
-		background-color: #333;
-		color: white;
-		padding: 1rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.drawer {
-		width: 250px;
-		height: 100vh;
-		background-color: #f5f5f5;
-		transition: transform 0.3s ease;
-		transform: translateX(-100%);
-	}
-
-	.drawer.open {
-		transform: translateX(0);
-	}
-
-	.content {
-		margin-left: 250px;
-		padding: 2rem;
-	}
-
-	.content.shifted {
-		margin-left: 0;
-	}
-</style>
