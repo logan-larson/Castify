@@ -163,6 +163,44 @@ export const UserMutations = {
 		} finally {
 			session.close();
 		}
+	},
+	async logoutUser(_, __, context) {
+		const session = driver.session();
+
+		try {
+			// Clear the JWT from the user in the DB
+			const updateResult = await session.run(`
+				MATCH (u:User { token: $token})
+				SET u.token = null
+				RETURN u
+				`,
+				{
+					token: context.token
+				}
+			);
+
+			if (!updateResult || updateResult.records.length === 0) {
+				return false;
+			}
+
+			const user = updateResult.records[0].get('u').properties;
+
+			// Clear the JWT cookie
+			const cookieOptions = {
+				httpOnly: true,
+				//secure: true,
+				//sameSite: 'Strict',
+				//domain: process.env.NODE_ENV === 'production' ? 'https://www.localhost:3000' : 'localhost',
+			};
+
+			const cookieValue = cookie.serialize('jwt', '', cookieOptions);
+
+			context.res.setHeader('Set-Cookie', cookieValue);
+
+			return true;
+		} finally {
+			session.close();
+		}
 	}
 }
 

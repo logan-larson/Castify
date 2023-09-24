@@ -6,6 +6,8 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { authTitle } from './auth';
 	import { currentUser } from '$lib/stores/user';
+	import { LOGOUT_USER } from '$lib/queries/userQueries';
+	import { query } from '$lib/utils/graphql-client';
 
 	export let data;
 
@@ -27,11 +29,24 @@
 	function closeAuthModal() {
 		showAuthModal = false;
 	}
+
+	function logout() {
+		try {
+			query(LOGOUT_USER);
+			currentUser.logout();
+		} catch (error) {
+			console.error('Error: logging out', error);
+		}
+	}
 </script>
 
 <div class="header">
 	<button on:click={toggleDrawer}>Toggle Drawer</button>
-	<button on:click={openAuthModal}>Login</button>
+	{#if $currentUser}
+		<button on:click={logout}>Logout</button>
+	{:else}
+		<button on:click={openAuthModal}>Login</button>
+	{/if}
 	<h1>Castify</h1>
 </div>
 

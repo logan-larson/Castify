@@ -1,10 +1,5 @@
-import jwt from 'jsonwebtoken';
 import { GET_CURRENT_USER } from "$lib/queries/userQueries";
-import { query, serverSideQuery } from "$lib/utils/graphql-client";
-import { currentUser } from '$lib/stores/user.js';
-
-//const JWT_SECRET = import.meta.env.JWT_SECRET;
-const JWT_SECRET = "MY_SUPER_SECRET_KEY";
+import { serverSideQuery } from "$lib/utils/graphql-client";
 
 export async function load({ cookies }) {
     let token = cookies.get('jwt');

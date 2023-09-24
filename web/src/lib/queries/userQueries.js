@@ -41,3 +41,9 @@ export const REGISTER_USER = `
     }
   }
 `;
+
+export const LOGOUT_USER = `
+  mutation LogoutUser {
+    logoutUser
+  }
+`;
