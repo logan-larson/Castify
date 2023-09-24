@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { GET_CURRENT_USER } from "$lib/queries/userQueries";
-import { query } from "$lib/utils/graphql-client";
+import { query, serverSideQuery } from "$lib/utils/graphql-client";
 import { currentUser } from '$lib/stores/user.js';
 
 //const JWT_SECRET = import.meta.env.JWT_SECRET;
@@ -9,47 +9,25 @@ const JWT_SECRET = "MY_SUPER_SECRET_KEY";
 export async function load({ cookies }) {
     let token = cookies.get('jwt');
 
+    // This is the case when the user is not logged in
     if (!token) {
         return null;
     }
 
-    let userId;
-
     try {
-        const decodedToken = jwt.verify(token, JWT_SECRET);
-        console.log("Decoded token", decodedToken);
-        userId = decodedToken.user_id;
-    } catch (error) {
-        console.error('JWT verification failed', error);
-        return { props: { user: null } };
-    }
-
-    const user = await fetchUserDataWithUserId();
-
-    return {
-        props: {
-            user
-        }
-    }
-}
-
-async function fetchUserDataWithUserId() {
-    console.log("Fetching user data with user id");
-
-    try {
-        const response = await query(
+        const response = await serverSideQuery(
             GET_CURRENT_USER,
+            {},
+            token
         );
 
-        console.log(response);
+        const { getCurrentUser } = response;
 
-        const { user } = response;
-
-        console.log(user);
-
-        return user;
+        return {
+            user: getCurrentUser
+        };
     } catch (error) {
-        //console.error(error);
+        console.error(error);
         return null;
     }
 }

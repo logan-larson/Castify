@@ -1,44 +1,19 @@
 <script>
 	import '../app.postcss';
 	// @ts-nocheck
-	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
-	import { query } from '$lib/utils/graphql-client';
-	import { GET_USER } from '$lib/queries/userQueries';
 	import AuthModal from './AuthModal.svelte';
 	import Modal from '$lib/components/Modal.svelte';
 	import { authTitle } from './auth';
 	import { currentUser } from '$lib/stores/user';
 
+	export let data;
+
 	let drawerOpen = true;
 	let showAuthModal = false;
 
 	onMount(async () => {
-		/*
-		load().then(({ props }) => {
-			user.login(props.user);
-		})catch(error => {
-			console.error('Error loading user data', error);
-		});
-		*/
-
-		const userId = localStorage.getItem('userId');
-
-		if (userId === null) {
-			currentUser.login(null);
-			return;
-		}
-
-		try {
-			const { data } = await query({
-				query: GET_USER,
-				variables: { id: userId }
-			});
-
-			currentUser.login(data.user);
-		} catch (error) {
-			console.error('Error: fetching user data', error);
-		}
+		currentUser.login(data.user);
 	});
 
 	function toggleDrawer() {

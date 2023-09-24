@@ -30,3 +30,35 @@ export function query(query, variables = {}) {
     return data.data;
   });
 }
+
+/**
+ * @param {any} query
+ * @param {any} token
+ */
+export function serverSideQuery(query, variables = {}, token) {
+  return fetch(GRAPHQL_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': `jwt=${token}`,
+      // Include other headers like authentication tokens if needed
+    },
+    body: JSON.stringify({
+      query: query,
+      variables
+    }),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`${response.status} - ${response.statusText}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.errors) {
+      // @ts-ignore
+      throw new Error(data.errors.map(error => error.message).join('\n'));
+    }
+    return data.data;
+  });
+}

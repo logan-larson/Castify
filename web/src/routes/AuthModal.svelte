@@ -18,7 +18,7 @@
 
   function toggleForm() {
     isLogin = !isLogin;
-    let password = '';
+    password = '';
 
     if (isLogin) {
       authTitle.set('Login');
@@ -51,8 +51,6 @@
       const { loginUser } = response;
 
       currentUser.login(loginUser); // set user in store
-
-      //localStorage.setItem('userId', loginUser.id); // set user id in local storage
 
       close();
     } catch (error) {

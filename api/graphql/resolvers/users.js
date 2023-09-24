@@ -70,9 +70,14 @@ export const UserMutations = {
 			// Set the JWT as a cookie
 			const cookieOptions = {
 				httpOnly: true,
+				//secure: true,
+				//sameSite: 'Strict',
+				//domain: process.env.NODE_ENV === 'production' ? 'https://www.localhost:3000' : 'localhost',
 			};
 
-			context.res.cookie('jwt', token, cookieOptions);
+			const cookieValue = cookie.serialize('jwt', token, cookieOptions);
+
+			context.res.setHeader('Set-Cookie', cookieValue);
 
 			return userWithToken;
 
