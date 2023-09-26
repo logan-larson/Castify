@@ -1,7 +1,7 @@
 // Load the podcast list from the server
 
 import { GET_PODCASTS } from "$lib/queries/podcastQueries";
-import { serverSideQuery } from "$lib/utils/graphql-client";
+import { serverSideQuery } from "$lib/server/graphql-client";
 
 export async function load() {
 	try {
