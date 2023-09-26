@@ -5,11 +5,13 @@ const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT
 const isProduction = import.meta.env.VITE_PROD;
 
 const clientURL = isProduction ? "/api/graphql" : "http://localhost:4000/graphql";
+const apiURL = isProduction ? "http://api:4000/graphql" : "http://localhost:4000";
 
 /**
  * @param {any} query
  */
 export function query(query, variables = {}) {
+  console.log("clientURL: ", clientURL);
   return fetch(clientURL, {
     method: 'POST',
     credentials: 'include',
@@ -42,7 +44,8 @@ export function query(query, variables = {}) {
  * @param {any} token
  */
 export function serverSideQuery(query, variables = {}, token) {
-  return fetch(API_ENDPOINT, {
+  console.log("apiURL: ", apiURL);
+  return fetch(apiURL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
