@@ -1,0 +1,117 @@
+# schema.graphql
+
+# ------------------------------------------------------------
+# --------------------- Scalar Types -------------------------
+# ------------------------------------------------------------
+
+scalar Date
+
+# ------------------------------------------------------------
+# --------------------- Object Types -------------------------
+# ------------------------------------------------------------
+
+type User {
+    id: ID
+    username: String
+    email: String
+    password: String
+    token: String
+
+    #firstName: String
+    #lastName: String
+    #joinDate: Date
+    #lastLoginDate: Date
+    #profileImage: String
+    #bio: String
+}
+
+input RegisterInput {
+	username: String
+	email: String
+	password: String
+}
+
+input LoginInput {
+	email: String
+	password: String
+}
+
+input AddPodcastInput {
+    rssUrl: String
+}
+
+type FollowerRelation {
+    follower: User!
+    followed: User!
+    since: Date!
+}
+
+type UserShowRelation {
+    user: User!
+    show: Podcast!
+    followedSince: Date!
+}
+
+type UserPlaylistRelation {
+    user: User!
+    playlist: Playlist!
+    createdOn: Date!
+}
+
+type Podcast {
+    id: ID
+    title: String
+    description: String
+    url: String
+    image: String
+    episodes: [Episode]
+    followers: [UserShowRelation]
+    # ... other fields ...
+}
+
+type Playlist {
+    id: ID!
+    title: String!
+    episodes: [Episode]
+    creator: UserPlaylistRelation
+    # ... other fields ...
+}
+
+type Episode {
+    id: ID
+    title: String
+    description: String
+    image: String
+    url: String
+    # ... other fields ...
+}
+
+# ------------------------------------------------------------
+# -------------------- Mutation Types ------------------------
+# ------------------------------------------------------------
+
+type Mutation {
+    
+    # Users
+    registerUser(registerInput: RegisterInput): User
+	loginUser(loginInput: LoginInput): User
+    logoutUser: Boolean!
+
+    # Podcasts
+    addPodcast(addPodcastInput: AddPodcastInput): Podcast
+}
+
+# ------------------------------------------------------------
+# ---------------------- Query Types -------------------------
+# ------------------------------------------------------------
+
+type Query {
+    
+    # Users
+	user(id: ID!): User
+    getCurrentUser: User
+
+    # Podcasts
+    podcasts: [Podcast]
+    podcast(id: ID!): Podcast
+}
