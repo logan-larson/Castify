@@ -44,6 +44,10 @@ server.applyMiddleware({
 			"http://localhost:4000",
 			"http://localhost:5173",
 			"https://studio.apollographql.com",
+			"http://172.234.31.87",
+			"https://172.234.31.87",
+			"http://castify.social",
+			"https://castify.social"
 		],
 		credentials: true
 	}

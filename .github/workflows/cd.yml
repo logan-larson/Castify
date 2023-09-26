@@ -1,0 +1,38 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Linode
+        env:
+          PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          HOST: ${{ secrets.LINODE_HOST }}
+          USER: ${{ secrets.LINODE_USER }}
+        run: |
+          # Install SSH Client
+          sudo apt-get install -y openssh-client
+
+          # Save PRIVATE_KEY to a file
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+
+          # SSH Key Scanning
+          ssh-keyscan $HOST >> ~/.ssh/known_hosts
+
+          # SSH into the Linode server and run commands
+          ssh -i private_key.pem $USER@$HOST <<EOF
+            cd /Castify
+            git pull origin master
+            docker compose pull # If using pre-built images from DockerHub or another registry
+            docker compose up -d --build
+EOF
