@@ -35,4 +35,3 @@ jobs:
             git pull origin master
             docker compose pull # If using pre-built images from DockerHub or another registry
             docker compose up -d --build
-EOF
