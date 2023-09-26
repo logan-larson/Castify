@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import { resolvers } from './graphql/resolvers/index.js';
 
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +36,8 @@ await server.start();
 
 const app = express();
 
+app.use(morgan('dev'));
+
 server.applyMiddleware({
 	app,
 	cors: {
@@ -47,7 +50,9 @@ server.applyMiddleware({
 			"http://172.234.31.87",
 			"https://172.234.31.87",
 			"http://castify.social",
-			"https://castify.social"
+			"https://castify.social",
+			"http://api:4000",
+			"http://webapp:3000",
 		],
 		credentials: true
 	}
