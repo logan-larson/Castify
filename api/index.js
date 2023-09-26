@@ -38,7 +38,7 @@ const app = express();
 server.applyMiddleware({
 	app,
 	cors: {
-		origin: "http://localhost:5173",
+		origin: ["http://localhost:5173", "http://localhost:3000", "https://studio.apollographql.com"],
 		credentials: true
 	}
 });
