@@ -1,7 +1,0 @@
-#userContainer {
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  margin: 5px 0px;
-  width: 500px;
-  place-items: center;
-}
