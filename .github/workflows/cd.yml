@@ -27,6 +27,7 @@ jobs:
           chmod 600 private_key.pem
 
           # SSH Key Scanning
+          mkdir -p ~/.ssh
           ssh-keyscan $HOST >> ~/.ssh/known_hosts
 
           # SSH into the Linode server and run commands
