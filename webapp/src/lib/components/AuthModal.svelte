@@ -64,9 +64,9 @@
 				}
 			);
 
-			const { register } = response;
+			const { registerUser } = response;
 
-			currentUser.login(register.user);
+			currentUser.login(registerUser.user);
 
 			modalStore.close();
 		} catch (error) {
