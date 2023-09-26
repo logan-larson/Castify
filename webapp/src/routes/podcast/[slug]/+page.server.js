@@ -1,4 +1,4 @@
-import { serverSideQuery } from "$lib/utils/graphql-client";
+import { serverSideQuery } from "$lib/server/graphql-client";
 import { GET_PODCAST } from "$lib/queries/podcastQueries";
 
 export async function load({ params }) {

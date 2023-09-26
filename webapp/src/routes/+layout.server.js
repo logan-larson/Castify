@@ -1,5 +1,5 @@
 import { GET_CURRENT_USER } from "$lib/queries/userQueries";
-import { serverSideQuery } from "$lib/utils/graphql-client";
+import { serverSideQuery } from "$lib/server/graphql-client";
 
 export async function load({ cookies }) {
     let token = cookies.get('jwt');

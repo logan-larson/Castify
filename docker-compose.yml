@@ -36,8 +36,8 @@ services:
     ports: # TODO: move to expose eventually because we're using nginx
       - "${WEBAPP_PORT}:${WEBAPP_PORT}"
     environment:
-      - VITE_API_ENDPOINT=http://api:4000/graphql
-      - VITE_PROD=true
+      - PUBLIC_PROD=false
+      - PROD=false
     depends_on:
       - api
     

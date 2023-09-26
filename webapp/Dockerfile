@@ -8,6 +8,9 @@ RUN rm -rf build
 
 COPY . .
 
+ENV PROD=${PROD}
+ENV PUBLIC_PROD=${PROD}
+
 RUN npm install
 RUN npm run build
 
