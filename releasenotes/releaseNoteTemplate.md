@@ -1,4 +1,4 @@
-[App Name] Release Notes – Version [Version Number] – [Release Date]
+Castify Release Notes – Version [Version Number] – [Release Date]
 
 🚀 What's New
 
@@ -20,7 +20,7 @@
 "[Podcast Name]": Dive deep into [podcast theme/subject], hosted by [host name]. Discover [specific topics or features of the podcast]. Available now on [App Name]!
 
 A Word from Our Team
-We're constantly striving to make [App Name] the best platform for podcast enthusiasts like you. Your feedback and suggestions play a crucial role in our development process. If you're enjoying the app, please consider leaving us a review. For any issues or suggestions, reach out to us at [support email/feedback link].
+We're constantly striving to make Castify the best platform for podcast enthusiasts like you. Your feedback and suggestions play a crucial role in our development process. If you're enjoying the app, please consider leaving us a review. For any issues or suggestions, reach out to us at loganlarson@caffeinatedstudios.dev.
 
 🔗 Useful Links
 
