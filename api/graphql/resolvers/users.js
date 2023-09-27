@@ -96,6 +96,17 @@ export const UserMutations = {
 				'MATCH (u:User {email: $email}) RETURN u', { email }
 			);
 
+			if (!result || result.records.length === 0) {
+				throw new GraphQLError(
+					'A user does not exist with the email ' + email,
+					{
+						extensions: {
+							code: 'USER_DOES_NOT_EXIST' 
+						}
+					}
+				);
+			}
+
 			const user = result.records[0].get('u').properties;
 
 			if (!user) {
@@ -180,7 +191,14 @@ export const UserMutations = {
 			);
 
 			if (!updateResult || updateResult.records.length === 0) {
-				return false;
+				throw  new GraphQLError(
+					'No user found with this token',
+					{
+						extensions: {
+							code: 'NO_USER_FOUND' 
+						}
+					}
+				);
 			}
 
 			const user = updateResult.records[0].get('u').properties;
@@ -245,15 +263,19 @@ export const UserQueries = {
 			);
 
 			if (!result || result.records.length === 0) {
-				return null;
+				throw new GraphQLError(
+					'No user found with this token',
+					{
+						extensions: {
+							code: 'NO_USER_FOUND' 
+						}
+					}
+				);
 			}
 
 			const user = result.records[0].get('u').properties;
 
 			return user;
-
-		} catch (error) {
-			return null;
 		} finally {
 			session.close();
 		}

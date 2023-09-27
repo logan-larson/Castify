@@ -8,8 +8,9 @@
 	export let parent;
 
 	// Stores
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
 	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 
 	// State
 	let isLogin = true;
@@ -31,6 +32,9 @@
 
 	async function login() {
 		try {
+
+			validateLoginInput();
+
 			const response = await query(
 				LOGIN_USER,
 				{ 
@@ -47,12 +51,23 @@
 
 			modalStore.close();
 		} catch (error) {
-			console.error('Error: fetching user data', error);
+			const errorToast = {
+				type: 'toast',
+				title: 'Error',
+				message: error.message,
+				duration: 3000,
+				background: 'variant-filled-error',
+			};
+
+			toastStore.trigger(errorToast);
 		}
 	}
 
 	async function register() {
 		try {
+
+			validateRegisterInput();	
+
 			const response = await query(
 				REGISTER_USER,
 				{
@@ -70,8 +85,52 @@
 
 			modalStore.close();
 		} catch (error) {
-			console.error('Error: fetching user data', error);
+			const errorToast = {
+				type: 'toast',
+				title: 'Error',
+				message: error.message,
+				duration: 3000,
+				background: 'variant-filled-error',
+			};
+
+			toastStore.trigger(errorToast);
 		}
+	}
+
+	function validateRegisterInput() {
+		const { email, username, password } = formData;
+
+		if (!email || !username || !password) {
+			throw new Error('Please fill out all fields.');
+		}
+
+		if (!email.includes('@')) {
+			throw new Error('Please enter a valid email.');
+		}
+
+		if (password.length < 6) {
+			throw new Error('Password must be at least 6 characters.');
+		}
+
+		return true;
+	}
+
+	function validateLoginInput() {
+		const { email, password } = formData;
+
+		if (!email || !password) {
+			throw new Error('Please fill out all fields.');
+		}
+
+		if (!email.includes('@')) {
+			throw new Error('Please enter a valid email.');
+		}
+
+		if (password.length < 6) {
+			throw new Error('Password must be at least 6 characters.');
+		}
+
+		return true;
 	}
 
 	// Base Classes
