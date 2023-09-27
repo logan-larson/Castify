@@ -1,8 +1,11 @@
-import { PUBLIC_API_URL, PUBLIC_PROD } from '$env/static/public';
+import { PUBLIC_PROD } from '$env/static/public';
 
 const isProductionClient = PUBLIC_PROD === "true";
 
-const clientURL = isProductionClient ? "/graphql" : "http://localhost:4000/graphql";
+const clientURL = isProductionClient
+  ? "/graphql"
+  : "http://localhost:4000/graphql"
+  ;
 
 /**
  * @param {any} query

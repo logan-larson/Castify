@@ -33,11 +33,12 @@ services:
     build:
       context: ./webapp
       dockerfile: Dockerfile
+      args:
+        PROD: ${PROD}
     ports: # TODO: move to expose eventually because we're using nginx
       - "${WEBAPP_PORT}:${WEBAPP_PORT}"
     environment:
-      - PUBLIC_PROD=false
-      - PROD=false
+      - PROD=${PROD}
     depends_on:
       - api
     

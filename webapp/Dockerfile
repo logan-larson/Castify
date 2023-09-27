@@ -1,5 +1,7 @@
 FROM node:lts-slim AS build
 
+ARG PROD
+
 WORKDIR /app
 
 COPY package*.json ./
