@@ -49,17 +49,17 @@
 	src={src}
 />
 
-<div class="m-4 card-footer p-4 bg-primary-500 shadow rounded grid grid-cols-3">
+<div class="m-4 card-footer p-4 bg-primary-500 shadow rounded grid grid-cols-2">
 	<!-- Currently playing episode details -->
 	<div class="flex">
 		<div class="flex gap-2 items-start">
 			{#if $currentEpisode.url && $currentEpisode.url.length > 0}
-				<img class="w-20 h-20 rounded-full" src="{$currentEpisode.image}" alt="Episode cover art" />
-				<div class="px-1 py-5">
-					<h3 class="text-lg leading-6 font-medium text-gray-900 text-start">
+				<img class="w-10 h-10 md:w-20 md:h-20 rounded-full" src="{$currentEpisode.image}" alt="Episode cover art" />
+				<div class="md:px-1 md:py-5">
+					<h3 class="text-sm md:text-lg leading-6 font-medium text-gray-900 text-start">
 						{$currentEpisode.title}
 					</h3>
-					<p class="mt-1 max-w-2xl text-sm text-gray-500 text-start">
+					<p class="md:mt-1 max-w-2xl text-xs md:text-sm text-gray-500 text-start">
 						{$currentEpisode.description}
 					</p>
 				</div>
@@ -68,11 +68,11 @@
 					<p class="text-center mt-2 text-secondary-900">{$currentEpisode.description}</p>
 				</div> -->
 			{:else}
-				<div class="placeholder-circle animate-pulse w-20 h-20" />
+				<div class="placeholder-circle animate-pulse w-10 h-10 md:w-20 md:h-20" />
 				<div class="align-center flex flex-col gap-2">
-					<div class="placeholder animate-pulse w-32" />
-					<div class="placeholder animate-pulse w-48" />
-					<div class="placeholder animate-pulse w-48" />
+					<div class="placeholder animate-pulse w-16 md:w-32" />
+					<div class="placeholder animate-pulse w-24 md:w-48" />
+					<div class="placeholder animate-pulse w-24 md:w-48" />
 				</div>
 			{/if}
 		</div>

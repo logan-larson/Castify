@@ -55,7 +55,7 @@
 			</span>
 		</button>
 
-		<div class="grid grid-cols-2 gap-2">
+		<div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-2">
 		{#each $podcastList as podcast}
 			<div class="w-60">
 				<PodcastCard {podcast} />
