@@ -66,7 +66,7 @@
 
 			const { registerUser } = response;
 
-			currentUser.login(registerUser.user);
+			currentUser.login(registerUser);
 
 			modalStore.close();
 		} catch (error) {
