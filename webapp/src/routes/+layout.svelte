@@ -1,7 +1,7 @@
 <script>
 	import '../app.postcss';
 	// Components
-	import { AppShell, AppBar, Avatar, Modal, Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { AppShell, AppBar, Avatar, Modal, Toast, getToastStore, Drawer } from '@skeletonlabs/skeleton';
 	import AuthModal from '$lib/components/AuthModal.svelte';
 	import AddPodcastModal from '$lib/components/AddPodcastModal.svelte';
 	import { query } from '$lib/utils/graphql-client';
@@ -66,9 +66,11 @@
 	}
 </script>
 
+<Toast />
+
 <Modal components={modalComponentRegistry} />
 
-<Toast />
+<Drawer />
 
 {#if $currentUser}
 <div class="card p-4 w-72 shadow-xl" data-popup="profileOptions">
@@ -92,7 +94,10 @@
 		<!-- App Bar -->
 		<AppBar background="bg-secondary-500">
 			<svelte:fragment slot="lead">
-				<a href="/" class="text-xl uppercase"><strong>Castify</strong></a>
+				<a href="/" class="text-xl uppercase flex items-center gap-1">
+					<img class="w-10 h-10" src="/transparent-bg-512x512.png" alt="Castify logo" />
+					<strong>Castify</strong>
+				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
 				<!-- Profile or Login -->
