@@ -1,11 +1,15 @@
 import { PUBLIC_PROD } from '$env/static/public';
 
 const isProductionClient = PUBLIC_PROD === "true";
+const isMobile = true; // TODO: Switch this during CD based on the target platform. 
+// Also during development because the mobile app reaches the API via your local network. So it needs the IP address of your computer.
 
 const clientURL = isProductionClient
   ? "/graphql"
-  : "http://localhost:4000/graphql"
-  ;
+  : isMobile
+    ? "http://192.168.1.215:4000/graphql" // TODO: Change this to your computer's IP address.
+    : "http://localhost:4000/graphql"
+    ;
 
 /**
  * @param {any} query

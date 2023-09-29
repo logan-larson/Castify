@@ -4,13 +4,22 @@
 	import { currentUser } from '$lib/stores/user';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { GET_PODCASTS } from "$lib/queries/podcastQueries";
+	import { query } from '$lib/utils/graphql-client.js';
 
 	const modalStore = getModalStore();
 
-	export let data;
-
 	onMount(async () => {
-		podcastList.set(data.podcasts || []);
+		try {
+			const response = await query(GET_PODCASTS);
+
+			const { podcasts } = response;
+
+			podcastList.set(podcasts);
+		} catch (error) {
+			console.error('Error: getting podcasts', error);
+			podcastList.set([]);
+		}
 	});
 
 	function addPodcast() {

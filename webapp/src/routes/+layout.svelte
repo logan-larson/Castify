@@ -5,7 +5,7 @@
 	import AuthModal from '$lib/components/AuthModal.svelte';
 	import AddPodcastModal from '$lib/components/AddPodcastModal.svelte';
 	import { query } from '$lib/utils/graphql-client';
-	import { LOGOUT_USER } from '$lib/queries/userQueries';
+	import { GET_CURRENT_USER, LOGOUT_USER } from '$lib/queries/userQueries';
 	import Player from '$lib/components/Player.svelte';
 	
 	// Lifecycle
@@ -34,10 +34,17 @@
 		}
 	};
 
-	export let data;
-
 	onMount(async () => {
-		currentUser.login(data.user);
+		try {
+			const response = await query(GET_CURRENT_USER);
+
+			const { getCurrentUser } = response;
+
+			currentUser.login(getCurrentUser);
+		} catch (error) {
+			console.error('Error: getting current user', error);
+			currentUser.logout();
+		}
 	});
 
 	function openAuthModal() {
