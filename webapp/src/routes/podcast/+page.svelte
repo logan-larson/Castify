@@ -5,6 +5,9 @@
 	import { GET_PODCAST } from '$lib/queries/podcastQueries';
 	import { query } from '$lib/utils/graphql-client.js';
 	import { currentPodcastId } from '$lib/stores/podcast.js';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
 
 	let data = null;
 	let episodes = [];
@@ -22,6 +25,15 @@
 			episodes = data.episodes || [];
 		} catch (error) {
 			console.error(error);
+
+			toastStore.trigger({
+				type: 'toast',
+				title: 'Error',
+				message: error.message,
+				duration: 3000,
+				background: 'variant-filled-error',
+			});
+
 			data = null;
 		}
 	});

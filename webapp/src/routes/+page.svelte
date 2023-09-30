@@ -6,7 +6,9 @@
 	import { onMount } from 'svelte';
 	import { GET_PODCASTS } from "$lib/queries/podcastQueries";
 	import { query } from '$lib/utils/graphql-client.js';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
+	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
 	onMount(async () => {

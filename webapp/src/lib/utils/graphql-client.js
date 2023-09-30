@@ -1,13 +1,15 @@
-import { PUBLIC_PROD } from '$env/static/public';
+import { PUBLIC_PROD, PUBLIC_MOBILE_API_URL, PUBLIC_MOBILE } from '$env/static/public';
 
 const isProductionClient = PUBLIC_PROD === "true";
-const isMobile = true; // TODO: Switch this during CD based on the target platform. 
+const isMobile = PUBLIC_MOBILE === "true"; // TODO: Switch this during CD based on the target platform. 
 // Also during development because the mobile app reaches the API via your local network. So it needs the IP address of your computer.
+
+const hostMachineIP = "10.0.2.2"; // This is the IP address of your computer on the local network.
 
 const clientURL = isProductionClient
   ? "/graphql"
   : isMobile
-    ? "http://192.168.1.215:4000/graphql" // TODO: Change this to your computer's IP address.
+    ? "https://castify.social/graphql" // `http://${hostMachineIP}:4000/graphql`
     : "http://localhost:4000/graphql"
     ;
 

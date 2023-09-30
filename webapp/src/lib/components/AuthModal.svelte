@@ -32,7 +32,6 @@
 
 	async function login() {
 		try {
-
 			validateLoginInput();
 
 			const response = await query(
