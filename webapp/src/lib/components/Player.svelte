@@ -31,6 +31,10 @@
 		$audioPlayer.pause();
 		isPlaying.pause();
 	}
+
+	function openPlayer() {
+		// TODO: Expand mini-player to full player
+	}
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->
@@ -103,5 +107,8 @@
 			</svg>
 		</button>
 		{/if}
+		<button class="btn bg-secondary-200 rounded-full p-3 shadow-md my-auto mx-2" on:click={openPlayer}>
+			UP
+		</button>
 	</div>
 </div>
