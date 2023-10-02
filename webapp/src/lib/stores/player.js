@@ -19,3 +19,5 @@ const createIsPlaying = () => {
 };
 
 export const isPlaying = createIsPlaying();
+
+export const isExpanded = localStorageStore('isExpanded', false);

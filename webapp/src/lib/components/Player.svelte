@@ -1,5 +1,5 @@
 <script>
-	import { audioPlayer, currentEpisode, isPlaying, status } from "$lib/stores/player";
+	import { audioPlayer, currentEpisode, isPlaying, status, isExpanded } from "$lib/stores/player";
 	import { format } from "$lib/utils/formatting";
 	import { onMount } from "svelte";
 
@@ -10,6 +10,7 @@
 	let volume = 0.5;
 
 	let src = $currentEpisode.url;
+
 
 	onMount(() => {
 		$audioPlayer.load();
@@ -35,6 +36,7 @@
 	function openPlayer() {
 		// TODO: Expand mini-player to full player
 	}
+
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->
@@ -53,7 +55,7 @@
 	src={src}
 />
 
-<div class="m-4 card-footer p-4 bg-primary-500 shadow rounded grid grid-cols-2">
+<div class="rounded-lg card-footer p-4 bg-surface-500/50 shadow grid grid-cols-2">
 	<!-- Currently playing episode details -->
 	<div class="flex">
 		<div class="flex gap-2 items-start">
