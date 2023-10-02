@@ -56,6 +56,7 @@
 				message: error.message,
 				duration: 3000,
 				background: 'variant-filled-error',
+				zIndex: 'z-[1000]',
 			};
 
 			toastStore.trigger(errorToast);
@@ -90,6 +91,7 @@
 				message: error.message,
 				duration: 3000,
 				background: 'variant-filled-error',
+				zIndex: 'z-[1000]',
 			};
 
 			toastStore.trigger(errorToast);

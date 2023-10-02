@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { localStorageStore } from '@skeletonlabs/skeleton';
 
-export const podcastList = writable([]);
-export const currentPodcastId = writable(null);
+export const podcastList = localStorageStore('podcastList', []);
+export const currentPodcastId = localStorageStore('currentPodcastId', '');

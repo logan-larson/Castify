@@ -7,6 +7,8 @@
 	import { query } from '$lib/utils/graphql-client';
 	import { GET_CURRENT_USER, LOGOUT_USER } from '$lib/queries/userQueries';
 	import Player from '$lib/components/Player.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
+	import { isExpanded } from '$lib/stores/navigation';
 	
 	// Lifecycle
 	import { onMount } from 'svelte';
@@ -52,6 +54,7 @@
 			type: 'component',
 			component: 'authModal',
 			title: 'Login',
+			zIndex: 'z-[777]'
 		};
 
 		modalStore.trigger(authModal);
@@ -71,6 +74,11 @@
 			console.error('Error: logging out', error);
 		}
 	}
+
+	//let expandedClass = 'w-64';
+	//$: expandedClass = $isExpanded ? 'w-64' : 'w-12';
+	//$: expandedClass = $isExpanded ? 'w-64' : 'w-16';
+
 </script>
 
 <Toast />
@@ -80,7 +88,7 @@
 <Drawer />
 
 {#if $currentUser}
-<div class="card p-4 w-72 shadow-xl" data-popup="profileOptions">
+<div class="card p-4 w-72 shadow-xl z-[999]" data-popup="profileOptions">
 	<div class="flex flex-col items-center">
 		<Avatar
 			width="w-20"
@@ -96,11 +104,20 @@
 {/if}
 
 <!-- App Shell -->
-<AppShell>
+<AppShell slotSidebarLeft="bg-surface-500/5 {$isExpanded ? 'md:w-64' : 'md:w-16'} transition-all" slotFooter="">
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
 		<AppBar background="bg-secondary-500">
 			<svelte:fragment slot="lead">
+				<button class="hidden md:block btn btn-sm mr-4" on:click={() => { $isExpanded = !$isExpanded }}>
+					<span>
+						<svg viewBox="0 0 100 100" class="fill-token w-4 h-4">
+							<rect width="100" height="20" />
+							<rect y="30" width="100" height="20" />
+							<rect y="60" width="100" height="20" />
+						</svg>
+					</span>
+				</button>
 				<a href="/" class="text-xl uppercase flex items-center gap-1">
 					<img class="w-10 h-10" src="/transparent-bg-512x512.png" alt="Castify logo" />
 					<strong>Castify</strong>
@@ -125,10 +142,16 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
+
+	<svelte:fragment slot="sidebarLeft">
+		<NavBar isSidebar={true} />
+	</svelte:fragment>
+
 	<!-- Page Route Content -->
 	<slot />
 
 	<svelte:fragment slot="footer">
 		<Player />
+		<NavBar isSidebar={false} />
 	</svelte:fragment>
 </AppShell>

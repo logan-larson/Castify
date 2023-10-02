@@ -16,7 +16,7 @@
 	}
 </script>
 
-<div class="w-3/4 bg-primary-500 shadow overflow-hidden sm:rounded-lg flex justify-between px-4">
+<div class="w-3/4 bg-primary-500 shadow overflow-hidden rounded-lg flex justify-between px-4">
 	<div class="flex">
 		<img class="w-16 h-16 my-3 rounded-full" src="{episode.image}" alt="Episode cover art" />
 		<div class="px-1 py-5">

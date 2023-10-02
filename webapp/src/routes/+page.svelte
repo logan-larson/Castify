@@ -30,6 +30,7 @@
 				type: 'component',
 				component: 'addPodcastModal',
 				title: 'Add Podcast',
+				zIndex: 'z-[777]'
 			};
 
 			modalStore.trigger(addPodcastModal);
@@ -38,6 +39,7 @@
 				type: 'component',
 				component: 'authModal',
 				title: 'Login',
+				zIndex: 'z-[777]'
 			};
 
 			modalStore.trigger(authModal);

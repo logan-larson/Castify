@@ -45,7 +45,7 @@
 {#if data}
 <div class="container h-full mx-auto flex justify-center">
 	<div class="space-y-10 text-center flex flex-col items-center">
-		<img class="mt-10 w-60 h-60 rounded-full" src="{data.image}" alt="Podcast cover art" />
+		<img class="mt-10 w-60 h-60 rounded-lg" src="{data.image}" alt="Podcast cover art" />
 		<h1 class="h1 mt-8">{data.title}</h1>
 		<p class="text-lg w-2/3">{data.description}</p>
 
@@ -56,14 +56,12 @@
 </div>
 {:else}
 <div class="container h-full mx-auto flex justify-center">
-	<div class="space-y-10 text-center flex flex-col items-center">
-		<div class="animate-pulse">
-			<div class="h-60 w-60 rounded-full bg-gray-300"></div>
-			<div class="h-8 w-1/2 rounded-full bg-gray-300"></div>
-			<div class="h-8 w-1/2 rounded-full bg-gray-300"></div>
-			<div class="h-8 w-1/2 rounded-full bg-gray-300"></div>
-			<div class="h-8 w-1/2 rounded-full bg-gray-300"></div>
-		</div>
+	<div class="space-y-2 text-center flex flex-col items-center">
+		<div class="mt-10 h-60 w-60 rounded-lg bg-gray-300 animate-pulse" />
+		<div class="mt-10 h-12 w-full rounded-full bg-gray-300 animate-pulse" />
+		<div class="mt-12 h-6 w-full rounded-full bg-gray-300 animate-pulse" />
+		<div class="h-6 w-full rounded-full bg-gray-300 animate-pulse" />
+		<div class="h-6 w-full rounded-full bg-gray-300 animate-pulse" />
 	</div>
 </div>
 {/if}
