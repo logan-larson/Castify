@@ -48,13 +48,13 @@
 </script>
 
 <div class="container h-full mx-auto flex justify-center">
-	<div class="space-y-10 text-center flex flex-col items-center">
-		<h2 class="h2 mt-10">Welcome to Castify</h2>
-		<p class="text-lg">
+	<div class="text-center flex flex-col items-center">
+		<h2 class="h2 my-10">Welcome to Castify</h2>
+		<p class="text-lg mb-10">
 			Click on a podcast to view its episodes or add a new podcast by clicking the button below.
 		</p>
 
-		<button class="btn bg-secondary-200 rounded-full p-3 pr-5 shadow-md my-auto mx-2" on:click={addPodcast}>
+		<button class="btn bg-secondary-200 rounded-full p-3 pr-5 shadow-md mb-10 mx-2" on:click={addPodcast}>
 			<svg class="h-8 w-8 text-secondary-400" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"
@@ -68,7 +68,7 @@
 			</span>
 		</button>
 
-		<div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-2">
+		<div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-2 mb-28">
 		{#each $podcastList as podcast}
 			<div class="w-60">
 				<PodcastCard {podcast} />
