@@ -8,7 +8,7 @@
 	import { GET_CURRENT_USER, LOGOUT_USER } from '$lib/queries/userQueries';
 	import Player from '$lib/components/Player.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
-	import { isExpanded } from '$lib/stores/navigation';
+	import { isExpanded, activeTab } from '$lib/stores/navigation';
 	
 	// Lifecycle
 	import { onMount } from 'svelte';
@@ -118,7 +118,7 @@
 						</svg>
 					</span>
 				</button>
-				<a href="/" class="text-xl uppercase flex items-center gap-1">
+				<a href="/" class="text-xl uppercase flex items-center gap-1" on:click={() => $activeTab = ''}>
 					<img class="w-10 h-10" src="/transparent-bg-512x512.png" alt="Castify logo" />
 					<strong>Castify</strong>
 				</a>
