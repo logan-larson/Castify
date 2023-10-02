@@ -104,12 +104,13 @@
 {/if}
 
 <!-- App Shell -->
-<AppShell slotSidebarLeft="bg-surface-500/5 {$isExpanded ? 'md:w-64' : 'md:w-16'} transition-all" slotFooter="">
+<!-- <AppShell slotSidebarLeft="bg-surface-500/5 {$isExpanded ? 'md:w-64' : 'md:w-16'} transition-all" slotFooter=""> -->
+<AppShell>
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
 		<AppBar background="bg-secondary-500">
 			<svelte:fragment slot="lead">
-				<button class="hidden md:block btn btn-sm mr-4" on:click={() => { $isExpanded = !$isExpanded }}>
+				<!-- <button class="hidden md:block btn btn-sm mr-4" on:click={() => { $isExpanded = !$isExpanded }}>
 					<span>
 						<svg viewBox="0 0 100 100" class="fill-token w-4 h-4">
 							<rect width="100" height="20" />
@@ -117,7 +118,7 @@
 							<rect y="60" width="100" height="20" />
 						</svg>
 					</span>
-				</button>
+				</button> -->
 				<a href="/" class="text-xl uppercase flex items-center gap-1" on:click={() => $activeTab = ''}>
 					<img class="w-10 h-10" src="/transparent-bg-512x512.png" alt="Castify logo" />
 					<strong>Castify</strong>
@@ -144,7 +145,7 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="sidebarLeft">
-		<NavBar isSidebar={true} />
+		<!-- <NavBar isSidebar={true} /> -->
 	</svelte:fragment>
 
 	<!-- Page Route Content -->
@@ -152,6 +153,6 @@
 
 	<svelte:fragment slot="footer">
 		<Player />
-		<NavBar isSidebar={false} />
+		<!-- <NavBar isSidebar={false} /> -->
 	</svelte:fragment>
 </AppShell>
