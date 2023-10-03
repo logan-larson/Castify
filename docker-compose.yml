@@ -35,10 +35,12 @@ services:
       dockerfile: Dockerfile
       args:
         PROD: ${PROD}
+        MOBILE: false
     ports: # TODO: move to expose eventually because we're using nginx
       - "${WEBAPP_PORT}:${WEBAPP_PORT}"
     environment:
       - PROD=${PROD}
+      - MOBILE=false
     depends_on:
       - api
     

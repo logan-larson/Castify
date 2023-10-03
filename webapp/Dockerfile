@@ -1,6 +1,7 @@
 FROM node:lts-slim AS build
 
 ARG PROD
+ARG MOBILE
 
 WORKDIR /app
 
@@ -10,8 +11,8 @@ RUN rm -rf build
 
 COPY . .
 
-ENV PROD=${PROD}
 ENV PUBLIC_PROD=${PROD}
+ENV PUBLIC_MOBILE=${MOBILE}
 
 RUN npm install
 RUN npm run build
