@@ -36,6 +36,7 @@
 				toastStore.trigger({
 					message: 'Could not find podcast at the URL: ' + formData.rssUrl,
 					background: 'variant-filled-error',
+					zIndex: 'z-[1000]',
 				});	
 				return;
 			}
@@ -48,6 +49,7 @@
 			toastStore.trigger({
 				message: `Successfully added ${addPodcast.title}!`,
 				background: 'variant-filled-success',
+				zIndex: 'z-[1000]',
 			});
 
 			modalStore.close();
@@ -57,6 +59,7 @@
 			toastStore.trigger({
 				message: 'Could not find podcast at the URL: ' + formData.rssUrl,
 				background: 'variant-filled-error',
+				zIndex: 'z-[1000]',
 			});	
 		}
 	}
