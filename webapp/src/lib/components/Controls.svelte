@@ -87,33 +87,45 @@
 
 	<!-- Skip Backward Button -->
 	<button type="button" class="btn-icon btn-icon-lg variant-ghost-surface" on:click={skipBackward}>
-		<span class="icon text-xl mb-1"><i class="fas fa-rotate-left"></i></span>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+		</svg>
 	</button>
 
 	<!-- Play/Pause Button -->
 	{#if $isPlaying}
 	<button type="button" class="btn-icon btn-icon-lg variant-ghost-surface" on:click={pause}>
-		<span class="icon text-xl mb-1"><i class="fas fa-pause"></i></span>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+		</svg>
 	</button>
 	{:else}
 	<button type="button" class="btn-icon btn-icon-lg variant-ghost-surface" on:click={play}>
-		<span class="icon text-xl mb-1"><i class="fas fa-play"></i></span>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
+		</svg>
 	</button>
 	{/if}
 
 	<!-- Skip Forward Button -->
 	<button type="button" class="btn-icon btn-icon-lg variant-ghost-surface" on:click={skipForward}>
-		<span class="icon text-xl mb-1"><i class="fas fa-rotate-right"></i></span>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+		</svg>
 	</button>
 
 	<!-- Expand/Collapse Player -->
 	{#if $isExpanded}
 	<button type="button" class="btn-icon btn-icon-lg variant-ghost-surface" on:click={togglePlayer}>
-		<span class="icon text-xl mb-1"><i class="fas fa-chevron-down"></i></span>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+		</svg>
 	</button>
 	{:else}
 	<button type="button" class="btn-icon btn-icon-lg variant-ghost-surface" on:click={togglePlayer}>
-		<span class="icon text-xl mb-1"><i class="fas fa-chevron-up"></i></span>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+		</svg>
 	</button>
 	{/if}
 </div>
