@@ -4,6 +4,7 @@
 	import { onMount, onDestroy } from "svelte";
 
 	import Controls from './Controls.svelte';
+	import Timeline from "./Controls/Timeline.svelte";
 
 	let duration = 0;
 	let formattedTime = format($currentTime);
@@ -40,9 +41,10 @@
 	src={src}
 />
 
-<div class="rounded-lg shadow grid fixed w-full z-[800] {$isExpanded ? 'h-[100%] bottom-0 left-0 bg-surface-800' : 'h-[10%] bottom-0 left-0 bg-surface-800/95'} transition-all duration-500">
+<div class="rounded-lg shadow grid grid-cols-1 fixed w-full z-[800] {$isExpanded ? 'h-[100%] bottom-0 left-0 bg-surface-800' : 'h-[10%] md:h-[8%] bottom-0 left-0 bg-surface-800/95'} transition-all duration-500">
 	{#if $isExpanded}
 	<!-- Full Player View -->
+	<Timeline />
 	<Controls />
 	{:else}
 	<!-- Mini Player View -->
