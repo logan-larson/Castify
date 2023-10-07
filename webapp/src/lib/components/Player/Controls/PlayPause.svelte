@@ -1,5 +1,5 @@
  <script>
-	import { audioPlayer, currentTime, isPlaying, currentEpisode } from "$lib/stores/player";
+	import { audioPlayer, currentTimeLocal, isPlaying, currentEpisode } from "$lib/stores/player";
 
 	function play() {
 		if ($audioPlayer.src.length === 0) return;
@@ -16,7 +16,7 @@
 	function pause() {
 		$audioPlayer.pause();
 
-		$currentTime = $audioPlayer.currentTime;
+		$currentTimeLocal = $audioPlayer.currentTime;
 
 		isPlaying.pause();
 	}

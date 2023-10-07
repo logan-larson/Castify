@@ -38,7 +38,7 @@ export const UserMutations = {
 
 			// Save the user
 			const createResult = await session.run(
-				'CREATE (u:User { id: randomUUID(), username: $username, email: $email, password: $hashedPassword })  RETURN u',
+				'CREATE (u:User { id: randomUUID(), username: $username, email: $email, password: $hashedPassword, createdOn: datetime() })  RETURN u',
 				{ username, email, hashedPassword }
 			);
 
