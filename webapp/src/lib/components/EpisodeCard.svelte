@@ -5,10 +5,10 @@
 	export let episode;
 
 	function play() {
-		isPlaying.play();
-		currentEpisode.set(episode);
 		$audioPlayer.src = episode.url;
 		$audioPlayer.play();
+		isPlaying.play();
+		currentEpisode.set(episode);
 	}
 	
 	function pause() {

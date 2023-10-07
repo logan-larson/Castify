@@ -8,7 +8,7 @@
 </script>
 
 <!-- Mobile Controls -->
-<div class="flex md:hidden justify-around fixed bottom-2 w-full">
+<div class="flex md:hidden justify-around w-full">
 	<EpisodeDetails />
 
 	<SkipBackward />
@@ -21,7 +21,7 @@
 </div>
 
 <!-- Desktop Controls -->
-<div class="hidden md:flex justify-around fixed bottom-2 w-full">
+<div class="hidden md:flex justify-around w-full">
 	<!-- Episode Details -->
 	<EpisodeDetails />
 

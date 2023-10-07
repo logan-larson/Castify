@@ -1,42 +1,27 @@
 <script>
+    import { currentEpisode, currentTime, duration } from "$lib/stores/player";
+    import { RangeSlider } from "@skeletonlabs/skeleton";
+    import { format } from "$lib/utils/formatting";
 
+    export let inFullPlayer = false;
+
+    $: formattedCurrentTime = format($currentTime);
+    $: formattedDuration = format($duration);
+
+    currentEpisode.subscribe((value) => {
+        console.log(value);
+        formattedCurrentTime = format($currentTime);
+        formattedDuration = format($duration);
+    });
 </script>
 
-<!-- Timestamps and Scrubber -->
-<div class="flex items-center space-x-4">
-	<!-- Current Time -->
-	<span class="text-white text-xs">21:50</span>
-	
-	<!-- Scrubber -->
-	<div class="relative flex-grow">
-		<input type="range" min="0" max="100" value="50" class="slider w-full h-1.5 cursor-pointer rounded-full bg-gray-600 appearance-none outline-none">
-		<div class="absolute top-[10px] left-0 h-1.5 w-1/2 bg-white rounded-full"></div>
-	</div>
-	
-	<!-- Total Time -->
-	<span class="text-white text-xs">22:30</span>
-</div>
+<!-- Scrubber -->
+<RangeSlider name="timeline" min="0" max="{$duration}" step="1" bind:value={$currentTime} class="w-[90%] mb-4 md:mb-0 md:w-[40%] {inFullPlayer ? 'md:hidden' : ''}">
+    <div class="flex justify-between items-center">
+        <!-- Current Time -->
+        <div class="text-white text-xs">{formattedCurrentTime}</div>
 
-<!-- TailwindCSS for the custom range slider -->
-<style>
-    .slider::-webkit-slider-thumb {
-        height: 10px;
-        width: 10px;
-        background-color: white;
-        cursor: pointer;
-        appearance: none;
-        border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: -4px; /* For proper vertical alignment */
-    }
-    .slider::-moz-range-thumb {
-        height: 10px;
-        width: 10px;
-        background-color: white;
-        cursor: pointer;
-        appearance: none;
-        border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: -4px; /* For proper vertical alignment */
-    }
-</style>
+        <!-- Total Time -->
+        <div class="text-white text-xs">{formattedDuration}</div>
+    </div>
+</RangeSlider>

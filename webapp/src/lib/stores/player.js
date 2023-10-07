@@ -19,6 +19,9 @@ const createIsPlaying = () => {
 };
 
 export const isPlaying = createIsPlaying();
-export const currentTime = localStorageStore('currentTime', 0);
+
+export const currentTimeLocal = localStorageStore('currentTime', 0);
+export const currentTime = writable(0);
+export const duration = localStorageStore('duration', 0);
 
 export const isExpanded = localStorageStore('isExpanded', false);
