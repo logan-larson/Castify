@@ -1,24 +1,6 @@
 <script>
 	import { audioPlayer, currentEpisode, isPlaying, status, isExpanded, currentTime } from "$lib/stores/player";
-	import { format } from "$lib/utils/formatting";
-	import { onMount, onDestroy } from "svelte";
-
-	let duration = 0;
-	let formattedTime = format($currentTime);
-	let paused = true;
-	let volume = 0.5;
-	let src = $currentEpisode.url;
-
-	onMount(() => {
-		// Load the audio player to the current time
-		$audioPlayer.currentTime = $currentTime;
-		$audioPlayer.load();
-	});
-
-	onDestroy(() => {
-		// Save the current time to the store
-		$currentTime = $audioPlayer.currentTime;
-	});
+	import { currentEpisodeId } from '$lib/stores/episode.js';
 
 	function play() {
 		if ($audioPlayer.src.length === 0) return;
@@ -55,24 +37,10 @@
 	}
 	
 	function showEpisode() {
-		// TODO: Show episode details page
+		currentEpisodeId.set($currentEpisode.id);
+		window.location.href = `/podcast/episode`;
 	}
 </script>
-
-<!-- svelte-ignore a11y-media-has-caption -->
-<audio
-	bind:this={$audioPlayer}
-	bind:duration={duration}
-	bind:paused={paused}
-	bind:volume={volume}
-	on:canplay="{() => $status = 'can play some'}"
-	on:canplaythrough="{() => $status = 'can play all'}"
-	on:waiting="{() => $status = 'waiting'}"
-	on:timeupdate="{() => $status = 'playing'}"
-	on:seeking="{() => $status = 'seeking'}"
-	on:ended="{() => {$isPlaying = false; $currentTime = 0}}"
-	src={src}
-/>
 
 <div class="flex justify-around fixed bottom-2 w-full">
 
