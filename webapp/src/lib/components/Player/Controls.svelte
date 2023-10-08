@@ -5,6 +5,7 @@
 	import SkipForward from "./Controls/SkipForward.svelte";
 	import ExpandCollapse from "./Controls/ExpandCollapse.svelte";
 	import Timeline from "./Controls/Timeline.svelte";
+	import Volume from "./Controls/Volume.svelte";
 </script>
 
 <!-- Mobile Controls -->
@@ -29,7 +30,9 @@
 	<Timeline />
 
 	<!-- Controls -->
-	<div class="flex">
+	<div class="flex gap-4">
+		<!-- Volume -->
+		<Volume />
 		<!-- Skip Backward -->
 		<SkipBackward />
 		<!-- Play/Pause -->

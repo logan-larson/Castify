@@ -1,12 +1,21 @@
 <script>
-	import { audioPlayer, currentEpisode, isPlaying, status, isExpanded, currentTimeLocal, currentTime, duration } from "$lib/stores/player";
+	import { 
+		audioPlayer,
+		currentEpisode,
+		isPlaying,
+		status,
+		isExpanded,
+		currentTimeLocal,
+		currentTime,
+		duration,
+		volume
+	} from "$lib/stores/player";
 	import { onMount, onDestroy } from "svelte";
 
 	import Controls from './Controls.svelte';
 	import Timeline from "./Controls/Timeline.svelte";
 
 	let paused = true;
-	let volume = 0.5;
 	let src = $currentEpisode.url;
 
 	onMount(() => {
@@ -27,7 +36,7 @@
 	bind:this={$audioPlayer}
 	bind:duration={$duration}
 	bind:paused={paused}
-	bind:volume={volume}
+	bind:volume={$volume}
 	bind:currentTime={$currentTime}
 	on:canplay="{() => $status = 'can play some'}"
 	on:canplaythrough="{() => $status = 'can play all'}"
