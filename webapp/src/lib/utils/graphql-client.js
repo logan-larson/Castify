@@ -18,7 +18,6 @@ const clientURL = isProductionClient
  * @param {any} query
  */
 export function query(query, variables = {}) {
-  console.log("clientURL: ", clientURL);
   return fetch(clientURL, {
     method: 'POST',
     credentials: 'include',

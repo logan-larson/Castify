@@ -3,8 +3,6 @@ import { ApolloServer } from "apollo-server-express";
 import { Neo4jGraphQL } from '@neo4j/graphql';
 import { driver } from './database/driver.js';
 
-//import { startStandaloneServer } from '@apollo/server/standalone';
-
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from "url";
@@ -13,6 +11,7 @@ import { resolvers } from './graphql/resolvers/index.js';
 
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
