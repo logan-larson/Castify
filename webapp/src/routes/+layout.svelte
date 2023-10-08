@@ -6,7 +6,7 @@
 	import AddPodcastModal from '$lib/components/AddPodcastModal.svelte';
 	import { query } from '$lib/utils/graphql-client';
 	import { GET_CURRENT_USER, LOGOUT_USER } from '$lib/queries/userQueries';
-	import Player from '$lib/components/Player.svelte';
+	import Player from '$lib/components/Player/Player.svelte';
 	import NavBar from '$lib/components/NavBar.svelte';
 	import { isExpanded, activeTab } from '$lib/stores/navigation';
 	

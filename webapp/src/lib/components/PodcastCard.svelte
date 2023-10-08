@@ -9,8 +9,6 @@
 		;
 
     function openPodcast() {
-        //window.location.href = `/podcast`;
-
         currentPodcastId.set(podcast.id);
     }
 </script>

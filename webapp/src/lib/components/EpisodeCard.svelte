@@ -1,22 +1,27 @@
 <script>
 	import { isPlaying, currentEpisode, audioPlayer } from "$lib/stores/player";
+	import { currentEpisodeId } from '$lib/stores/episode.js';
 
 	export let episode;
 
 	function play() {
-		isPlaying.play();
-		currentEpisode.set(episode);
 		$audioPlayer.src = episode.url;
 		$audioPlayer.play();
+		isPlaying.play();
+		currentEpisode.set(episode);
 	}
 	
 	function pause() {
 		isPlaying.pause();
 		$audioPlayer.pause();
 	}
+
+	function openEpisode() {
+		currentEpisodeId.set(episode.id);
+	}
 </script>
 
-<div class="w-3/4 bg-primary-500 shadow overflow-hidden rounded-lg flex justify-between px-4">
+<a href="/podcast/episode" on:click|self={openEpisode} class="w-3/4 bg-primary-500 shadow overflow-hidden rounded-lg flex justify-between px-4">
 	<div class="flex">
 		<img class="w-16 h-16 my-3 rounded-full" src="{episode.image}" alt="Episode cover art" />
 		<div class="px-1 py-5">
@@ -30,7 +35,7 @@
 	</div>
 	<!-- A circle button with a play icon in the middle -->
 	{#if $isPlaying && $currentEpisode.title === episode.title}
-	<button class="btn bg-secondary-200 rounded-full p-3 shadow-md my-auto mx-2" on:click={pause}>
+	<button class="btn bg-secondary-200 rounded-full p-3 shadow-md my-auto mx-2" on:click|preventDefault={pause}>
 		<svg class="h-8 w-8 text-secondary-400" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
 			<path
 				stroke-linecap="round"
@@ -41,7 +46,7 @@
 		</svg>
 	</button>
 	{:else}
-	<button class="btn bg-secondary-200 rounded-full p-3 shadow-md my-auto mx-2" on:click={play}>
+	<button class="btn bg-secondary-200 rounded-full p-3 shadow-md my-auto mx-2" on:click|preventDefault={play}>
 		<svg class="h-8 w-8 text-secondary-400" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
 			<path
 				stroke-linecap="round"
@@ -52,4 +57,4 @@
 		</svg>
 	</button>
 	{/if}
-</div>
+</a>
