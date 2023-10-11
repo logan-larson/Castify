@@ -108,7 +108,7 @@
 <AppShell>
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
-		<AppBar background="bg-secondary-500">
+		<AppBar background="bg-secondary-500 pt-10 md:pt-4">
 			<svelte:fragment slot="lead">
 				<!-- <button class="hidden md:block btn btn-sm mr-4" on:click={() => { $isExpanded = !$isExpanded }}>
 					<span>
