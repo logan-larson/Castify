@@ -50,6 +50,8 @@
 
 			modalStore.close();
 		} catch (error) {
+			console.log('Error: logging in', error);
+
 			const errorToast = {
 				type: 'toast',
 				title: 'Error',
