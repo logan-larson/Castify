@@ -1,5 +1,6 @@
 import express from 'express';
 import { ApolloServer } from "apollo-server-express";
+import { Neo4jGraphQL } from "@neo4j/graphql";
 import { driver } from './database/driver.js';
 
 import fs from 'fs';
@@ -18,9 +19,9 @@ const __dirname = path.dirname(__filename);
 
 const typeDefs = fs.readFileSync(path.join(__dirname, 'graphql', 'typeDefs.gql'), 'utf8');
 
+const neoSchema = new Neo4jGraphQL({ typeDefs, resolvers, driver });
+
 const server = new ApolloServer({
-	typeDefs,
-	resolvers,
 	context: ({ req, res }) => {
 		if (!req.headers.cookie) {
 			return { req, res, token: null };
@@ -30,6 +31,7 @@ const server = new ApolloServer({
 
 		return { req, res, token };
 	},
+	schema: await neoSchema.getSchema(),
 });
 
 await server.start();
