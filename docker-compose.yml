@@ -3,13 +3,12 @@ version: '3'
 services:
   neo4j:
     image: neo4j:latest
-    container_name: neo4j-castify
     ports: # TODO: move to expose eventually because we're using nginx
       - "7474:7474"
       - "7687:7687"
     volumes:
-      - ./neo4j/data:/data
-      - ./neo4j/logs:/logs
+      - /mnt/neo4j/data:/data
+      - /mnt/neo4j/logs:/logs
     environment:
       - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
 
