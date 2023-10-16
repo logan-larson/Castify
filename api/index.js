@@ -40,23 +40,30 @@ const app = express();
 
 app.use(morgan('dev'));
 
+const origins = process.env.PROD == "true"
+	? [
+		"https://castify.social",
+	]
+	: [
+		"http://localhost",
+		"https://localhost",
+		"http://localhost:4000",
+		"http://localhost:4173",
+		"http://localhost:5173",
+		"https://studio.apollographql.com",
+		"http://172.234.31.87",
+		"https://172.234.31.87",
+		"http://castify.social",
+		"https://castify.social",
+		"http://api:4000",
+		"http://webapp:3000",
+	]
+	;
+
 server.applyMiddleware({
 	app,
 	cors: {
-		origin: [
-			"http://localhost",
-			"https://localhost",
-			"http://localhost:4000",
-			"http://localhost:4173",
-			"http://localhost:5173",
-			"https://studio.apollographql.com",
-			"http://172.234.31.87",
-			"https://172.234.31.87",
-			"http://castify.social",
-			"https://castify.social",
-			"http://api:4000",
-			"http://webapp:3000",
-		],
+		origin: origins,
 		credentials: true
 	}
 });
