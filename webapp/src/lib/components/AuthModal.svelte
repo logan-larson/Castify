@@ -32,7 +32,6 @@
 
 	async function login() {
 		try {
-
 			validateLoginInput();
 
 			const response = await query(
@@ -51,12 +50,15 @@
 
 			modalStore.close();
 		} catch (error) {
+			console.log('Error: logging in', error);
+
 			const errorToast = {
 				type: 'toast',
 				title: 'Error',
 				message: error.message,
 				duration: 3000,
 				background: 'variant-filled-error',
+				zIndex: 'z-[1000]',
 			};
 
 			toastStore.trigger(errorToast);
@@ -91,6 +93,7 @@
 				message: error.message,
 				duration: 3000,
 				background: 'variant-filled-error',
+				zIndex: 'z-[1000]',
 			};
 
 			toastStore.trigger(errorToast);

@@ -1,7 +1,7 @@
 import { driver } from "../../database/driver.js"
 import { GraphQLError } from 'graphql';
 import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
+import jwt from "../../utils/jwt.js";
 import dotenv from 'dotenv';
 import cookie from 'cookie';
 
@@ -38,20 +38,14 @@ export const UserMutations = {
 
 			// Save the user
 			const createResult = await session.run(
-				'CREATE (u:User { id: randomUUID(), username: $username, email: $email, password: $hashedPassword })  RETURN u',
+				'CREATE (u:User { id: randomUUID(), username: $username, email: $email, password: $hashedPassword, createdOn: datetime() })  RETURN u',
 				{ username, email, hashedPassword }
 			);
 
 			const newUser = createResult.records[0].get('u').properties;
 
 			// Create JWT
-			const token = jwt.sign(
-				{ user_id: newUser.id, email },
-				process.env.JWT_SECRET,
-				{
-					expiresIn: "2h"
-				}
-			)
+			const token = jwt.generateToken(newUser);
 
 			// Attach the JWT to the user in the DB
 			const updateResult = await session.run(`
@@ -135,13 +129,7 @@ export const UserMutations = {
 			}
 
 			// Create new JWT
-			const token = jwt.sign(
-				{ user_id: user.id, email },
-				process.env.JWT_SECRET,
-				{
-					expiresIn: "2h"
-				}
-			)
+			const token = jwt.generateToken(user);
 
 			// Attach the new JWT to the user in the DB
 			const updateResult = await session.run(`
@@ -253,7 +241,7 @@ export const UserQueries = {
 		const session = driver.session();
 
 		try {
-			const decoded = jwt.verify(token, process.env.JWT_SECRET);
+			const decoded = jwt.verifyToken(token);
 
 			const userId = decoded.user_id;
 

@@ -1,5 +1,28 @@
-import adapter from '@sveltejs/adapter-node';
+import nodeAdapter from '@sveltejs/adapter-node';
+import staticAdapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+// TODO: Switch the adapter during CD based on the target platform.
+// --- Node for web
+// --- Static for mobile
+const adapter = () => {
+	if (process.env.PUBLIC_MOBILE === "true") {
+		return staticAdapter({
+			pages: 'build',
+			assets: 'build',
+			fallback: 'index.html',
+			precompress: false,
+			strict: true
+		});
+	}
+
+	return nodeAdapter({
+		out: 'build'
+	});
+}
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

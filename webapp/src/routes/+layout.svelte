@@ -5,8 +5,10 @@
 	import AuthModal from '$lib/components/AuthModal.svelte';
 	import AddPodcastModal from '$lib/components/AddPodcastModal.svelte';
 	import { query } from '$lib/utils/graphql-client';
-	import { LOGOUT_USER } from '$lib/queries/userQueries';
-	import Player from '$lib/components/Player.svelte';
+	import { GET_CURRENT_USER, LOGOUT_USER } from '$lib/queries/userQueries';
+	import Player from '$lib/components/Player/Player.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
+	import { isExpanded, activeTab } from '$lib/stores/navigation';
 	
 	// Lifecycle
 	import { onMount } from 'svelte';
@@ -34,10 +36,17 @@
 		}
 	};
 
-	export let data;
-
 	onMount(async () => {
-		currentUser.login(data.user);
+		try {
+			const response = await query(GET_CURRENT_USER);
+
+			const { getCurrentUser } = response;
+
+			currentUser.login(getCurrentUser);
+		} catch (error) {
+			console.error('Error: getting current user', error);
+			currentUser.logout();
+		}
 	});
 
 	function openAuthModal() {
@@ -45,6 +54,7 @@
 			type: 'component',
 			component: 'authModal',
 			title: 'Login',
+			zIndex: 'z-[777]'
 		};
 
 		modalStore.trigger(authModal);
@@ -64,6 +74,11 @@
 			console.error('Error: logging out', error);
 		}
 	}
+
+	//let expandedClass = 'w-64';
+	//$: expandedClass = $isExpanded ? 'w-64' : 'w-12';
+	//$: expandedClass = $isExpanded ? 'w-64' : 'w-16';
+
 </script>
 
 <Toast />
@@ -73,7 +88,7 @@
 <Drawer />
 
 {#if $currentUser}
-<div class="card p-4 w-72 shadow-xl" data-popup="profileOptions">
+<div class="card p-4 w-72 shadow-xl z-[999]" data-popup="profileOptions">
 	<div class="flex flex-col items-center">
 		<Avatar
 			width="w-20"
@@ -89,12 +104,22 @@
 {/if}
 
 <!-- App Shell -->
+<!-- <AppShell slotSidebarLeft="bg-surface-500/5 {$isExpanded ? 'md:w-64' : 'md:w-16'} transition-all" slotFooter=""> -->
 <AppShell>
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
-		<AppBar background="bg-secondary-500">
+		<AppBar background="bg-secondary-500 pt-10 md:pt-4">
 			<svelte:fragment slot="lead">
-				<a href="/" class="text-xl uppercase flex items-center gap-1">
+				<!-- <button class="hidden md:block btn btn-sm mr-4" on:click={() => { $isExpanded = !$isExpanded }}>
+					<span>
+						<svg viewBox="0 0 100 100" class="fill-token w-4 h-4">
+							<rect width="100" height="20" />
+							<rect y="30" width="100" height="20" />
+							<rect y="60" width="100" height="20" />
+						</svg>
+					</span>
+				</button> -->
+				<a href="/" class="text-xl uppercase flex items-center gap-1" on:click={() => $activeTab = ''}>
 					<img class="w-10 h-10" src="/transparent-bg-512x512.png" alt="Castify logo" />
 					<strong>Castify</strong>
 				</a>
@@ -118,10 +143,16 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
+
+	<svelte:fragment slot="sidebarLeft">
+		<!-- <NavBar isSidebar={true} /> -->
+	</svelte:fragment>
+
 	<!-- Page Route Content -->
 	<slot />
 
 	<svelte:fragment slot="footer">
 		<Player />
+		<!-- <NavBar isSidebar={false} /> -->
 	</svelte:fragment>
 </AppShell>

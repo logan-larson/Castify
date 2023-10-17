@@ -1,13 +1,19 @@
 <script>
+    import { currentPodcastId } from '$lib/stores/podcast.js';
+
 	export let podcast;
 
 	const truncatedDescription = podcast.description.length > 64
 		? podcast.description.substring(0, 64) + '...'
 		: podcast.description
 		;
+
+    function openPodcast() {
+        currentPodcastId.set(podcast.id);
+    }
 </script>
 
-<a href="/podcast/{podcast.id}" class="card card-hover overflow-hidden rounded-lg shadow-md">
+<a href="/podcast" on:click={openPodcast} class="card card-hover overflow-hidden rounded-lg shadow-md">
     <header class="h-2/3 relative">
         <img class="w-full h-full object-cover rounded-t-lg" src="{podcast.image}" alt="Podcast cover art" />
     </header>
