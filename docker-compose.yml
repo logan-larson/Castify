@@ -3,9 +3,9 @@ version: '3'
 services:
   neo4j:
     image: neo4j:latest
-    ports: # TODO: move to expose eventually because we're using nginx
-      - "7474:7474"
-      - "7687:7687"
+    expose:
+      - "7474"
+      - "7687"
     volumes:
       - /mnt/neo4j/data:/data
       - /mnt/neo4j/logs:/logs
@@ -16,8 +16,8 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    ports: # TODO: move to expose eventually because we're using nginx
-      - "${API_PORT}:${API_PORT}"
+    expose:
+      - "${API_PORT}"
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - NEO4J_URL=neo4j://neo4j:7687
@@ -35,8 +35,8 @@ services:
       args:
         PROD: ${PROD}
         MOBILE: false
-    ports: # TODO: move to expose eventually because we're using nginx
-      - "${WEBAPP_PORT}:${WEBAPP_PORT}"
+    expose:
+      - "${WEBAPP_PORT}"
     environment:
       - PROD=${PROD}
       - MOBILE=false
