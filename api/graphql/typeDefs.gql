@@ -33,6 +33,10 @@ input AddPodcastInput {
     rssUrl: String
 }
 
+input UpdatePodcastInput {
+    id: ID!
+}
+
 type FollowerRelation {
     follower: User!
     followed: User!
@@ -73,6 +77,7 @@ type Mutation {
 
     # Podcasts
     addPodcast(addPodcastInput: AddPodcastInput): Podcast
+    updatePodcast(updatePodcastInput: UpdatePodcastInput): Podcast
 }
 
 # ------------------------------------------------------------

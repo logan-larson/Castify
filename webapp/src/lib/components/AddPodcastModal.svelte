@@ -1,7 +1,7 @@
 <script>
 	import { query } from '$lib/utils/graphql-client';
 	import { ADD_PODCAST } from '$lib/queries/podcastQueries';
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { ProgressRadial, getModalStore } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { podcastList } from '$lib/stores/podcast.js';
 	import { readable } from 'svelte/store';
@@ -19,8 +19,12 @@
 		rssUrl: '',
 	};
 
+	let isSubmitting = false;
+
 	async function onFormSubmit() {
 		try {
+			isSubmitting = true;
+			
 			const response = await query(
 				ADD_PODCAST,
 				{ 
@@ -29,6 +33,8 @@
 					}
 				},
 			);
+
+			isSubmitting = false;
 
 			const { addPodcast } = response;
 
@@ -54,6 +60,8 @@
 
 			modalStore.close();
 		} catch (error) {
+			isSubmitting = false;
+
 			console.error('Error: adding podcast - ', error);
 
 			toastStore.trigger({
@@ -87,7 +95,13 @@
 		<!-- prettier-ignore -->
 		<footer class="modal-footer {parent.regionFooter}">
         <button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>{parent.buttonTextCancel}</button>
-        <button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>Submit</button>
+				{#if isSubmitting}
+					<button class="btn {parent.buttonPositive} w-24">
+						<ProgressRadial value={undefined} width="w-6" />
+					</button>
+				{:else}
+					<button class="btn {parent.buttonPositive}" on:click={onFormSubmit}>Submit</button>
+				{/if}
     </footer>
 	</div>
 {/if}

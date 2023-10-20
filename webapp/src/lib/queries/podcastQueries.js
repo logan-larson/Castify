@@ -30,6 +30,26 @@ export const GET_PODCAST_DETAILS = `
 	}
 `;
 
+export const CHECK_FOR_NEW_EPISODES = `
+	mutation CheckForNewEpisodes($updatePodcastInput: UpdatePodcastInput) {
+		updatePodcast(updatePodcastInput: $updatePodcastInput) {
+			id
+			title
+			description
+			image
+			episodes {
+				id
+				title
+				description
+				releaseDate
+				duration
+				url
+				image
+			}
+		}
+	}
+`;
+
 export const GET_PODCAST = `
     query GetPodcast($id: ID!) {
         podcast(id: $id) {

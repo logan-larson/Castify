@@ -2,10 +2,10 @@
 	import EpisodeCard from '$lib/components/EpisodeCard.svelte';
 	import ScrollToTop from '$lib/components/ScrollToTop.svelte';
 	import { onMount } from 'svelte';
-	import { GET_PODCAST_DETAILS } from '$lib/queries/podcastQueries';
+	import { GET_PODCAST_DETAILS, CHECK_FOR_NEW_EPISODES } from '$lib/queries/podcastQueries';
 	import { query } from '$lib/utils/graphql-client.js';
 	import { currentPodcastId } from '$lib/stores/podcast.js';
-	import { TabGroup, Tab, getToastStore } from '@skeletonlabs/skeleton';
+	import { TabGroup, Tab, getToastStore, ProgressRadial } from '@skeletonlabs/skeleton';
 
 	const toastStore = getToastStore();
 
@@ -16,6 +16,8 @@
 
 	$: episodes = episodes == null ? [] :
 		sortAsc ? episodes.sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)) : episodes.sort((a, b) => new Date(a.releaseDate) - new Date(b.releaseDate));
+
+	let isCheckingForEpisodes = false;
 
 	onMount(async () => {
 		try {
@@ -54,6 +56,46 @@
 		}
 	});
 
+	async function checkForNewEpisodes() {
+		try {
+			isCheckingForEpisodes = true;
+
+			const variables = {
+				"updatePodcastInput": {
+					"id": $currentPodcastId,
+				},
+				"options": {
+					"sort": [
+						{
+							"releaseDate": sortAsc ? "ASC" : "DESC"
+						}
+					]
+				}
+			};
+
+			const response = await query(CHECK_FOR_NEW_EPISODES, variables);
+
+			const { updatePodcast } = response;
+
+			data = updatePodcast;
+			episodes = data.episodes || [];
+		} catch (error) {
+			console.error(error);
+
+			toastStore.trigger({
+				type: 'toast',
+				title: 'Error',
+				message: error.message,
+				duration: 3000,
+				background: 'variant-filled-error',
+			});
+
+			data = null;
+		} finally {
+			isCheckingForEpisodes = false;
+		}
+	}
+
 </script>
 
 <ScrollToTop />
@@ -63,7 +105,15 @@
 	<div class="space-y-10 text-center flex flex-col items-center">
 		<img class="mt-10 w-60 h-60 rounded-lg" src="{data.image}" alt="Podcast cover art" />
 		<h1 class="h1 mt-8">{data.title}</h1>
-		<p class="text-lg w-2/3">{data.description}</p>
+		<p class="text-lg w-80 md:w-2/3">{data.description}</p>
+
+		{#if isCheckingForEpisodes}
+			<button class="btn variant-filled shadow-md mb-10 w-52" on:click={checkForNewEpisodes}>
+				<ProgressRadial value={undefined} width="w-6" />
+			</button>
+		{:else}
+			<button class="btn variant-filled shadow-md mb-10 w-52" on:click={checkForNewEpisodes}>Check for New Episodes</button>
+		{/if}
 
 		<TabGroup>
 			<Tab bind:group={sortTabSet} name="newest" value={0}>Newest</Tab>
