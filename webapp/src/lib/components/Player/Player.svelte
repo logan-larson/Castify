@@ -47,7 +47,7 @@
 	src={src}
 />
 
-<div class="rounded-lg shadow flex flex-col justify-end items-center fixed pt-2 pb-12 md:pb-2 gap-2 w-full z-[800] {$isExpanded ? 'h-[100%] bottom-0 left-0 bg-surface-800' : 'h-[10%] md:h-[8%] bottom-0 left-0 bg-surface-800/95'} transition-all duration-500">
+<div class="rounded-lg shadow flex flex-col justify-end items-center fixed pt-2 pb-10 md:pb-5 gap-2 w-full z-[800] bottom-0 left-0 {$isExpanded ? 'h-[100%] bg-surface-800' : 'h-[12%] md:h-[8%] bg-surface-800/95'} transition-all duration-500">
 	{#if $isExpanded}
 		<!-- Full Player View -->
 		<Timeline inFullPlayer={true} />
