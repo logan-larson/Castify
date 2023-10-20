@@ -34,15 +34,17 @@ export const PodcastMutations = {
 			// Fetch the podcast from the RSS URL
 			const parser = new Parser();
 			const podcastFeed = await parser.parseURL(rssUrl);
+			const lastUpdated = new Date().toISOString();
 
 			// Save the podcast
 			const createResult = await session.run(
-				'CREATE (p:Podcast { id: randomUUID(), title: $title, description: $description, url: $url, image: $image })  RETURN p',
+				'CREATE (p:Podcast { id: randomUUID(), title: $title, description: $description, url: $url, image: $image, lastUpdated: datetime($lastUpdated) })  RETURN p',
 				{
 					title: podcastFeed.title,
 					description: podcastFeed.description,
 					image: podcastFeed.image.url,
-					url: rssUrl
+					url: rssUrl,
+					lastUpdated: lastUpdated
 				}
 			);
 
@@ -53,14 +55,17 @@ export const PodcastMutations = {
 
 			for (let i = 0; i < episodes.length; i++) {
 				const episode = episodes[i];
+				const releaseDate = new Date(episode.pubDate).toISOString();
 
 				await session.run(
-					'CREATE (e:Episode { id: randomUUID(), title: $title, description: $description, url: $url, image: $image })  RETURN e',
+					'CREATE (e:Episode { id: randomUUID(), title: $title, description: $description, url: $url, image: $image, releaseDate: datetime($releaseDate), duration: $duration })  RETURN e',
 					{
 						title: episode.title,
 						description: '',
 						image: episode.itunes.image || podcast.image,
-						url: episode.enclosure.url
+						url: episode.enclosure.url,
+						releaseDate: releaseDate,
+						duration: episode.itunes.duration || 0
 					}
 				);
 			}
