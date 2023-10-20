@@ -96,6 +96,7 @@ export const PodcastMutations = {
 }
 
 export const PodcastQueries = {
+	/*
 	async podcasts(_, __, context) {
 		const session = driver.session();
 
@@ -136,4 +137,5 @@ export const PodcastQueries = {
 			await session.close();
 		}
 	}
+	*/
 }

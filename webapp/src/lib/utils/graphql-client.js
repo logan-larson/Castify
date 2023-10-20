@@ -20,19 +20,19 @@ const clientURL = isProductionClient
  */
 export function query(query, variables = {}) {
   console.log("clientURL", clientURL);
-  // return fetch(clientURL, {
-  //   credentials: 'include',
   return CapacitorHttp.request({
     url: clientURL,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // Include other headers like authentication tokens if needed
     },
     data: JSON.stringify({
       query: query,
       variables
     }),
+    webFetchExtra: {
+      credentials: 'include',
+    }
   })
   .then(response => {
     if (response.status != 200) {

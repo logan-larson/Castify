@@ -10,3 +10,9 @@
 If time permits...
 4. Fix mini player sizing
 5. Show loading indicator when adding a podcast by RSS
+
+
+## Add in APOC (Awesome Procedures On Cypher)
+With the neo4j-graphql library, it needs this additional library called APOC. Since I'm using docker it should be a breeze to set up and just need to modify the startup procedure for the neo4j container.
+
+`docker run \ -p 7474:7474 -p 7687:7687 \ --name castify-neo4j \ -e NEO4J_apoc_export_file_enabled=true \ -e NEO4J_apoc_import_file_enabled=true \ -e NEO4J_apoc_import_file_use__neo4j__config=true \ -e NEO4J_PLUGINS=\[\"apoc\"\] \ neo4j`
