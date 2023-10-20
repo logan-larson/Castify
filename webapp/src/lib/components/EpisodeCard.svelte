@@ -1,6 +1,7 @@
 <script>
 	import { isPlaying, currentEpisode, audioPlayer } from "$lib/stores/player";
 	import { currentEpisodeId } from '$lib/stores/episode.js';
+	import { formatDuration, formatDate } from '$lib/utils/formatting.js';
 
 	export let episode;
 
@@ -23,12 +24,15 @@
 
 <a href="/podcast/episode" on:click|self={openEpisode} class="w-3/4 bg-primary-500 shadow overflow-hidden rounded-lg flex justify-between px-4">
 	<div class="flex">
-		<img class="w-16 h-16 my-3 rounded-full" src="{episode.image}" alt="Episode cover art" />
+		<!-- <img class="w-16 h-16 my-3 rounded-full" src="{episode.image}" alt="Episode cover art" /> -->
 		<div class="px-1 py-5">
 			<h3 class="text-lg leading-6 font-medium text-gray-900 text-start">
 				{episode.title}
 			</h3>
-			<p class="mt-1 max-w-2xl text-sm text-gray-500 text-start">
+			<p class="mt-1 max-w-2xl text-sm text-gray-500 text-start overflow-hidden" style="max-height: 3.6em;">
+				{formatDate(episode.releaseDate)} - {formatDuration(episode.duration)}
+			</p>
+			<p class="mt-1 max-w-2xl text-sm text-gray-500 text-start overflow-hidden" style="max-height: 3.6em;">
 				{episode.description}
 			</p>
 		</div>

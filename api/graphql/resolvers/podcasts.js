@@ -41,7 +41,7 @@ export const PodcastMutations = {
 				'CREATE (p:Podcast { id: randomUUID(), title: $title, description: $description, url: $url, image: $image, lastUpdated: datetime($lastUpdated) })  RETURN p',
 				{
 					title: podcastFeed.title,
-					description: podcastFeed.description,
+					description: podcastFeed.description === '' ? podcastFeed.itunes.subtitle : podcastFeed.description,
 					image: podcastFeed.image.url,
 					url: rssUrl,
 					lastUpdated: lastUpdated

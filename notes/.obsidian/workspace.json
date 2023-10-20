@@ -8,20 +8,24 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f7961ce093cf8656",
-            "type": "leaf",
-            "state": {
-              "type": "empty",
-              "state": {}
-            }
-          },
-          {
             "id": "92c40017dfcbbe96",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "Daily Plan -  10-20-2023.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "1b98d3343cc65635",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Podcast RSS Feeds.md",
                 "mode": "source",
                 "source": false
               }
@@ -94,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Daily Plan -  10-20-2023.md",
+                "file": "Podcast RSS Feeds.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Daily Plan -  10-20-2023.md",
+                "file": "Podcast RSS Feeds.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Daily Plan -  10-20-2023.md"
+                "file": "Podcast RSS Feeds.md"
               }
             }
           }
@@ -155,8 +159,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "92c40017dfcbbe96",
+  "active": "1b98d3343cc65635",
   "lastOpenFiles": [
-    "Daily Plan -  10-20-2023.md"
+    "Daily Plan -  10-20-2023.md",
+    "Podcast RSS Feeds.md"
   ]
 }
