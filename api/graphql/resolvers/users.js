@@ -47,20 +47,6 @@ export const UserMutations = {
 			// Create JWT
 			const token = jwt.generateToken(newUser);
 
-			// Attach the JWT to the user in the DB
-			const updateResult = await session.run(`
-				MATCH (u:User { id: $id})
-				SET u.token = $token
-				RETURN u
-				`,
-				{
-					id: newUser.id,
-					token
-				}
-			);
-
-			const userWithToken = updateResult.records[0].get('u').properties;
-
 			// Set the JWT as a cookie
 			const cookieOptions = {
 				httpOnly: true,
@@ -73,7 +59,7 @@ export const UserMutations = {
 
 			context.res.setHeader('Set-Cookie', cookieValue);
 
-			return userWithToken;
+			return newUser;
 
 		} finally {
 			session.close();
@@ -131,20 +117,6 @@ export const UserMutations = {
 			// Create new JWT
 			const token = jwt.generateToken(user);
 
-			// Attach the new JWT to the user in the DB
-			const updateResult = await session.run(`
-				MATCH (u:User { id: $id})
-				SET u.token = $token
-				RETURN u
-				`,
-				{
-					id: user.id,
-					token
-				}
-			);
-
-			const userWithToken = updateResult.records[0].get('u').properties;
-
 			// Set the JWT as a cookie
 			const cookieOptions = {
 				httpOnly: true,
@@ -157,7 +129,7 @@ export const UserMutations = {
 
 			context.res.setHeader('Set-Cookie', cookieValue);
 
-			return userWithToken;
+			return user;
 
 		} finally {
 			session.close();
@@ -167,30 +139,6 @@ export const UserMutations = {
 		const session = driver.session();
 
 		try {
-			// Clear the JWT from the user in the DB
-			const updateResult = await session.run(`
-				MATCH (u:User { token: $token})
-				SET u.token = null
-				RETURN u
-				`,
-				{
-					token: context.token
-				}
-			);
-
-			if (!updateResult || updateResult.records.length === 0) {
-				throw  new GraphQLError(
-					'No user found with this token',
-					{
-						extensions: {
-							code: 'NO_USER_FOUND' 
-						}
-					}
-				);
-			}
-
-			const user = updateResult.records[0].get('u').properties;
-
 			// Clear the JWT cookie
 			const cookieOptions = {
 				httpOnly: true,
@@ -212,27 +160,6 @@ export const UserMutations = {
 
 
 export const UserQueries = {
-	async user(_, { ID }) {
-
-		const session = driver.session();
-
-		try {
-			const result = session.run(`
-				MATCH (u: User { id: $id }) RETURN u
-			`,
-			{
-				id: ID
-			}
-			);
-
-			const user = result.records[0].get('u').properties;
-
-			return user;
-
-		} finally {
-			session.close();
-		}
-	},
 	async getCurrentUser(_, __, { token }) {
 		if (!token) {
 			return null;

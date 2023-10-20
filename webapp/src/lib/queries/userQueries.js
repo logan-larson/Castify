@@ -2,7 +2,6 @@
 export const GET_CURRENT_USER = `
   query GetCurrentUser {
       getCurrentUser {
-        token
         id
         username
         email
@@ -26,7 +25,6 @@ export const LOGIN_USER = `
       id
       username
       email
-      token
     }
   }
 `;
@@ -37,7 +35,6 @@ export const REGISTER_USER = `
       id
       username
       email
-      token
     }
   }
 `;

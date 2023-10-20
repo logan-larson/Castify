@@ -1,12 +1,6 @@
 # schema.graphql
 
 # ------------------------------------------------------------
-# --------------------- Scalar Types -------------------------
-# ------------------------------------------------------------
-
-# scalar Date
-
-# ------------------------------------------------------------
 # --------------------- Object Types -------------------------
 # ------------------------------------------------------------
 
@@ -15,11 +9,10 @@ type User {
     username: String
     email: String
     password: String
-    token: String
+    joinDate: Date
 
     #firstName: String
     #lastName: String
-    #joinDate: Date
     #lastLoginDate: Date
     #profileImage: String
     #bio: String
@@ -40,22 +33,14 @@ input AddPodcastInput {
     rssUrl: String
 }
 
+input UpdatePodcastInput {
+    id: ID!
+}
+
 type FollowerRelation {
     follower: User!
     followed: User!
     since: Date!
-}
-
-type UserShowRelation {
-    user: User!
-    show: Podcast!
-    followedSince: Date!
-}
-
-type UserPlaylistRelation {
-    user: User!
-    playlist: Playlist!
-    createdOn: Date!
 }
 
 type Podcast {
@@ -64,17 +49,8 @@ type Podcast {
     description: String
     url: String
     image: String
-    episodes: [Episode]
-    followers: [UserShowRelation]
-    # ... other fields ...
-}
-
-type Playlist {
-    id: ID!
-    title: String!
-    episodes: [Episode]
-    creator: UserPlaylistRelation
-    # ... other fields ...
+    lastUpdated: DateTime
+    episodes: [Episode!]! @relationship(type: "HAS_EPISODE", direction: OUT)
 }
 
 type Episode {
@@ -83,7 +59,9 @@ type Episode {
     description: String
     image: String
     url: String
-    # ... other fields ...
+    releaseDate: DateTime
+    duration: Int
+    producedBy: Podcast! @relationship(type: "HAS_EPISODE", direction: IN)
 }
 
 # ------------------------------------------------------------
@@ -99,6 +77,7 @@ type Mutation {
 
     # Podcasts
     addPodcast(addPodcastInput: AddPodcastInput): Podcast
+    updatePodcast(updatePodcastInput: UpdatePodcastInput): Podcast
 }
 
 # ------------------------------------------------------------
@@ -108,10 +87,10 @@ type Mutation {
 type Query {
     
     # Users
-	user(id: ID!): User
+	# user(id: ID!): User
     getCurrentUser: User
 
     # Podcasts
-    podcasts: [Podcast]
-    podcast(id: ID!): Podcast
+    # podcasts: [Podcast]
+    # podcast(id: ID!): Podcast
 }
