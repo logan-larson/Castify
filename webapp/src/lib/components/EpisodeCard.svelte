@@ -1,6 +1,7 @@
 <script>
 	import { isPlaying, currentEpisode, audioPlayer } from "$lib/stores/player";
 	import { currentEpisodeId } from '$lib/stores/episode.js';
+	import { formatDuration, formatDate } from '$lib/utils/formatting.js';
 
 	export let episode;
 
@@ -21,17 +22,17 @@
 	}
 </script>
 
-<a href="/podcast/episode" on:click|self={openEpisode} class="w-3/4 bg-primary-500 shadow overflow-hidden rounded-lg flex justify-between px-4">
-	<div class="flex">
-		<img class="w-16 h-16 my-3 rounded-full" src="{episode.image}" alt="Episode cover art" />
-		<div class="px-1 py-5">
-			<h3 class="text-lg leading-6 font-medium text-gray-900 text-start">
-				{episode.title}
-			</h3>
-			<p class="mt-1 max-w-2xl text-sm text-gray-500 text-start">
-				{episode.description}
-			</p>
-		</div>
+<a href="/podcast/episode" on:click|self={openEpisode} class="w-[90vw] md:w-[900px] bg-primary-500 shadow overflow-hidden rounded-lg flex justify-between px-4">
+	<div class="px-1 py-5">
+		<h3 class="text-sm md:text-lg overflow-hidden w-[250px] md:w-[700px] leading-6 font-medium text-gray-900 text-start whitespace-nowrap text-ellipsis">
+			{episode.title}
+		</h3>
+		<p class="mt-1 md:max-w-[250px] text-sm text-gray-500 text-start overflow-hidden whitespace-nowrap">
+			{formatDate(episode.releaseDate)} - {formatDuration(episode.duration)}
+		</p>
+		<p class="mt-1 w-[200px] md:w-[700px] text-sm text-gray-500 text-start overflow-hidden whitespace-nowrap text-ellipsis">
+			{episode.description}
+		</p>
 	</div>
 	<!-- A circle button with a play icon in the middle -->
 	{#if $isPlaying && $currentEpisode.title === episode.title}

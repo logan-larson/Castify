@@ -1,5 +1,10 @@
 {
   "appId": "social.castify.app",
   "appName": "Castify",
-  "webDir": "build"
+  "webDir": "build",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
 }

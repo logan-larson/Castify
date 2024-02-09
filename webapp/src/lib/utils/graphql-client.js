@@ -1,4 +1,5 @@
 import { PUBLIC_PROD, PUBLIC_MOBILE } from '$env/static/public';
+import { CapacitorHttp } from "@capacitor/core";
 
 const isProductionClient = PUBLIC_PROD === "true";
 const isMobile = PUBLIC_MOBILE === "true"; // TODO: Switch this during CD based on the target platform. 
@@ -18,27 +19,31 @@ const clientURL = isProductionClient
  * @param {any} query
  */
 export function query(query, variables = {}) {
-  console.log("clientURL: ", clientURL);
-  return fetch(clientURL, {
+  console.log("clientURL", clientURL);
+  return CapacitorHttp.request({
+    url: clientURL,
     method: 'POST',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      // Include other headers like authentication tokens if needed
     },
-    body: JSON.stringify({
+    data: JSON.stringify({
       query: query,
       variables
     }),
+    webFetchExtra: {
+      credentials: 'include',
+    }
   })
   .then(response => {
-    if (!response.ok) {
-      throw new Error(`${response.status} - ${response.statusText}`);
+    if (response.status != 200) {
+      console.log(response);
+      throw new Error(`${response.status} - ${response.headers}`);
     }
-    return response.json();
+    return response.data;
   })
   .then(data => {
     if (data.errors) {
+      console.log(data);
       // @ts-ignore
       throw new Error(data.errors.map(error => error.message).join('\n'));
     }

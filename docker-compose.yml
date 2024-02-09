@@ -3,22 +3,26 @@ version: '3'
 services:
   neo4j:
     image: neo4j:latest
-    container_name: neo4j-castify
-    ports: # TODO: move to expose eventually because we're using nginx
-      - "7474:7474"
-      - "7687:7687"
+    expose:
+      - "7474"
+      - "7687"
+    container_name: castify-neo4j
     volumes:
-      - ./neo4j/data:/data
-      - ./neo4j/logs:/logs
+      - /mnt/neo4j/data:/data
+      - /mnt/neo4j/logs:/logs
     environment:
       - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4J_PLUGINS=["apoc"]
 
   api:
     build:
       context: ./api
       dockerfile: Dockerfile
-    ports: # TODO: move to expose eventually because we're using nginx
-      - "${API_PORT}:${API_PORT}"
+    expose:
+      - "${API_PORT}"
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - NEO4J_URL=neo4j://neo4j:7687
@@ -36,8 +40,8 @@ services:
       args:
         PROD: ${PROD}
         MOBILE: false
-    ports: # TODO: move to expose eventually because we're using nginx
-      - "${WEBAPP_PORT}:${WEBAPP_PORT}"
+    expose:
+      - "${WEBAPP_PORT}"
     environment:
       - PROD=${PROD}
       - MOBILE=false

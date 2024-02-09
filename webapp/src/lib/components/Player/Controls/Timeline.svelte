@@ -9,7 +9,6 @@
     $: formattedDuration = format($duration);
 
     currentEpisode.subscribe((value) => {
-        console.log(value);
         formattedCurrentTime = format($currentTime);
         formattedDuration = format($duration);
     });

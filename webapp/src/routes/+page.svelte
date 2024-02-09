@@ -54,7 +54,7 @@
 			Click on a podcast to view its episodes or add a new podcast by clicking the button below.
 		</p>
 
-		<button class="btn bg-secondary-200 rounded-full p-3 pr-5 shadow-md mb-10 mx-2" on:click={addPodcast}>
+		<button class="btn bg-secondary-200 p-3 pr-5 shadow-md mb-10 mx-2" on:click={addPodcast}>
 			<svg class="h-8 w-8 text-secondary-400" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
 				<path
 					stroke-linecap="round"
