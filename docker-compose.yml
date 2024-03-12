@@ -1,22 +1,6 @@
 version: '3'
 
 services:
-  neo4j:
-    image: neo4j:latest
-    expose:
-      - "7474"
-      - "7687"
-    container_name: castify-neo4j
-    volumes:
-      - /mnt/neo4j/data:/data
-      - /mnt/neo4j/logs:/logs
-    environment:
-      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
-      - NEO4J_apoc_export_file_enabled=true
-      - NEO4J_apoc_import_file_enabled=true
-      - NEO4J_apoc_import_file_use__neo4j__config=true
-      - NEO4J_PLUGINS=["apoc"]
-
   api:
     build:
       context: ./api
