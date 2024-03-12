@@ -9,13 +9,11 @@ services:
       - "${API_PORT}"
     environment:
       - JWT_SECRET=${JWT_SECRET}
-      - NEO4J_URL=neo4j://neo4j:7687
-      - NEO4J_USERNAME=neo4j
+      - NEO4J_URL=${NEO4J_URL}
+      - NEO4J_USERNAME=${NEO4J_USERNAME}
       - NEO4J_PASSWORD=${NEO4J_PASSWORD}
       - PORT=${API_PORT}
       - NODE_ENV=production
-    depends_on:
-      - neo4j
 
   webapp:
     build:
