@@ -1,31 +1,31 @@
-version: '3'
+version: '3.9'
 
 services:
-  api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    expose:
-      - "${API_PORT}"
+  app:
+    image: node:18-alpine
+    working_dir: /app/app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
     environment:
-      - JWT_SECRET=${JWT_SECRET}
-      - NEO4J_URL=${NEO4J_URL}
-      - NEO4J_USERNAME=${NEO4J_USERNAME}
-      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
-      - PORT=${API_PORT}
-      - NODE_ENV=production
+      - NODE_ENV=development
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USERNAME=neo4j
+      - NEO4J_PASSWORD=yourpassword
+    command: >
+      sh -c "npm install && npm run build && npm run prod"
+  
+  neo4j:
+    image: neo4j:5.12
+    container_name: neo4j
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    volumes:
+      - neo4j-data:/data
+    environment:
+      - NEO4J_AUTH=neo4j/yourpassword
 
-  webapp:
-    build:
-      context: ./webapp
-      dockerfile: Dockerfile
-      args:
-        PROD: ${PROD}
-        MOBILE: false
-    expose:
-      - "${WEBAPP_PORT}"
-    environment:
-      - PROD=${PROD}
-      - MOBILE=false
-    depends_on:
-      - api
+volumes:
+  neo4j-data:

@@ -17,7 +17,7 @@ ENV PUBLIC_MOBILE=${MOBILE}
 RUN npm install
 RUN npm run build
 
-FROM node:lts-slim as run
+FROM node:lts-slim AS run
 
 WORKDIR /app
 
