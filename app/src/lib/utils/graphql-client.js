@@ -1,8 +1,11 @@
-import { PUBLIC_PROD, PUBLIC_MOBILE } from '$env/static/public';
+// import { PUBLIC_PROD, PUBLIC_MOBILE } from '$env/static/public';
 import { CapacitorHttp } from "@capacitor/core";
 
-const isProductionClient = PUBLIC_PROD === "true";
-const isMobile = PUBLIC_MOBILE === "true"; // TODO: Switch this during CD based on the target platform. 
+// const isProductionClient = PUBLIC_PROD === "true";
+// const isMobile = PUBLIC_MOBILE === "true"; // TODO: Switch this during CD based on the target platform. 
+const isProductionClient = false; // TEMP
+const isMobile = false; // TEMP
+
 // Also during development because the mobile app reaches the API via your local network. So it needs the IP address of your computer.
 
 const hostMachineIP = "10.0.2.2"; // This is the IP address of your computer on the local network.

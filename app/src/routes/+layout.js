@@ -1,4 +1,4 @@
-import { PUBLIC_PROD } from '$env/static/public';
+//import { PUBLIC_PROD } from '$env/static/public';
 
 // TODO: Switch the prerender during CD based on the target platform.
 // --- false for web
