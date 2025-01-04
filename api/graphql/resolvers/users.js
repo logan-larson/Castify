@@ -1,6 +1,6 @@
 import { driver } from "../../database/driver.js"
 import { GraphQLError } from 'graphql';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from "../../utils/jwt.js";
 import dotenv from 'dotenv';
 import cookie from 'cookie';

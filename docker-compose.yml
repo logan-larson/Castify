@@ -13,19 +13,42 @@ services:
       - NEO4J_URI=${NEO4J_URI}
       - NEO4J_USERNAME=${NEO4J_USERNAME}
       - NEO4J_PASSWORD=${NEO4J_PASSWORD}
+      - PUBLIC_PROD=${PUBLIC_PROD}
+      - PUBLIC_MOBILE=${PUBLIC_MOBILE}
     depends_on:
       - neo4j
+      - api
   
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - NEO4J_URI=${NEO4J_URI}
+      - NEO4J_USERNAME=${NEO4J_USERNAME}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=4000
+      - PROD=${PUBLIC_PROD}
+    depends_on:
+      - neo4j
+
   neo4j:
     image: neo4j:5.12
-    container_name: neo4j
     ports:
       - "7474:7474"  # HTTP
       - "7687:7687"  # Bolt
     volumes:
       - neo4j-data:/data
     environment:
-      - NEO4J_AUTH=neo4j/yourpassword
+      - NEO4J_AUTH=neo4j/castify123
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_import_file_use__neo4j__config=true
+      - NEO4J_PLUGINS=["apoc"]
 
 volumes:
   neo4j-data:
