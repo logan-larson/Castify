@@ -17,24 +17,24 @@ services:
       - PUBLIC_MOBILE=${PUBLIC_MOBILE}
     depends_on:
       - neo4j
-      # - api
+      - api
   
-  # api:
-  #   build:
-  #     context: ./api
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "4000:4000"
-  #   environment:
-  #     - NODE_ENV=${NODE_ENV}
-  #     - NEO4J_URI=${NEO4J_URI}
-  #     - NEO4J_USERNAME=${NEO4J_USERNAME}
-  #     - NEO4J_PASSWORD=${NEO4J_PASSWORD}
-  #     - JWT_SECRET=${JWT_SECRET}
-  #     - PORT=4000
-  #     - PROD=${PUBLIC_PROD}
-  #   depends_on:
-  #     - neo4j
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - NEO4J_URI=${NEO4J_URI}
+      - NEO4J_USERNAME=${NEO4J_USERNAME}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - PORT=4000
+      - PROD=${PUBLIC_PROD}
+    depends_on:
+      - neo4j
 
   neo4j:
     image: neo4j:5.12
