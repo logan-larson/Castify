@@ -1,4 +1,4 @@
-// import { PUBLIC_PROD, PUBLIC_MOBILE } from '$env/static/public';
+import { PUBLIC_PROD, PUBLIC_MOBILE } from '$env/static/public';
 import { CapacitorHttp } from "@capacitor/core";
 
 const isProductionClient = PUBLIC_PROD === "true";
