@@ -16,8 +16,18 @@ export const driver = neo4j.driver(
         connectionAcquisitionTimeout: 30 * 1000, // 30 seconds
         maxTransactionRetryTime: 30 * 1000, // 30 seconds
         logging: {
-            level: 'info',
-            logger: (level, message) => console.log(level + ' ' + message)
+            level: 'debug',
+            logger: (level, message) => {
+                console.log(`[${level}] ${message}`);
+                if (level === 'error') {
+                    console.log('Connection details:', {
+                        uri: process.env.NEO4J_URI,
+                        username: process.env.NEO4J_USERNAME,
+                        // Don't log the full password
+                        passwordLength: process.env.NEO4J_PASSWORD?.length
+                    });
+                }
+            }
         }
     }
 );
