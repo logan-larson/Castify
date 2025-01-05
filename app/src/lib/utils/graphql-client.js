@@ -12,11 +12,10 @@ const hostMachineIP = "10.0.2.2"; // This is the IP address of your computer on 
 // Have to figure out a way to serve the API over HTTPS on the local network because the mobile app requires HTTPS.
 
 const clientURL = isProductionClient
-  ? "/graphql"
+  ? "https://api.castify.social/graphql"
   : isMobile
-    ? "https://castify.social/graphql" // `http://${hostMachineIP}:4000/graphql`
-    : "http://localhost:4000/graphql"
-    ;
+    ? "https://api.castify.social/graphql"
+    : "http://localhost:4000/graphql";
 
 /**
  * @param {any} query
