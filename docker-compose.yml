@@ -10,9 +10,9 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=${NODE_ENV}
-      - NEO4J_URI=${DB_URI}
-      - NEO4J_USERNAME=${DB_USERNAME}
-      - NEO4J_PASSWORD=${DB_PASSWORD}
+      - DB_URI=${DB_URI}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - PUBLIC_PROD=${PUBLIC_PROD}
       - PUBLIC_MOBILE=${PUBLIC_MOBILE}
     depends_on:
@@ -27,9 +27,9 @@ services:
       - "4000:4000"
     environment:
       - NODE_ENV=${NODE_ENV}
-      - NEO4J_URI=${DB_URI}
-      - NEO4J_USERNAME=${DB_USERNAME}
-      - NEO4J_PASSWORD=${DB_PASSWORD}
+      - DB_URI=${DB_URI}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
       - PORT=4000
       - PROD=${PUBLIC_PROD}

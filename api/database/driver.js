@@ -3,13 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-if (!process.env.NEO4J_URI) throw new Error('NEO4J_URI is not defined');
-if (!process.env.NEO4J_USERNAME) throw new Error('NEO4J_USERNAME is not defined');
-if (!process.env.NEO4J_PASSWORD) throw new Error('NEO4J_PASSWORD is not defined');
+if (!process.env.DB_URI) throw new Error('DB_URI is not defined');
+if (!process.env.DB_USERNAME) throw new Error('DB_USERNAME is not defined');
+if (!process.env.DB_PASSWORD) throw new Error('DB_PASSWORD is not defined');
 
 export const driver = neo4j.driver(
-    process.env.NEO4J_URI,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD),
+    process.env.DB_URI,
+    neo4j.auth.basic(process.env.DB_USERNAME, process.env.DB_PASSWORD),
     {
         maxConnectionLifetime: 3 * 60 * 60 * 1000, // 3 hours
         maxConnectionPoolSize: 50,
